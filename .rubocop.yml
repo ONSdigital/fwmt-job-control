@@ -1,0 +1,14 @@
+#
+# This file contains overrides for the RuboCop (https://github.com/bbatsov/rubocop) Ruby static code analyser.
+#
+AllCops:
+  TargetRubyVersion: 2.5
+
+Metrics/BlockLength:
+  Max: 45
+
+Metrics/LineLength:
+  Max: 300
+
+Metrics/MethodLength:
+  Max: 30

@@ -1,0 +1,6 @@
+---
+applications:
+- name: fwmt-job-control
+  host: fwmt-job-control
+  memory: 256M
+  instances: 1

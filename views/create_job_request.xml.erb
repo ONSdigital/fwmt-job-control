@@ -1,0 +1,49 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+    <SOAP-ENV:Header />
+    <SOAP-ENV:Body>
+        <ns2:SendCreateJobRequestMessage xmlns:ns2="http://schemas.consiliumtechnologies.com/services/mobile/2009/03/messaging" xmlns="http://schemas.consiliumtechnologies.com/mobile/2009/03/CommonTypes.xsd" xmlns:ns10="http://schemas.consiliumtechnologies.com/mobile/2013/07/ReferralsTypes.xsd" xmlns:ns11="http://schemas.consiliumtechnologies.com/mobile/2013/07/ReferralsMessages.xsd" xmlns:ns12="http://schemas.consiliumtechnologies.com/mobile/2009/09/CompositeMessages.xsd" xmlns:ns13="http://schemas.consiliumtechnologies.com/mobile/2009/07/MaterialsMessages.xsd" xmlns:ns14="http://schemas.consiliumtechnologies.com/mobile/2009/07/MaterialsTypes.xsd" xmlns:ns15="http://schemas.consiliumtechnologies.com/mobile/2009/07/FormsMessages.xsd" xmlns:ns16="http://schemas.consiliumtechnologies.com/mobile/2008/05/TimesheetMessages.xsd" xmlns:ns17="http://schemas.consiliumtechnologies.com/mobile/2008/05/TimesheetTypes.xsd" xmlns:ns18="http://schemas.consiliumtechnologies.com/mobile/2008/10/LocationTypes.xsd" xmlns:ns19="http://schemas.consiliumtechnologies.com/mobile/2008/10/LocationMessages.xsd" xmlns:ns3="http://schemas.consiliumtechnologies.com/mobile/2015/05/OptimiseTypes.xsd" xmlns:ns4="http://schemas.consiliumtechnologies.com/mobile/2015/05/OptimiseMessages.xsd" xmlns:ns5="http://schemas.consiliumtechnologies.com/mobile/2009/03/VisitsTypes.xsd" xmlns:ns6="http://schemas.consiliumtechnologies.com/mobile/2009/07/FormsTypes.xsd" xmlns:ns7="http://schemas.consiliumtechnologies.com/mobile/2009/03/VisitsMessages.xsd" xmlns:ns8="http://schemas.consiliumtechnologies.com/mobile/2009/03/CommonMessages.xsd" xmlns:ns9="http://schemas.consiliumtechnologies.com/mobile/2009/04/FolioMessages.xsd">
+            <ns2:SendMessageRequestInfo>
+                <ns2:QueueName>\OPTIMISE\INPUT</ns2:QueueName>
+                <ns2:Key>Debug</ns2:Key>
+            </ns2:SendMessageRequestInfo>
+            <ns2:CreateJobRequest>
+                <ns4:Job>
+                    <ns3:Identity>
+                    	<ns3:Reference><%= job_id %></ns3:Reference>
+                    </ns3:Identity>
+                    <ns3:Location>
+                        <ns3:AddressDetail>
+                            <ns3:Lines>
+                                <%= address %>
+                            </ns3:Lines>
+                            <ns3:PostCode><%= postcode %></ns3:PostCode>
+                        </ns3:AddressDetail>
+                    </ns3:Location>
+                    <ns3:Contact>
+                        <ns3:Name><%= postcode %></ns3:Name>
+                    </ns3:Contact>
+                    <ns3:Description><%= tla %></ns3:Description>
+                    <ns3:DueDate><%= due_date %></ns3:DueDate>
+                    <ns3:Duration>1</ns3:Duration>
+                    <ns3:VisitComplete>false</ns3:VisitComplete>
+                    <ns3:Skills>
+                        <ns3:Skill>Survey</ns3:Skill>
+                    </ns3:Skills>
+                    <ns3:Emergency>false</ns3:Emergency>
+                    <ns3:WorkType><%= work_type %></ns3:WorkType>
+                    <ns3:Dispatched>false</ns3:Dispatched>
+                    <ns3:AllocatedTo>
+                        <ns3:Username><%= user_name %></ns3:Username>
+                    </ns3:AllocatedTo>
+                    <ns3:AppointmentPending>false</ns3:AppointmentPending>
+                    <ns3:World>
+                        <ns3:Reference><%= world %></ns3:Reference>
+                    </ns3:World>
+                    <ns3:AdditionalProperties>
+                        <%= additional_properties %>
+                    </ns3:AdditionalProperties>
+                </ns4:Job>
+            </ns2:CreateJobRequest>
+        </ns2:SendCreateJobRequestMessage>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

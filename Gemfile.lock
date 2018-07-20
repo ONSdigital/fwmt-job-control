@@ -1,0 +1,69 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    domain_name (0.5.20180417)
+      unf (>= 0.0.5, < 1.0.0)
+    ffi (1.9.25)
+    formkeeper (0.0.15)
+      hpricot
+      rack
+    hpricot (0.8.6)
+    http-cookie (1.0.3)
+      domain_name (~> 0.5)
+    listen (3.1.5)
+      rb-fsevent (~> 0.9, >= 0.9.4)
+      rb-inotify (~> 0.9, >= 0.9.7)
+      ruby_dep (~> 1.2)
+    mime-types (3.1)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2016.0521)
+    mustermann (1.0.2)
+    netrc (0.11.0)
+    rack (2.0.5)
+    rack-protection (2.0.3)
+      rack
+    rb-fsevent (0.10.3)
+    rb-inotify (0.9.10)
+      ffi (>= 0.5.0, < 2)
+    rerun (0.13.0)
+      listen (~> 3.0)
+    rest-client (2.0.2)
+      http-cookie (>= 1.0.2, < 2.0)
+      mime-types (>= 1.16, < 4.0)
+      netrc (~> 0.8)
+    ruby_dep (1.5.0)
+    sass (3.5.7)
+      sass-listen (~> 4.0.0)
+    sass-listen (4.0.0)
+      rb-fsevent (~> 0.9, >= 0.9.4)
+      rb-inotify (~> 0.9, >= 0.9.7)
+    sinatra (2.0.3)
+      mustermann (~> 1.0)
+      rack (~> 2.0)
+      rack-protection (= 2.0.3)
+      tilt (~> 2.0)
+    sinatra-flash (0.3.0)
+      sinatra (>= 1.0.0)
+    sinatra-formkeeper (0.0.7)
+      formkeeper (~> 0.0.12)
+      hpricot
+      rack
+      sinatra
+    tilt (2.0.8)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.5)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  rerun
+  rest-client
+  sass
+  sinatra
+  sinatra-flash
+  sinatra-formkeeper
+
+BUNDLED WITH
+   1.16.1

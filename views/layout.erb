@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title><%=h title %> - FWMT Job Control</title>
+  </head>
+  <body>
+    <h1><%=h title %></h1>
+  <% if flash[:notice] %>
+    <p class="notice"><%= flash[:notice] %></p>
+  <% end %>
+    <%= yield %>
+  </body>
+</html>

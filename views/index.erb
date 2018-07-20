@@ -1,0 +1,63 @@
+<form action="/" method="post">
+  <fieldset>
+    <legend>Totalmobile Server</legend>
+    <p><label for="server">Environment:</p>
+    <p>
+      <select id="server" name="server">
+        <option value="https://ons-dev.totalmobile-cloud.com/Test">Development</option>
+        <option value="https://ons-dev.totalmobile-cloud.com/Test">Test</option>
+        <option value="https://ons-dev.totalmobile-cloud.com/Live">Production</option>
+      <select>
+    </p>
+    <p><label for="user_name">Credentials:</p>
+  <% if form.failed_on?(:user_name) || form.failed_on?(:password) %>
+    <p>Credentials are required.</p>
+  <% end %>
+    <p>
+      <input id="user_name" name="user_name" maxlength="100" size="25" type="text" placeholder="Username"> <input name="password" maxlength="100" size="25" type="password" placeholder="Password">
+    </p>
+  </fieldset>
+  <fieldset>
+    <legend>Job</legend>
+    <p><label for="survey">Survey:</p>
+    <p>
+      <select id="survey" name="survey">
+        <option value="CCS">Census - CCS</option>
+        <option value="HH">Census - HH</option>
+        <option value="GFF" selected>Social Survey - GFF</option>
+        <option value="LFS">Social Survey - LFS</option>
+      <select>
+    </p>
+    <p><label for="world">World:</p>
+    <p>
+      <input type="radio" id="world" name="world" value="Default" checked> Manual (Default)
+      <input type="radio" name="world" value="MOD WORLD"> Mendel Engine
+    </p>
+    <p><label for="user_names">Totalmobile users (comma separated):</p>
+  <% if form.failed_on?(:user_names) %>
+    <p>Totalmobile users is a required field.</p>
+  <% end %>
+    <p>
+      <input id="user_names" name="user_names" maxlength="100" size="50" type="text" placeholder="Totalmobile usernames">
+    </p>
+    <p><label for="job_count">Jobs per user:</p>
+  <% if form.failed_on?(:job_count, :present) %>
+    <p>Jobs per user is a required field.</p>
+  <% end %>
+  <% if form.failed_on?(:job_count, :int) %>
+    <p>Jobs per user must be 1-100.</p>
+  <% end %>
+    <p>
+      <input id="job_count" name="job_count" maxlength="100" size="25" type="text" placeholder="1-100">
+    </p>
+    <p><label for="location">Location:</p>
+      <select id="location" name="location">
+        <option>Midlands</option>
+        <option>North</option>
+        <option>East</option>
+        <option>South</option>
+        <option>West</option>
+      <select>
+  </fieldset>
+  <p><input type="submit" value="Send Jobs"></p>
+</form>
