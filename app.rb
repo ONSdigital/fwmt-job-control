@@ -65,7 +65,7 @@ post '/' do
       flash[:notice] = build_success_flash(message_ids)
       redirect '/'
     rescue RestClient::Unauthorized
-      flash[:error] = 'Invalid Totalmobile credentials.'
+      flash[:error] = 'Invalid Totalmobile server credentials.'
       redirect '/'
     end
   end
