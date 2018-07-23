@@ -1,4 +1,5 @@
 # FWMT Job Control
+A Ruby [Sinatra](http://www.sinatrarb.com/) application for manipulating jobs within in Fieldwork Management Tool (FWMT).
 
 ## Installation
 Install the RubyGems the application depends on by running `bundle install`.
