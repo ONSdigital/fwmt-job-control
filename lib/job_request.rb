@@ -29,7 +29,7 @@ class JobRequest
         case @survey
         when 'CCS'
         when 'GFF'
-          response = send_gff_message(job_id, user_name)
+          response = send_gff_create_message(job_id, user_name)
         when 'HH'
         when 'LFS'
         end
@@ -39,7 +39,7 @@ class JobRequest
 
   private
 
-  def send_gff_message(job_id, user_name)
+  def send_gff_create_message(job_id, user_name)
     variables = { job_id: job_id,
                   address: nil,
                   postcode: 'PO15 5RR',
@@ -51,10 +51,10 @@ class JobRequest
                   additional_properties: nil }
 
     message = ERB.new(File.read(@message_template)).result(OpenStruct.new(variables).instance_eval { binding })
-    send_message(message)
+    send_create_message(message)
   end
 
-  def send_message(message)
+  def send_create_message(message)
     RestClient::Request.execute(method: :post,
                                 url: "#{@server}/#{ENDPOINT}",
                                 user: @user_name,
