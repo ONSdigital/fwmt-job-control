@@ -16,30 +16,30 @@
                             <ns3:Lines>
                             <% if address.has_key?('line1') %>
                                <ns3:AddressLine>
-                                 <%= address['line1'] %>
+                                 <%= address['line1'].strip %>
                                </ns3:AddressLine>
                             <% end %>
                             <% if address.has_key?('line2') %>
                                <ns3:AddressLine>
-                                 <%= address['line2'] %>
+                                 <%= address['line2'].strip %>
                                </ns3:AddressLine>
                             <% end %>
                             <% if address.has_key?('line3') %>
                                <ns3:AddressLine>
-                                 <%= address['line3'] %>
+                                 <%= address['line3'].strip %>
                                </ns3:AddressLine>
                             <% end %>
                             <% if address.has_key?('line4') %>
                                <ns3:AddressLine>
-                                 <%= address['line4'] %>
+                                 <%= address['line4'].strip %>
                                </ns3:AddressLine>
                             <% end %>
                             </ns3:Lines>
-                            <ns3:PostCode><%= postcode %></ns3:PostCode>
+                            <ns3:PostCode><%= postcode.strip %></ns3:PostCode>
                         </ns3:AddressDetail>
                     </ns3:Location>
                     <ns3:Contact>
-                        <ns3:Name><%= postcode %></ns3:Name>
+                        <ns3:Name><%= postcode.strip %></ns3:Name>
                     </ns3:Contact>
                     <ns3:Description><%= tla %></ns3:Description>
                     <ns3:DueDate><%= due_date %></ns3:DueDate>
