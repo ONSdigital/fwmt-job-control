@@ -78,7 +78,7 @@ class JobRequest
                   world: @world,
                   additional_properties: nil }
 
-    message = ERB.new(File.read(@message_template)).result(OpenStruct.new(variables).instance_eval { binding })
+    message = ERB.new(File.read(@message_template), 0, '>').result(OpenStruct.new(variables).instance_eval { binding })
     send_create_job_request_message(message)
   end
 
