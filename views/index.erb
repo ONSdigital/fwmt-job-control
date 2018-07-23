@@ -1,7 +1,7 @@
 <form action="/" method="post">
   <fieldset>
     <legend>Totalmobile Server</legend>
-    <p><label for="server">Environment:</label></p>
+    <p><label for="server">☁️ Environment:</label></p>
     <p>
       <select id="server" name="server">
         <option value="<%= fwmt_development_url %>">Development</option>
@@ -9,17 +9,17 @@
         <option value="<%= fwmt_production_url %>">Production</option>
       </select>
     </p>
-    <p><label for="user_name">Credentials:</label></p>
+    <p><label for="user_name">🔑 Credentials:</label></p>
   <% if form.failed_on?(:user_name) || form.failed_on?(:password) %>
-    <p>Credentials are required.</p>
+    <p class="error">⚠️ Credentials are required</p>
   <% end %>
     <p>
       <input id="user_name" name="user_name" maxlength="100" size="25" type="text" placeholder="Username"> <input name="password" maxlength="100" size="25" type="password" placeholder="Password">
     </p>
   </fieldset>
   <fieldset>
-    <legend>Job</legend>
-    <p><label for="survey">Survey:</label></p>
+    <legend>Jobs</legend>
+    <p><label for="survey">📈 Survey:</label></p>
     <p>
       <select id="survey" name="survey">
         <option value="CCS">Census - CCS</option>
@@ -28,35 +28,35 @@
         <option value="LFS">Social Survey - LFS</option>
       </select>
     </p>
-    <p><label for="world">World:</label></p>
+    <p><label for="world">🌎 World:</label></p>
     <p>
       <input type="radio" id="world" name="world" value="Default" checked> Manual (Default)
       <input type="radio" name="world" value="MOD WORLD"> Mendel Engine
     </p>
-    <p><label for="user_names">Totalmobile users (comma separated):</label></p>
+    <p><label for="user_names">👥 Totalmobile users (comma separated):</label></p>
   <% if form.failed_on?(:user_names) %>
-    <p>Totalmobile users is a required field.</p>
+    <p class="error">⚠️ Totalmobile users is a required field</p>
   <% end %>
     <p>
-      <input id="user_names" name="user_names" maxlength="100" size="50" type="text" placeholder="Totalmobile usernames">
+      <input id="user_names" name="user_names" maxlength="100" size="50" type="text" placeholder="Totalmobile users">
     </p>
-    <p><label for="job_count">Jobs per user:</label></p>
+    <p><label for="job_count">🎚 Jobs per user:</label></p>
   <% if form.failed_on?(:job_count, :present) %>
-    <p>Jobs per user is a required field.</p>
+    <p class="error">⚠️ Jobs per user is a required field</p>
   <% end %>
   <% if form.failed_on?(:job_count, :int) %>
-    <p>Jobs per user must be 1-20.</p>
+    <p class="error">⚠️ Jobs per user must be 1-20</p>
   <% end %>
     <p>
-      <input id="job_count" name="job_count" maxlength="100" size="25" type="text" placeholder="1-20">
+      <input id="job_count" name="job_count" maxlength="2" size="5" type="text" placeholder="1-20">
     </p>
-    <p><label for="location">Location:</label></p>
+    <p><label for="location">🇬🇧 Location:</label></p>
       <select id="location" name="location">
         <option value="north">North</option>
         <option value="east">East</option>
         <option value="south">South</option>
         <option value="west">West</option>
       </select>
+      <input type="submit" value="Send jobs">
   </fieldset>
-  <p><input type="submit" value="Send Jobs"></p>
 </form>
