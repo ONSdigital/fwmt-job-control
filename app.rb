@@ -18,6 +18,13 @@ helpers do
   def h(text)
     Rack::Utils.escape_html(text)
   end
+
+  def build_success_flash(message_ids)
+    flash_message = []
+    flash_message << "Successfully submitted jobs with the following message IDs to Totalmobile:<br>"
+    message_ids.each { |message_id| flash_message << "&nbsp;#{message_id}<br>" }
+    flash_message.join
+  end
 end
 
 before do
@@ -53,13 +60,12 @@ post '/' do
     message_template = File.join(__dir__, 'views/create_job_request.xml.erb')
     job_request = JobRequest.new(params, message_template)
     begin
-      status_code = job_request.send_create_message
+      message_ids = job_request.send_create_message
+      flash[:notice] = build_success_flash(message_ids)
+      redirect '/'
     rescue RestClient::Unauthorized
       flash[:error] = 'Invalid Totalmobile credentials.'
       redirect '/'
     end
-
-    flash[:notice] = "Successfully submitted jobs to Totalmobile."
-    redirect '/'
   end
 end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rest-client'
+require 'nokogiri'
 require 'time'
 
 # Class encapsulating a job SOAP request.
@@ -22,6 +23,7 @@ class JobRequest
   end
 
   def send_create_message
+    message_ids = []
     user_names = @user_names.split(',')
     user_names.each do |user_name|
       1.upto(@job_count) do
@@ -31,14 +33,23 @@ class JobRequest
         when 'CCS'
         when 'GFF'
           response = send_gff_create_message(job_id, user_name)
+          message_ids << get_message_id(response)
         when 'HH'
         when 'LFS'
         end
       end
     end
+    message_ids
   end
 
   private
+
+  def get_message_id(message)
+    xml = Nokogiri::XML(message)
+    # We don't care about the XML namespaces in the response XML - we just want to get the message ID.
+    xml.remove_namespaces!
+    xml.css('Id')
+  end
 
   def send_gff_create_message(job_id, user_name)
     variables = { job_id: job_id,
