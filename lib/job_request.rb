@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 require 'rest-client'
+require 'time'
 
 # Class encapsulating a job SOAP request.
 class JobRequest
-  DUE_DATE = '2018-07-31T23:59:59'
+  DUE_DATE = (Time.now.to_date >> 1).to_time.iso8601 # One month from now
   ENDPOINT = 'services/tm/v20/messaging/MessageQueueWs.asmx'
   SOAP_ACTION = 'http://schemas.consiliumtechnologies.com/wsdl/mobile/2007/07/messaging/SendCreateJobRequestMessage'
 
@@ -51,10 +52,10 @@ class JobRequest
                   additional_properties: nil }
 
     message = ERB.new(File.read(@message_template)).result(OpenStruct.new(variables).instance_eval { binding })
-    send_create_message(message)
+    send_create_job_request_message(message)
   end
 
-  def send_create_message(message)
+  def send_create_job_request_message(message)
     RestClient::Request.execute(method: :post,
                                 url: "#{@server}/#{ENDPOINT}",
                                 user: @user_name,
