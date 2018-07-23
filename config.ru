@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-equire_relative 'app.rb'
+require_relative 'app.rb'
 
 use Rack::ETag
 use Rack::ConditionalGet

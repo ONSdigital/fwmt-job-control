@@ -7,6 +7,10 @@ require 'securerandom'
 
 require_relative 'lib/job_request'
 
+set :fwmt_development_url,   ENV['FWMT_DEVELOPMENT_URL']
+set :fwmt_preproduction_url, ENV['FWMT_PREPRODUCTION_URL']
+set :fwmt_production_url,    ENV['FWMT_PRODUCTION_URL']
+
 helpers do
   # View helper for escaping HTML output.
   def h(text)
@@ -19,7 +23,10 @@ before do
 end
 
 get '/?' do
-  erb :index, locals: { title: 'Create Job' }
+  erb :index, locals: { title: 'Create Job',
+                        fwmt_development_url: settings.fwmt_development_url,
+                        fwmt_preproduction_url: settings.fwmt_preproduction_url,
+                        fwmt_production_url: settings.fwmt_production_url }
 end
 
 post '/' do
@@ -35,7 +42,10 @@ post '/' do
   end
 
   if form.failed?
-    output = erb :index, locals: { title: 'Create Job' }
+    output = erb :index, locals: { title: 'Create Job',
+                                   fwmt_development_url: settings.fwmt_development_url,
+                                   fwmt_preproduction_url: settings.fwmt_preproduction_url,
+                                   fwmt_production_url: settings.fwmt_production_url }
     fill_in_form(output)
   else
     message_template = File.join(__dir__, 'views/create_job_request.xml.erb')

@@ -13,5 +13,14 @@ and access using [http://localhost:9292](http://localhost:9292). To reload the a
 
   `bundle exec rerun rackup`
 
+## Environment Variables
+The environment variables below must be provided:
+
+```
+FWMT_DEVELOPMENT_URL
+FWMT_PREPRODUCTION_URL
+FWMT_PRODUCTION_URL
+```
+
 ## Copyright
 Copyright (C) 2018 Crown Copyright (Office for National Statistics)
