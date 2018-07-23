@@ -6,6 +6,9 @@
   </head>
   <body>
     <h1><%=h title %></h1>
+  <% if flash[:error] %>
+    <p class="error"><%= flash[:error] %></p>
+  <% end %>
   <% if flash[:notice] %>
     <p class="notice"><%= flash[:notice] %></p>
   <% end %>

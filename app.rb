@@ -11,6 +11,8 @@ set :fwmt_development_url,   ENV['FWMT_DEVELOPMENT_URL']
 set :fwmt_preproduction_url, ENV['FWMT_PREPRODUCTION_URL']
 set :fwmt_production_url,    ENV['FWMT_PRODUCTION_URL']
 
+enable :sessions
+
 helpers do
   # View helper for escaping HTML output.
   def h(text)
@@ -50,12 +52,14 @@ post '/' do
   else
     message_template = File.join(__dir__, 'views/create_job_request.xml.erb')
     job_request = JobRequest.new(params, message_template)
-    status_code = job_request.send_create_message
-    
+    begin
+      status_code = job_request.send_create_message
+    rescue RestClient::Unauthorized
+      flash[:error] = 'Invalid Totalmobile credentials.'
+      redirect '/'
+    end
+
     flash[:notice] = "Successfully submitted jobs to Totalmobile."
-    erb :index, locals: { title: 'Create Job',
-                          fwmt_development_url: settings.fwmt_development_url,
-                          fwmt_preproduction_url: settings.fwmt_preproduction_url,
-                          fwmt_production_url: settings.fwmt_production_url }
+    redirect '/'
   end
 end
