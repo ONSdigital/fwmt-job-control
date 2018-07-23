@@ -14,7 +14,26 @@
                     <ns3:Location>
                         <ns3:AddressDetail>
                             <ns3:Lines>
-                                <%= address %>
+                            <% if address.has_key?('line1') %>
+                               <ns3:AddressLine>
+                                 <%= address['line1'] %>
+                               </ns3:AddressLine>
+                            <% end %>
+                            <% if address.has_key?('line2') %>
+                               <ns3:AddressLine>
+                                 <%= address['line2'] %>
+                               </ns3:AddressLine>
+                            <% end %>
+                            <% if address.has_key?('line3') %>
+                               <ns3:AddressLine>
+                                 <%= address['line3'] %>
+                               </ns3:AddressLine>
+                            <% end %>
+                            <% if address.has_key?('line4') %>
+                               <ns3:AddressLine>
+                                 <%= address['line4'] %>
+                               </ns3:AddressLine>
+                            <% end %>
                             </ns3:Lines>
                             <ns3:PostCode><%= postcode %></ns3:PostCode>
                         </ns3:AddressDetail>

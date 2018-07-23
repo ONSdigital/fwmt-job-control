@@ -3,12 +3,14 @@
 require 'rest-client'
 require 'nokogiri'
 require 'time'
+require 'json'
 
 # Class encapsulating a job SOAP request.
 class JobRequest
   DUE_DATE = (Time.now.to_date >> 1).to_time.iso8601 # One month from now
   ENDPOINT = 'services/tm/v20/messaging/MessageQueueWs.asmx'
-  SOAP_ACTION = 'http://schemas.consiliumtechnologies.com/wsdl/mobile/2007/07/messaging/SendCreateJobRequestMessage'
+  LAST_ADDRESS = 100
+  SOAP_ACTION  = 'http://schemas.consiliumtechnologies.com/wsdl/mobile/2007/07/messaging/SendCreateJobRequestMessage'
 
   def initialize(params, message_template)
     @server     = params['server']
@@ -20,6 +22,7 @@ class JobRequest
     @job_count  = params['job_count'].to_i
     @location   = params['location']
     @message_template = message_template
+    load_address_files
   end
 
   def send_create_message
@@ -51,10 +54,23 @@ class JobRequest
     xml.css('Id')
   end
 
+  def load_address_files
+    @north_addresses = JSON.parse(File.read(File.join(__dir__, "../data/addresses_north.json")))
+    @east_addresses = JSON.parse(File.read(File.join(__dir__, "../data/addresses_east.json")))
+    @south_addresses = JSON.parse(File.read(File.join(__dir__, "../data/addresses_south.json")))
+    @west_addresses = JSON.parse(File.read(File.join(__dir__, "../data/addresses_west.json")))
+  end
+
+  def select_random_address
+    # Select a random address from the addresses instance variable for the chosen location.
+    instance_variable_get("@#{@location}_addresses")['addresses'][rand(1..LAST_ADDRESS)]
+  end
+
   def send_gff_create_message(job_id, user_name)
+    random_address = select_random_address
     variables = { job_id: job_id,
-                  address: nil,
-                  postcode: 'PO15 5RR',
+                  address: random_address,
+                  postcode: random_address['postcode'],
                   tla: 'SLC',
                   due_date: DUE_DATE,
                   work_type: 'SS',
