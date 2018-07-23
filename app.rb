@@ -21,7 +21,8 @@ helpers do
 
   def build_success_flash(message_ids)
     flash_message = []
-    flash_message << "Successfully submitted #{message_ids.size} jobs with the following message IDs to Totalmobile:<br>"
+    flash_message << 'Successfully submitted 1 job with the following message ID to Totalmobile:<br>' if message_ids.size == 1
+    flash_message << "Successfully submitted #{message_ids.size} jobs with the following message IDs to Totalmobile:<br>" if message_ids.size > 1
     message_ids.each { |message_id| flash_message << "&nbsp;#{message_id}<br>" }
     flash_message.join
   end
