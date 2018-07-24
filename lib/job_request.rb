@@ -54,7 +54,7 @@ class JobRequest
     xml = Nokogiri::XML(message)
     # We don't care about the XML namespaces in the response XML - we just want to get the message ID.
     xml.remove_namespaces!
-    xml.css('Id')
+    xml.css('Id').text
   end
 
   def load_address_files
