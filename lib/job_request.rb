@@ -7,12 +7,13 @@ require 'json'
 
 # Class encapsulating a job SOAP request.
 class JobRequest
+  CREATE_MESSAGE_TEMPLATE = File.join(__dir__, '../views/create_job_request.xml.erb')
   DUE_DATE = (Time.now.to_date >> 1).to_time.iso8601 # One month from now
   ENDPOINT = 'services/tm/v20/messaging/MessageQueueWs.asmx'
   LAST_ADDRESS = 100
   SOAP_ACTION  = 'http://schemas.consiliumtechnologies.com/wsdl/mobile/2007/07/messaging/SendCreateJobRequestMessage'
 
-  def initialize(params, message_template)
+  def initialize(params)
     @server     = params['server']
     @user_name  = params['user_name']
     @password   = params['password']
@@ -21,7 +22,6 @@ class JobRequest
     @user_names = params['user_names']
     @job_count  = params['job_count'].to_i
     @location   = params['location']
-    @message_template = message_template
     load_address_files
   end
 
@@ -78,7 +78,7 @@ class JobRequest
                   world: @world,
                   additional_properties: nil }
 
-    message = ERB.new(File.read(@message_template), 0, '>').result(OpenStruct.new(variables).instance_eval { binding })
+    message = ERB.new(File.read(CREATE_MESSAGE_TEMPLATE), 0, '>').result(OpenStruct.new(variables).instance_eval { binding })
     send_create_job_request_message(message)
   end
 

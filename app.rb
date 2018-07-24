@@ -58,8 +58,7 @@ post '/' do
                                    fwmt_production_url: settings.fwmt_production_url }
     fill_in_form(output)
   else
-    message_template = File.join(__dir__, 'views/create_job_request.xml.erb')
-    job_request = JobRequest.new(params, message_template)
+    job_request = JobRequest.new(params)
     begin
       message_ids = job_request.send_create_message
       flash[:notice] = build_success_flash(message_ids)
