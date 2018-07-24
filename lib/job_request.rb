@@ -13,7 +13,7 @@ class JobRequest
   LAST_ADDRESS = 100
   SOAP_ACTION  = 'http://schemas.consiliumtechnologies.com/wsdl/mobile/2007/07/messaging/SendCreateJobRequestMessage'
 
-  def initialize(params)
+  def initialize(params, logger)
     @server     = params['server']
     @user_name  = params['user_name']
     @password   = params['password']
@@ -22,6 +22,7 @@ class JobRequest
     @user_names = params['user_names']
     @job_count  = params['job_count'].to_i
     @location   = params['location']
+    @logger     = logger
     load_address_files
   end
 
@@ -36,7 +37,9 @@ class JobRequest
         when 'CCS'
         when 'GFF'
           response = send_gff_create_message(job_id, user_name)
-          message_ids << get_message_id(response)
+          message_id = get_message_id(response)
+          @logger.info "Totalmobile returned message ID #{message_id} for job #{job_id}"
+          message_ids << message_id 
         when 'HH'
         when 'LFS'
         end

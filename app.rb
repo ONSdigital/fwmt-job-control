@@ -58,7 +58,7 @@ post '/' do
                                    fwmt_production_url: settings.fwmt_production_url }
     fill_in_form(output)
   else
-    job_request = JobRequest.new(params)
+    job_request = JobRequest.new(params, logger)
     begin
       message_ids = job_request.send_create_message
       flash[:notice] = build_success_flash(message_ids)
