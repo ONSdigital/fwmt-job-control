@@ -85,7 +85,6 @@ class JobRequest
   end
 
   def send_hh_create_message(job_id, user_name)
-    puts 'got here'
     random_address = select_random_address
     variables = { job_id: job_id,
                   address: random_address,
