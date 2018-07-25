@@ -2,7 +2,6 @@
 
 source 'https://rubygems.org'
 
-gem 'etc'
 gem 'json'
 gem 'nokogiri'
 gem 'rest-client'
@@ -16,5 +15,6 @@ group :development do
 end
 
 group :production do
+  gem 'etc'
   gem 'puma'
 end
