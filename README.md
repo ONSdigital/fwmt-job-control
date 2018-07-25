@@ -1,12 +1,24 @@
 # FWMT Job Control
 A Ruby [Sinatra](http://www.sinatrarb.com/) application for manipulating jobs within the Fieldwork Management Tool (FWMT).
 
-## Installation
+## Running
+### Docker
+Pull the image from Docker Hub using:
+
+  `docker pull sdcplatform/fwmt-job-control`
+
+Start a container using:
+
+  `docker run -d -p 9292:9292 --name=emporium sdcplatform/fwmt-job-control`
+
+and access using [http://localhost:9292](http://localhost:9292). If using the [Dockerfile](https://github.com/ONSdigital/fwmt-job-control/blob/master/Dockerfile) to build your own image, set values for the `ENV` commands in the file as detailed in the **Environment Variables** section later in this README.
+
+### Natively
+
 Install the RubyGems the application depends on by running:
 
   `bundle install --without production`
 
-## Running
 To run this application in development using its [Rackup](http://rack.github.io/) file use:
 
   `bundle exec rackup config.ru` (the `config.ru` may be omitted as Rack looks for this file by default)
