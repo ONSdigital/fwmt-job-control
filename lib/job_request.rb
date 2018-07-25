@@ -46,6 +46,19 @@ class JobRequest
 
   private
 
+  def default_survey_variables(job_id, user_name)
+    random_address = select_random_address
+    { job_id: job_id,
+      address: random_address,
+      postcode: random_address['postcode'],
+      tla: nil,
+      due_date: DUE_DATE,
+      work_type: nil,
+      user_name: user_name,
+      world: @world,
+      additional_properties: nil }
+  end
+
   def get_message_id(message)
     xml = Nokogiri::XML(message)
     # We don't care about the XML namespaces in the response XML - we just want to get the message ID.
@@ -66,7 +79,7 @@ class JobRequest
   end
 
   def send_ccs_create_message(job_id, user_name)
-    variables = send_survey_create_message(job_id, user_name).merge(
+    variables = default_survey_variables(job_id, user_name).merge(
       tla: 'CCS', work_type: 'CCS'
     )
 
@@ -74,7 +87,7 @@ class JobRequest
   end
 
   def send_gff_create_message(job_id, user_name)
-    variables = send_survey_create_message(job_id, user_name).merge(
+    variables = default_survey_variables(job_id, user_name).merge(
       tla: 'SLC', work_type: 'SS'
     )
 
@@ -82,7 +95,7 @@ class JobRequest
   end
 
   def send_hh_create_message(job_id, user_name)
-    variables = send_survey_create_message(job_id, user_name).merge(
+    variables = default_survey_variables(job_id, user_name).merge(
       tla: 'Census', work_type: 'HH'
     )
 
@@ -90,24 +103,11 @@ class JobRequest
   end
 
   def send_lfs_create_message(job_id, user_name)
-    variables = send_survey_create_message(job_id, user_name).merge(
+    variables = default_survey_variables(job_id, user_name).merge(
       tla: 'LFS', work_type: 'SS'
     )
-    
-    send_create_job_request_message(variables)
-  end
 
-  def send_survey_create_message(job_id, user_name)
-    random_address = select_random_address
-    { job_id: job_id,
-      address: random_address,
-      postcode: random_address['postcode'],
-      tla: nil,
-      due_date: DUE_DATE,
-      work_type: nil,
-      user_name: user_name,
-      world: @world,
-      additional_properties: nil }
+    send_create_job_request_message(variables)
   end
 
   def send_create_job_request_message(variables)
