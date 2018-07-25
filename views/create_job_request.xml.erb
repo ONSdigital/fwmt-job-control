@@ -35,11 +35,11 @@
                                </ns3:AddressLine>
                             <% end %>
                             </ns3:Lines>
-                            <ns3:PostCode><%= postcode.strip %></ns3:PostCode>
+                            <ns3:PostCode><%= address['postcode'].strip %></ns3:PostCode>
                         </ns3:AddressDetail>
                     </ns3:Location>
                     <ns3:Contact>
-                        <ns3:Name><%= postcode.strip %></ns3:Name>
+                        <ns3:Name><%= address['postcode'].strip %></ns3:Name>
                     </ns3:Contact>
                     <ns3:Description><%= tla %></ns3:Description>
                     <ns3:DueDate><%= due_date %></ns3:DueDate>

@@ -47,10 +47,8 @@ class JobRequest
   private
 
   def default_survey_variables(job_id, user_name)
-    random_address = select_random_address
     { job_id: job_id,
-      address: random_address,
-      postcode: random_address['postcode'],
+      address: select_random_address,
       tla: nil,
       due_date: DUE_DATE,
       work_type: nil,
