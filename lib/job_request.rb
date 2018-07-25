@@ -81,11 +81,27 @@ class JobRequest
                   world: @world,
                   additional_properties: nil }
 
-    message = ERB.new(File.read(CREATE_MESSAGE_TEMPLATE), 0, '>').result(OpenStruct.new(variables).instance_eval { binding })
-    send_create_job_request_message(message)
+    send_create_job_request_message(variables)
   end
 
-  def send_create_job_request_message(message)
+  def send_hh_create_message(job_id, user_name)
+    puts 'got here'
+    random_address = select_random_address
+    variables = { job_id: job_id,
+                  address: random_address,
+                  postcode: random_address['postcode'],
+                  tla: 'Census',
+                  due_date: DUE_DATE,
+                  work_type: 'HH',
+                  user_name: user_name,
+                  world: @world,
+                  additional_properties: nil }
+
+    send_create_job_request_message(variables)
+  end
+
+  def send_create_job_request_message(variables)
+    message = ERB.new(File.read(CREATE_MESSAGE_TEMPLATE), 0, '>').result(OpenStruct.new(variables).instance_eval { binding })
     RestClient::Request.execute(method: :post,
                                 url: "#{@server}/#{ENDPOINT}",
                                 user: @user_name,
