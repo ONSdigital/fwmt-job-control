@@ -2,6 +2,7 @@
 
 source 'https://rubygems.org'
 
+gem 'etc'
 gem 'json'
 gem 'nokogiri'
 gem 'rest-client'

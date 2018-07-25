@@ -3,6 +3,7 @@ GEM
   specs:
     domain_name (0.5.20180417)
       unf (>= 0.0.5, < 1.0.0)
+    etc (1.0.1)
     ffi (1.9.25)
     formkeeper (0.0.15)
       hpricot
@@ -63,6 +64,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  etc
   json
   nokogiri
   puma
