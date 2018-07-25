@@ -17,7 +17,7 @@ class JobRequest
     @server     = params['server']
     @user_name  = params['user_name']
     @password   = params['password']
-    @survey     = params['survey']
+    @survey     = params['survey'].downcase
     @world      = params['world']
     @user_names = params['user_names']
     @job_count  = params['job_count'].to_i
@@ -33,16 +33,12 @@ class JobRequest
       1.upto(@job_count) do
         job_id = SecureRandom.hex(4)
 
-        case @survey
-        when 'CCS'
-        when 'GFF'
-          response = send_gff_create_message(job_id, user_name)
-          message_id = get_message_id(response)
-          @logger.info "Totalmobile returned message ID #{message_id} for job #{job_id}"
-          message_ids << message_id 
-        when 'HH'
-        when 'LFS'
-        end
+        # Dynamically dispatch to the private method for the survey.
+        method_name = "send_#{@survey}_create_message"
+        response = send(method_name, job_id, user_name)
+        message_id = get_message_id(response)
+        @logger.info "Totalmobile returned message ID #{message_id} for job #{job_id}"
+        message_ids << message_id
       end
     end
     message_ids
@@ -69,34 +65,49 @@ class JobRequest
     instance_variable_get("@#{@location}_addresses")['addresses'][rand(1..LAST_ADDRESS)]
   end
 
+  def send_ccs_create_message(job_id, user_name)
+    variables = send_survey_create_message(job_id, user_name).merge(
+      tla: 'CCS', work_type: 'CCS'
+    )
+
+    send_create_job_request_message(variables)
+  end
+
   def send_gff_create_message(job_id, user_name)
-    random_address = select_random_address
-    variables = { job_id: job_id,
-                  address: random_address,
-                  postcode: random_address['postcode'],
-                  tla: 'SLC',
-                  due_date: DUE_DATE,
-                  work_type: 'SS',
-                  user_name: user_name,
-                  world: @world,
-                  additional_properties: nil }
+    variables = send_survey_create_message(job_id, user_name).merge(
+      tla: 'SLC', work_type: 'SS'
+    )
 
     send_create_job_request_message(variables)
   end
 
   def send_hh_create_message(job_id, user_name)
-    random_address = select_random_address
-    variables = { job_id: job_id,
-                  address: random_address,
-                  postcode: random_address['postcode'],
-                  tla: 'Census',
-                  due_date: DUE_DATE,
-                  work_type: 'HH',
-                  user_name: user_name,
-                  world: @world,
-                  additional_properties: nil }
+    variables = send_survey_create_message(job_id, user_name).merge(
+      tla: 'Census', work_type: 'HH'
+    )
 
     send_create_job_request_message(variables)
+  end
+
+  def send_lfs_create_message(job_id, user_name)
+    variables = send_survey_create_message(job_id, user_name).merge(
+      tla: 'LFS', work_type: 'SS'
+    )
+    
+    send_create_job_request_message(variables)
+  end
+
+  def send_survey_create_message(job_id, user_name)
+    random_address = select_random_address
+    { job_id: job_id,
+      address: random_address,
+      postcode: random_address['postcode'],
+      tla: nil,
+      due_date: DUE_DATE,
+      work_type: nil,
+      user_name: user_name,
+      world: @world,
+      additional_properties: nil }
   end
 
   def send_create_job_request_message(variables)
