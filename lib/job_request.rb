@@ -53,8 +53,7 @@ class JobRequest
       due_date: DUE_DATE,
       work_type: nil,
       user_name: user_name,
-      world: @world,
-      additional_properties: nil }
+      world: @world }
   end
 
   def get_message_id(message)

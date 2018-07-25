@@ -58,9 +58,82 @@
                     <ns3:World>
                         <ns3:Reference><%= world %></ns3:Reference>
                     </ns3:World>
+                  <% if tla == 'GFF' || tla == 'LFS' %>
                     <ns3:AdditionalProperties>
-                        <%= additional_properties %>
+                      <ns5:AdditionalProperty>
+                        <ns5:Name>Serno</ns5:Name>
+                        <ns5:Value>Serno</ns5:Value>
+                      </ns5:AdditionalProperty>
+                      <ns5:AdditionalProperty>
+                        <ns5:Name>TLA</ns5:Name>
+                        <ns5:Value>TLA</ns5:Value>
+                      </ns5:AdditionalProperty>
+                      <ns5:AdditionalProperty>
+                        <ns5:Name>Week</ns5:Name>
+                        <ns5:Value>Week</ns5:Value>
+                      </ns5:AdditionalProperty>
+                      <ns5:AdditionalProperty>
+                        <ns5:Name>Wave</ns5:Name>
+                        <ns5:Value>Wave</ns5:Value>
+                      </ns5:AdditionalProperty>
+                      <ns5:AdditionalProperty>
+                        <ns5:Name>Prem1</ns5:Name>
+                        <ns5:Value>Prem1</ns5:Value>
+                      </ns5:AdditionalProperty>
+                      <ns5:AdditionalProperty>
+                        <ns5:Name>Prem2</ns5:Name>
+                        <ns5:Value>Prem2</ns5:Value>
+                      </ns5:AdditionalProperty>
+                      <ns5:AdditionalProperty>
+                        <ns5:Name>Prem3</ns5:Name>
+                        <ns5:Value>Prem3</ns5:Value>
+                      </ns5:AdditionalProperty>
+                      <ns5:AdditionalProperty>
+                        <ns5:Name>Prem4</ns5:Name>
+                        <ns5:Value>Prem4</ns5:Value>
+                      </ns5:AdditionalProperty>
+                      <ns5:AdditionalProperty>
+                        <ns5:Name>District</ns5:Name>
+                        <ns5:Value>District</ns5:Value>
+                      </ns5:AdditionalProperty>
+                      <ns5:AdditionalProperty>
+                        <ns5:Name>PostTown</ns5:Name>
+                        <ns5:Value>PostTown</ns5:Value>
+                      </ns5:AdditionalProperty>
+                      <ns5:AdditionalProperty>
+                        <ns5:Name>Postcode</ns5:Name>
+                        <ns5:Value>Postcode</ns5:Value>
+                      </ns5:AdditionalProperty>
+                      <ns5:AdditionalProperty>
+                        <ns5:Name>Quota</ns5:Name>
+                        <ns5:Value>Quota</ns5:Value>
+                      </ns5:AdditionalProperty>
+                      <ns5:AdditionalProperty>
+                        <ns5:Name>AddressNo</ns5:Name>
+                        <ns5:Value>AddressNo</ns5:Value>
+                      </ns5:AdditionalProperty>
+                      <ns5:AdditionalProperty>
+                        <ns5:Name>Year</ns5:Name>
+                        <ns5:Value>Year</ns5:Value>
+                      </ns5:AdditionalProperty>
+                      <ns5:AdditionalProperty>
+                        <ns5:Name>Month</ns5:Name>
+                        <ns5:Value>Month</ns5:Value>
+                      </ns5:AdditionalProperty>
+                      <ns5:AdditionalProperty>
+                        <ns5:Name>ContactNo</ns5:Name>
+                        <ns5:Value>ContactNo</ns5:Value>
+                      </ns5:AdditionalProperty>
+                      <ns5:AdditionalProperty>
+                        <ns5:Name>GeoX</ns5:Name>
+                        <ns5:Value>GeoX</ns5:Value>
+                      </ns5:AdditionalProperty>
+                      <ns5:AdditionalProperty>
+                        <ns5:Name>GeoY</ns5:Name>
+                        <ns5:Value>GeoY</ns5:Value>
+                      </ns5:AdditionalProperty>
                     </ns3:AdditionalProperties>
+                  <% end %>
                 </ns4:Job>
             </ns2:CreateJobRequest>
         </ns2:SendCreateJobRequestMessage>
