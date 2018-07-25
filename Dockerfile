@@ -15,7 +15,7 @@ COPY views/ ./views
 COPY app.rb .
 COPY config.ru .
 
-# Add values below i.e. ENV FWMT_DEVELOPMENT_URL https://...
+# Add values below before building i.e. ENV FWMT_DEVELOPMENT_URL https://...
 ENV FWMT_DEVELOPMENT_URL
 ENV FWMT_PREPRODUCTION_URL 
 ENV FWMT_PRODUCTION_URL 
