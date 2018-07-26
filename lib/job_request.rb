@@ -1,19 +1,17 @@
 # frozen_string_literal: true
 
-require 'rest-client'
-require 'nokogiri'
 require 'time'
 require 'json'
+
+require_relative 'visit_job'
 
 # Class encapsulating a job SOAP request.
 class JobRequest
   CREATE_MESSAGE_TEMPLATE = File.join(__dir__, '../views/create_job_request.xml.erb')
   DUE_DATE = (Time.now.to_date >> 1).to_time.iso8601 # One month from now
-  ENDPOINT = 'services/tm/v20/messaging/MessageQueueWs.asmx'
   LAST_ADDRESS = 100
-  SOAP_ACTION  = 'http://schemas.consiliumtechnologies.com/wsdl/mobile/2007/07/messaging/SendCreateJobRequestMessage'
 
-  def initialize(params, logger)
+  def initialize(params)
     @server     = params['server']
     @user_name  = params['user_name']
     @password   = params['password']
@@ -22,12 +20,10 @@ class JobRequest
     @user_names = params['user_names']
     @job_count  = params['job_count'].to_i
     @location   = params['location']
-    @logger     = logger
     load_address_files
   end
 
   def send_create_message
-    message_ids = []
     user_names = @user_names.split(',')
     user_names.each do |user_name|
       1.upto(@job_count) do
@@ -36,13 +32,9 @@ class JobRequest
 
         # Dynamically dispatch to the private method for the survey.
         method_name = "send_#{@survey}_create_message"
-        response = send(method_name, job_id, user_name)
-        message_id = get_message_id(response)
-        @logger.info "Totalmobile returned message ID #{message_id} for job #{job_id}"
-        message_ids << message_id
+        send(method_name, job_id, user_name)
       end
     end
-    message_ids
   end
 
   private
@@ -55,13 +47,6 @@ class JobRequest
       work_type: nil,
       user_name: user_name,
       world: @world }
-  end
-
-  def get_message_id(message)
-    xml = Nokogiri::XML(message)
-    # We don't care about the XML namespaces in the response XML - we just want to get the message ID.
-    xml.remove_namespaces!
-    xml.css('Id').text
   end
 
   def load_address_files
@@ -81,7 +66,7 @@ class JobRequest
       tla: 'CCS', work_type: 'CCS'
     )
 
-    send_create_job_request_message(variables)
+    send_create_job_request_message(job_id, variables)
   end
 
   def send_gff_create_message(job_id, user_name)
@@ -89,7 +74,7 @@ class JobRequest
       tla: 'SLC', work_type: 'SS'
     )
 
-    send_create_job_request_message(variables)
+    send_create_job_request_message(job_id, variables)
   end
 
   def send_hh_create_message(job_id, user_name)
@@ -97,7 +82,7 @@ class JobRequest
       tla: 'Census', work_type: 'HH'
     )
 
-    send_create_job_request_message(variables)
+    send_create_job_request_message(job_id, variables)
   end
 
   def send_lfs_create_message(job_id, user_name)
@@ -105,16 +90,11 @@ class JobRequest
       tla: 'LFS', work_type: 'SS'
     )
 
-    send_create_job_request_message(variables)
+    send_create_job_request_message(job_id, variables)
   end
 
-  def send_create_job_request_message(variables)
+  def send_create_job_request_message(job_id, variables)
     message = ERB.new(File.read(CREATE_MESSAGE_TEMPLATE), 0, '>').result(OpenStruct.new(variables).instance_eval { binding })
-    RestClient::Request.execute(method: :post,
-                                url: "#{@server}/#{ENDPOINT}",
-                                user: @user_name,
-                                password: @password,
-                                headers: { 'SOAPAction': SOAP_ACTION, 'Content-Type': 'text/xml' },
-                                payload: message)
+    VisitJob.perform_async(@server, @user_name, @password, job_id, message)
   end
 end
