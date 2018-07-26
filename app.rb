@@ -46,7 +46,7 @@ post '/' do
     field :password,   present: true
     field :survey,     present: true
     field :world,      present: true
-    field :user_names, present: true
+    field :user_names, present: false
     field :job_count,  present: true, int: { between: 1..100 }
     field :location,   present: true
   end

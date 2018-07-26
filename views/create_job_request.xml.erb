@@ -51,9 +51,11 @@
                     <ns3:Emergency>false</ns3:Emergency>
                     <ns3:WorkType><%= work_type %></ns3:WorkType>
                     <ns3:Dispatched>false</ns3:Dispatched>
+                  <% if user_name %>
                     <ns3:AllocatedTo>
                         <ns3:Username><%= user_name %></ns3:Username>
                     </ns3:AllocatedTo>
+                  <% end %>
                     <ns3:AppointmentPending>false</ns3:AppointmentPending>
                     <ns3:World>
                         <ns3:Reference><%= world %></ns3:Reference>
