@@ -28,7 +28,6 @@ class JobRequest
     user_names.each do |user_name|
       1.upto(@job_count) do
         job_id = SecureRandom.hex(4)
-        sleep(0.1) if @job_count > 10
 
         # Dynamically dispatch to the private method for the survey.
         method_name = "send_#{@survey}_create_message"
