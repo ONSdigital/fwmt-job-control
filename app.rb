@@ -23,13 +23,13 @@ end
 
 before do
   headers 'Content-Type' => 'text/html; charset=utf-8'
+  @fwmt_development_url   = settings.fwmt_development_url
+  @fwmt_preproduction_url = settings.fwmt_preproduction_url
+  @fwmt_production_url    = settings.fwmt_production_url
 end
 
 get '/?' do
-  erb :index, locals: { title: 'Create Job',
-                        fwmt_development_url: settings.fwmt_development_url,
-                        fwmt_preproduction_url: settings.fwmt_preproduction_url,
-                        fwmt_production_url: settings.fwmt_production_url }
+  erb :index, locals: { title: 'Create Job' }
 end
 
 post '/' do
@@ -45,10 +45,7 @@ post '/' do
   end
 
   if form.failed?
-    output = erb :index, locals: { title: 'Create Job',
-                                   fwmt_development_url: settings.fwmt_development_url,
-                                   fwmt_preproduction_url: settings.fwmt_preproduction_url,
-                                   fwmt_production_url: settings.fwmt_production_url }
+    output = erb :index, locals: { title: 'Create Job' }
     fill_in_form(output)
   else
     job_request = JobRequest.new(params)
