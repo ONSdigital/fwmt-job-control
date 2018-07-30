@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'sucker_punch' # Must be required before sinatra.
 require 'sinatra'
 require 'sinatra/formkeeper'
 require 'sinatra/flash'
@@ -17,14 +18,6 @@ helpers do
   # View helper for escaping HTML output.
   def h(text)
     Rack::Utils.escape_html(text)
-  end
-
-  def build_success_flash(message_ids)
-    flash_message = []
-    flash_message << 'Successfully submitted 1 job with the following message ID to Totalmobile:<br>' if message_ids.size == 1
-    flash_message << "Successfully submitted #{message_ids.size} jobs with the following message IDs to Totalmobile:<br>" if message_ids.size > 1
-    message_ids.each { |message_id| flash_message << "<span class=\"message-id\">#{message_id}</span><br>" }
-    flash_message.join
   end
 end
 
@@ -58,14 +51,9 @@ post '/' do
                                    fwmt_production_url: settings.fwmt_production_url }
     fill_in_form(output)
   else
-    job_request = JobRequest.new(params, logger)
-    begin
-      message_ids = job_request.send_create_message
-      flash[:notice] = build_success_flash(message_ids)
-      redirect '/'
-    rescue RestClient::Unauthorized
-      flash[:error] = 'Invalid Totalmobile server credentials'
-      redirect '/'
-    end
+    job_request = JobRequest.new(params)
+    job_request.send_create_message
+    flash[:notice] = 'Submitted jobs to Totalmobile. Check the logs for returned message IDs or failure status.'
+    redirect '/'
   end
 end
