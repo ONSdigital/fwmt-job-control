@@ -48,9 +48,35 @@ post '/' do
     output = erb :index, locals: { title: 'Create Job' }
     fill_in_form(output)
   else
-    job_request = JobRequest.new(params)
-    job_request.send_create_message
+    job_request = JobRequest.new(form[:server], form[:user_name], form[:password])
+    job_request.send_create_message(form[:survey],
+                                    form[:world],
+                                    form[:user_names],
+                                    form[:job_count],
+                                    form[:location])
+
     flash[:notice] = 'Submitted jobs to Totalmobile. Check the logs for returned message IDs or failure status.'
     redirect '/'
+  end
+end
+
+get '/reallocate/?' do
+  erb :reallocate, locals: { title: 'Reallocate Jobs' }
+end
+
+post '/reallocate' do
+  form do
+    field :server,              present: true
+    field :user_name,           present: true
+    field :password,            present: true
+    field :job_ids,             present: true
+    field :allocated_user_name, present: true
+  end
+
+  if form.failed?
+    output = erb :reallocate, locals: { title: 'Reallocate Jobs' }
+    fill_in_form(output)
+  else
+    redirect '/reallocate'
   end
 end
