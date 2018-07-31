@@ -34,6 +34,7 @@ end
 
 post '/' do
   form do
+    filters :strip
     field :server,     present: true
     field :user_name,  present: true
     field :password,   present: true
@@ -71,6 +72,7 @@ end
 
 post '/reallocate' do
   form do
+    filters :strip
     field :server,              present: true
     field :user_name,           present: true
     field :password,            present: true
