@@ -9,7 +9,7 @@ require_relative 'visit_job'
 class JobRequest
   CREATE_MESSAGE_TEMPLATE = File.join(__dir__, '../views/create_job_request.xml.erb')
   DUE_DATE = (Time.now.to_date >> 1).to_time.iso8601 # One month from now
-  LAST_ADDRESS = 100
+  LAST_ADDRESS = 100 # There are up to one hundred test addresses per location
 
   def initialize(server, user_name, password)
     @server    = server
