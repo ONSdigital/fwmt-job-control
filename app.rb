@@ -5,6 +5,7 @@ require 'sinatra'
 require 'sinatra/formkeeper'
 require 'sinatra/flash'
 require 'securerandom'
+require 'user_agent_parser'
 
 require_relative 'lib/job_request'
 
@@ -18,6 +19,10 @@ helpers do
   # View helper for escaping HTML output.
   def h(text)
     Rack::Utils.escape_html(text)
+  end
+
+  def parse_user_agent
+    UserAgentParser.parse(request.env['HTTP_USER_AGENT'])
   end
 end
 
@@ -89,4 +94,12 @@ post '/reallocate' do
     flash[:notice] = 'Submitted reallocate requests to Totalmobile. Check the logs for returned message IDs or failure status.'
     redirect '/reallocate'
   end
+end
+
+error 404 do
+  erb :error, locals: { title: 'Error 404', user_agent: parse_user_agent }
+end
+
+error 500 do
+  erb :error, locals: { title: 'Error 500', user_agent: parse_user_agent }
 end

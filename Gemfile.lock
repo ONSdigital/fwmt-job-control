@@ -62,6 +62,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.5)
+    user_agent_parser (2.4.1)
 
 PLATFORMS
   ruby
@@ -78,6 +79,7 @@ DEPENDENCIES
   sinatra-flash
   sinatra-formkeeper
   sucker_punch (~> 2.0)
+  user_agent_parser
 
 BUNDLED WITH
    1.16.1

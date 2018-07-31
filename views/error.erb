@@ -1,0 +1,8 @@
+<section id="error">
+  <p>Sorry, something has gone wrong. Please check the logs for details.</p>
+  <h2>Your system information</h2>
+  <section id="system-info">
+    <p><%=h user_agent.family %> (<%=h user_agent.version.to_s %>)</p>
+    <p><%=h user_agent.os.family %> <% if user_agent.os.version.nil? %> (unknown version)<% else %>(<%=h user_agent.os.version.to_s %>)<% end %></p>
+  </section>
+</section>

@@ -9,6 +9,7 @@ gem 'sinatra'
 gem 'sinatra-flash'
 gem 'sinatra-formkeeper'
 gem 'sucker_punch', '~> 2.0'
+gem 'user_agent_parser'
 
 group :development do
   gem 'rerun'
