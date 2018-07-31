@@ -77,6 +77,9 @@ post '/reallocate' do
     output = erb :reallocate, locals: { title: 'Reallocate Jobs' }
     fill_in_form(output)
   else
+    job_request = JobRequest.new(form[:server], form[:user_name], form[:password])
+    job_request.send_reallocate_message(form[:job_ids], form[:allocated_user_name])
+    flash[:notice] = 'Submitted reallocate requests to Totalmobile. Check the logs for returned message IDs or failure status.'
     redirect '/reallocate'
   end
 end

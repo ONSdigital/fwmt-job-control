@@ -1,6 +1,9 @@
 # FWMT Job Control
 A Ruby [Sinatra](http://www.sinatrarb.com/) application for manipulating jobs within the Fieldwork Management Tool (FWMT).
 
+## Usage
+By default the application provides a form to create a job. Change the URL to `/reallocate` to reallocate an existing job to a different user within the FWMT.
+
 ## Running
 ### Docker
 Pull the image from Docker Hub using:

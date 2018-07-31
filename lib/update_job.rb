@@ -4,10 +4,10 @@ require 'rest-client'
 require 'nokogiri'
 
 ENDPOINT ||= 'services/tm/v20/messaging/MessageQueueWs.asmx'
-CREATE_SOAP_ACTION = 'http://schemas.consiliumtechnologies.com/wsdl/mobile/2007/07/messaging/SendCreateJobRequestMessage'
+UPDATE_SOAP_ACTION = 'http://schemas.consiliumtechnologies.com/wsdl/mobile/2007/07/messaging/SendUpdateJobHeaderRequestMessage'
 
-# Sucker Punch job class for sending create visit requests to the FWMT asynchronously.
-class VisitJob
+# Sucker Punch job class for sending update job requests to the FWMT asynchronously.
+class UpdateJob
   include SuckerPunch::Job
 
   def perform(server, user_name, password, job_id, message)
@@ -15,11 +15,12 @@ class VisitJob
                                            url: "#{server}/#{ENDPOINT}",
                                            user: user_name,
                                            password: password,
-                                           headers: { 'SOAPAction': CREATE_SOAP_ACTION, 'Content-Type': 'text/xml' },
+                                           headers: { 'SOAPAction': UPDATE_SOAP_ACTION, 'Content-Type': 'text/xml' },
                                            payload: message)
 
+    logger.info response
     message_id = get_message_id(response)
-    logger.info "Totalmobile returned message ID '#{message_id}' in response to SendCreateJobRequestMessage for job '#{job_id}'"
+    logger.info "Totalmobile returned message ID '#{message_id}' in response to SendUpdateJobHeaderRequestMessage for job '#{job_id}'"
   rescue RestClient::Unauthorized
     logger.error 'Invalid Totalmobile server credentials'
   end
