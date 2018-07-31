@@ -60,6 +60,11 @@ post '/' do
   end
 end
 
+# Just in case anybody tries it.
+get '/create/?' do
+  redirect '/'
+end
+
 get '/reallocate/?' do
   erb :reallocate, locals: { title: 'Reallocate Jobs' }
 end
