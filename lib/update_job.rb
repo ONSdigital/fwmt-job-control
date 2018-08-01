@@ -18,7 +18,6 @@ class UpdateJob
                                            headers: { 'SOAPAction': UPDATE_SOAP_ACTION, 'Content-Type': 'text/xml' },
                                            payload: message)
 
-    logger.info response
     message_id = get_message_id(response)
     logger.info "Totalmobile returned message ID '#{message_id}' in response to SendUpdateJobHeaderRequestMessage for job '#{job_id}'"
   rescue RestClient::Unauthorized
