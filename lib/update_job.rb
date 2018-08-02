@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 require 'rest-client'
-require 'nokogiri'
+
+require_relative 'message'
 
 ENDPOINT ||= 'services/tm/v20/messaging/MessageQueueWs.asmx'
 UPDATE_SOAP_ACTION = 'http://schemas.consiliumtechnologies.com/wsdl/mobile/2007/07/messaging/SendUpdateJobHeaderRequestMessage'
@@ -9,6 +10,7 @@ UPDATE_SOAP_ACTION = 'http://schemas.consiliumtechnologies.com/wsdl/mobile/2007/
 # Sucker Punch job class for sending update job requests to the FWMT asynchronously.
 class UpdateJob
   include SuckerPunch::Job
+  include Message
 
   def perform(server, user_name, password, job_id, message)
     response = RestClient::Request.execute(method: :post,
@@ -22,14 +24,5 @@ class UpdateJob
     logger.info "Totalmobile returned message ID '#{message_id}' in response to SendUpdateJobHeaderRequestMessage for job '#{job_id}'"
   rescue RestClient::Unauthorized
     logger.error 'Invalid Totalmobile server credentials'
-  end
-
-  private
-
-  def get_message_id(message)
-    xml = Nokogiri::XML(message)
-    # We don't care about the XML namespaces in the response XML - we just want to get the message ID.
-    xml.remove_namespaces!
-    xml.css('Id').text
   end
 end
