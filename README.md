@@ -2,7 +2,7 @@
 A Ruby [Sinatra](http://www.sinatrarb.com/) application for manipulating jobs within the Fieldwork Management Tool (FWMT).
 
 ## Usage
-By default the application provides a form to create a visit job within the FWMT. Change the URL to `/reallocate` to reallocate an existing job to a different FWMT user.
+By default the application provides a form to create a visit job within the FWMT. Change the URL to `/reallocate` to reallocate (an) existing job(s) to a different FWMT user, or `/delete` to delete (an) existing job(s).
 
 ## Running
 ### Docker

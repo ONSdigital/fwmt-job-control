@@ -71,6 +71,30 @@ get '/create/?' do
   redirect '/'
 end
 
+get '/delete/?' do
+  erb :delete, locals: { title: 'Delete Jobs' }
+end
+
+post '/delete' do
+  form do
+    filters :strip
+    field :server,    present: true
+    field :user_name, present: true
+    field :password,  present: true
+    field :job_ids,   present: true
+  end
+
+  if form.failed?
+    output = erb :delete, locals: { title: 'Delete Jobs' }
+    fill_in_form(output)
+  else
+    job_request = JobRequest.new(form[:server], form[:user_name], form[:password])
+    job_request.send_delete_message(form[:job_ids])
+    flash[:notice] = 'Submitted delete requests to Totalmobile. Check the logs for returned message IDs or failure status.'
+    redirect '/delete'
+  end  
+end
+
 get '/reallocate/?' do
   erb :reallocate, locals: { title: 'Reallocate Jobs' }
 end

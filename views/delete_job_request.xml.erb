@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <SendDeleteJobRequestMessage xmlns="http://schemas.consiliumtechnologies.com/services/mobile/2009/03/messaging">
+      <SendMessageRequestInfo>
+        <QueueName>\OPTIMISE\INPUT</QueueName>
+        <Key>Debug</Key>
+      </SendMessageRequestInfo>
+      <DeleteJobRequest>
+        <Identity xmlns="http://schemas.consiliumtechnologies.com/mobile/2015/05/OptimiseMessages.xsd">
+          <Reference xmlns="http://schemas.consiliumtechnologies.com/mobile/2015/05/OptimiseTypes.xsd"><%= job_id %></Reference>
+        </Identity>
+      </DeleteJobRequest>
+    </SendDeleteJobRequestMessage>
+  </soap:Body>
+</soap:Envelope>
