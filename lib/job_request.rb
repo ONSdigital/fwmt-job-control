@@ -42,7 +42,7 @@ class JobRequest
     job_ids.each do |job_id|
       send_delete_job_request_message(job_id)
     end
-  end  
+  end
 
   def send_reallocate_message(job_ids, allocated_user_name)
     job_ids = job_ids.split(',')
@@ -116,7 +116,7 @@ class JobRequest
     variables = { job_id: job_id }
     message = ERB.new(File.read(DELETE_MESSAGE_TEMPLATE), 0, '>').result(OpenStruct.new(variables).instance_eval { binding })
     DeleteJob.perform_async(@server, @user_name, @password, job_id, message)
-  end  
+  end
 
   def send_update_job_header_request_message(job_id, allocated_user_name)
     variables = { job_id: job_id, allocated_user_name: allocated_user_name }

@@ -92,7 +92,7 @@ post '/delete' do
     job_request.send_delete_message(form[:job_ids])
     flash[:notice] = 'Submitted delete requests to Totalmobile. Check the logs for returned message IDs or failure status.'
     redirect '/delete'
-  end  
+  end
 end
 
 get '/reallocate/?' do
