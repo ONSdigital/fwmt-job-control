@@ -6,7 +6,7 @@ require 'nokogiri'
 ENDPOINT ||= 'services/tm/v20/messaging/MessageQueueWs.asmx'
 CREATE_SOAP_ACTION = 'http://schemas.consiliumtechnologies.com/wsdl/mobile/2007/07/messaging/SendCreateJobRequestMessage'
 
-# Sucker Punch job class for sending create visit requests to the FWMT asynchronously.
+# Sucker Punch job class for sending create job visit requests to the FWMT asynchronously.
 class VisitJob
   include SuckerPunch::Job
 
