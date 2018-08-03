@@ -9,10 +9,10 @@
       <UpdateJobHeaderRequest>
         <JobHeader xmlns="http://schemas.consiliumtechnologies.com/mobile/2015/05/OptimiseMessages.xsd">
           <JobIdentity xmlns="http://schemas.consiliumtechnologies.com/mobile/2015/05/OptimiseTypes.xsd">
-            <Reference><%=h job_id %></Reference>
+            <Reference><%= job_id %></Reference>
           </JobIdentity>
           <AllocatedTo xmlns="http://schemas.consiliumtechnologies.com/mobile/2015/05/OptimiseTypes.xsd">
-            <Username><%=h allocated_user_name %></Username>
+            <Username><%= allocated_user_name %></Username>
           </AllocatedTo>
         </JobHeader>
       </UpdateJobHeaderRequest>
