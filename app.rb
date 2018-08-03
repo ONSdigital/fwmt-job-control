@@ -57,7 +57,6 @@ post '/' do
   else
     job_request = JobRequest.new(form[:server], form[:user_name], form[:password])
     job_request.send_create_message(form)
-
     flash[:notice] = 'Submitted jobs to Totalmobile. Check the logs for returned message IDs or failure status.'
     redirect '/'
   end
