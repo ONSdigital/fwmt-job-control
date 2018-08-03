@@ -46,7 +46,13 @@
                     <ns3:Duration>1</ns3:Duration>
                     <ns3:VisitComplete>false</ns3:VisitComplete>
                     <ns3:Skills>
-                        <ns3:Skill>Survey</ns3:Skill>
+                    <% if skills.size == 1 %>
+                        <ns3:Skill><%= skills %></ns3:Skill>
+                    <% else %>
+                      <% skills.split(',').each do |skill| %>
+                        <ns3:Skill><%= skill %></ns3:Skill>
+                      <% end %>
+                    <% end %>
                     </ns3:Skills>
                     <ns3:Emergency>false</ns3:Emergency>
                     <ns3:WorkType><%= work_type %></ns3:WorkType>

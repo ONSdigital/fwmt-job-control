@@ -33,12 +33,16 @@
       <input type="radio" id="world" name="world" value="Default" checked> Manual (Default)
       <input type="radio" name="world" value="MOD WORLD"> Mendel Engine
     </p>
-    <p><label for="user_names">👥 Totalmobile users (comma separated):</label></p>
+    <p><label for="user_names">👥 Totalmobile users (comma separated, leave blank for auto-allocation):</label></p>
   <% if form.failed_on?(:user_names) %>
     <p class="error">⚠️ Totalmobile users is a required field</p>
   <% end %>
     <p>
       <input id="user_names" name="user_names" maxlength="100" size="50" type="text" placeholder="Totalmobile users">
+    </p>
+    <p><label for="skills">📚 Skills (comma separated, defaults to Survey if blank)</label></p>
+    <p>
+      <input id="skills" name="skills" maxlength="100" size="50" type="text" placeholder="Skills">
     </p>
     <p><label for="job_count">🎚 Jobs per user:</label></p>
   <% if form.failed_on?(:job_count, :present) %>

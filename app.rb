@@ -46,6 +46,7 @@ post '/' do
     field :survey,     present: true
     field :world,      present: true
     field :user_names, present: false
+    field :skills,     default: 'Survey'
     field :job_count,  present: true, int: { between: 1..100 }
     field :location,   present: true
   end
@@ -55,11 +56,7 @@ post '/' do
     fill_in_form(output)
   else
     job_request = JobRequest.new(form[:server], form[:user_name], form[:password])
-    job_request.send_create_message(form[:survey],
-                                    form[:world],
-                                    form[:user_names],
-                                    form[:job_count],
-                                    form[:location])
+    job_request.send_create_message(form)
 
     flash[:notice] = 'Submitted jobs to Totalmobile. Check the logs for returned message IDs or failure status.'
     redirect '/'
