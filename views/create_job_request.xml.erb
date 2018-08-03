@@ -53,7 +53,7 @@
                     <ns3:Dispatched>false</ns3:Dispatched>
                   <% if user_name %>
                     <ns3:AllocatedTo>
-                        <ns3:Username><%= user_name %></ns3:Username>
+                        <ns3:Username><%=h user_name %></ns3:Username>
                     </ns3:AllocatedTo>
                   <% end %>
                     <ns3:AppointmentPending>false</ns3:AppointmentPending>
