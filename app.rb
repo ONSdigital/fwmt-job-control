@@ -6,6 +6,7 @@ require 'sinatra/formkeeper'
 require 'sinatra/flash'
 require 'securerandom'
 require 'user_agent_parser'
+require 'bunny'
 
 require_relative 'lib/job_request'
 

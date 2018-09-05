@@ -1,6 +1,9 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    amq-protocol (2.3.0)
+    bunny (2.11.0)
+      amq-protocol (~> 2.3.0)
     concurrent-ruby (1.0.5)
     domain_name (0.5.20180417)
       unf (>= 0.0.5, < 1.0.0)
@@ -68,6 +71,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bunny (>= 2.6.4)
   etc
   json
   nokogiri
@@ -82,4 +86,4 @@ DEPENDENCIES
   user_agent_parser
 
 BUNDLED WITH
-   1.16.1
+   1.16.4
