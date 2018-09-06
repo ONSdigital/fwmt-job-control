@@ -34,11 +34,15 @@ before do
   @fwmt_production_url    = settings.fwmt_production_url
 end
 
-get '/?' do
-  erb :index, locals: { title: 'Create Job' }
+get '/' do
+  redirect '/tm/'
 end
 
-post '/' do
+get '/tm/?' do
+  erb :index, locals: { title: 'Create Job', category: 'TM' }
+end
+
+post '/tm/' do
   form do
     filters :strip
     field :server,     present: true
@@ -53,7 +57,7 @@ post '/' do
   end
 
   if form.failed?
-    output = erb :index, locals: { title: 'Create Job' }
+    output = erb :index, locals: { title: 'Create Job', category: 'TM' }
     fill_in_form(output)
   else
     job_request = JobRequest.new(form[:server], form[:user_name], form[:password])
@@ -64,15 +68,15 @@ post '/' do
 end
 
 # Just in case anybody tries it.
-get '/create/?' do
+get '/tm/create/?' do
   redirect '/'
 end
 
-get '/delete/?' do
-  erb :delete, locals: { title: 'Delete Jobs' }
+get '/tm/delete/?' do
+  erb :delete, locals: { title: 'Delete Jobs', category: 'TM' }
 end
 
-post '/delete' do
+post '/tm/delete' do
   form do
     filters :strip
     field :server,    present: true
@@ -82,7 +86,7 @@ post '/delete' do
   end
 
   if form.failed?
-    output = erb :delete, locals: { title: 'Delete Jobs' }
+    output = erb :delete, locals: { title: 'Delete Jobs', category: 'TM' }
     fill_in_form(output)
   else
     job_request = JobRequest.new(form[:server], form[:user_name], form[:password])
@@ -92,11 +96,11 @@ post '/delete' do
   end
 end
 
-get '/reallocate/?' do
-  erb :reallocate, locals: { title: 'Reallocate Jobs' }
+get '/tm/reallocate/?' do
+  erb :reallocate, locals: { title: 'Reallocate Jobs', category: 'TM' }
 end
 
-post '/reallocate' do
+post '/tm/reallocate' do
   form do
     filters :strip
     field :server,              present: true
@@ -107,7 +111,7 @@ post '/reallocate' do
   end
 
   if form.failed?
-    output = erb :reallocate, locals: { title: 'Reallocate Jobs' }
+    output = erb :reallocate, locals: { title: 'Reallocate Jobs', category: 'TM' }
     fill_in_form(output)
   else
     job_request = JobRequest.new(form[:server], form[:user_name], form[:password])
@@ -116,6 +120,35 @@ post '/reallocate' do
     redirect '/reallocate'
   end
 end
+
+get '/rabbit/?' do
+  
+end
+
+get '/rabbit/create/?' do
+  erb :'rabbit/create', locals: { title: 'Create Jobs', category: 'Rabbit' }
+end
+
+post '/rabbit/create/' do
+  
+end
+
+get '/rabbit/cancel/?' do
+  erb :'rabbit_cancel', locals: { title: 'Cancel Jobs', category: 'Rabbit' }
+end
+
+post '/rabbit/cancel/' do
+  
+end
+
+get '/rabbit/update/?' do
+  erb :'rabbit_update', locals: { title: 'Update Jobs', category: 'Rabbit' }
+end
+
+post '/rabbit/update/' do
+
+end
+
 
 error 404 do
   erb :error, locals: { title: 'Error 404', user_agent: parse_user_agent }
