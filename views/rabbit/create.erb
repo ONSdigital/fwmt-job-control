@@ -1,4 +1,10 @@
-<form action="/" method="post">
+<% content_for :supertitle do %>
+    Rabbit
+<% end %>
+<% content_for :title do %>
+    Create Job
+<% end %>
+<form action="/rabbit/create" method="post">
     <fieldset>
         <legend>Queue Details</legend>
 
@@ -9,7 +15,10 @@
         <% if form.failed_on?(:user_name) || form.failed_on?(:password) %>
             <p class="error">⚠️ Credentials are required</p>
         <% end %>
-        <p><input id="user_name" name="user_name" maxlength="100" size="25" type="text" placeholder="Username"> <input name="password" maxlength="100" size="25" type="password" placeholder="Password"></p>
+        <p>
+            <input id="user_name" name="user_name" maxlength="100" size="25" type="text" placeholder="Username">
+            <input name="password" maxlength="100" size="25" type="password" placeholder="Password">
+        </p>
     </fieldset>
     <fieldset>
         <legend>Job Details</legend>
