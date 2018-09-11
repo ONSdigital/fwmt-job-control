@@ -140,6 +140,7 @@ post '/rabbit/create' do
     field :password, present: true
 
     field :idKind, present: true # one of: single, list, incr, rand
+    any :resNoKind, ["single", "list", "incr", "rand"]
     field :id     # use one ID (single job only)
     field :idList # provide a list of IDs
     field :idIncrStart # pick IDs above the start
@@ -148,24 +149,32 @@ post '/rabbit/create' do
     field :surveyType, present: true
 
     field :resNoKind, present: true # one of: single, list
+    any :resNoKind, ["single", "list"]
     field :resNo     # use one resource number
     field :resNoList # split jobs between a list of resource numbers
 
-    field :dueDate, present: true
+    field :dueDateKind, present: true # one of: set, +1day, +1week
+    any :dueDateKind, ["set", "+1day", "+1week"]
+    field :dueDate
 
     field :addrKind, present: true # one of: single, list, randlist
+    any :addrKind, ["single", "list", "randlist"]
     field :addr
     field :addrList
     field :addrRandList
 
     field :additionalProperties, present: true
+
+    field :count, int: true
   end
 
   if form.failed?
     output = erb :'rabbit/create'
     fill_in_form(output)
   else
-    RabbitHandler.perform("localhost", "guest", "guest", "foo", "bar")
+    handler = RabbitHandler.new(form[:server], form[:username], form[:password])
+    handler.run(form)
+    handler.close
   end
 end
 
