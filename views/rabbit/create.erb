@@ -9,78 +9,90 @@
         <legend>Queue Details</legend>
 
         <p><label for="server">☁️ Queue URL:</label></p>
-        <p><input id="url" name="server" maxlength="200" size="90" type="text" placeholder="URL"></p>
+        <p><input name="server" maxlength="200" size="90" type="text" placeholder="URL"></p>
 
-        <p><label for="user_name">🔑 Credentials:</label></p>
+        <p><label for="username">🔑 Credentials:</label></p>
         <% if form.failed_on?(:user_name) || form.failed_on?(:password) %>
             <p class="error">⚠️ Credentials are required</p>
         <% end %>
         <p>
-            <input id="user_name" name="user_name" maxlength="100" size="25" type="text" placeholder="Username">
-            <input name="password" maxlength="100" size="25" type="password" placeholder="Password">
+            <input name="username" type="text" placeholder="Username" maxlength="100" size="25">
+            <input name="password" type="password" placeholder="Password" maxlength="100" size="25">
         </p>
     </fieldset>
     <fieldset>
         <legend>Job Details</legend>
 
-        <p><label for="survey">📈 Survey:</label></p>
-        <p><select id="survey" name="survey">
+        <p><label for="surveyType">📈 Survey:</label></p>
+        <% if form.failed_on?(:surveyType, :present) %>
+            <p class="error">⚠️ A survey type must be specified!</p>
+        <% end %>
+        <p><select name="surveyType">
             <option value="CCS">Census - CCS</option>
             <option value="HH">Census - HH</option>
+            <option value="LMS">Census - LMS</option>
             <option value="GFF" selected>Social Survey - GFF</option>
             <option value="LFS">Social Survey - LFS</option>
         </select></p>
 
         <p><label for="world">🌎 World:</label></p>
         <p>
-            <input type="radio" id="world" name="world" value="Default" checked> Manual (Default)
+            <input type="radio" name="world" value="Default" checked> Manual (Default)
             <input type="radio" name="world" value="MOD WORLD"> Mendel Engine
         </p>
 
-        <p><label for="user_names">👥 Totalmobile users (comma separated, leave blank for auto-allocation):</label></p>
-        <% if form.failed_on?(:user_names) %>
-            <p class="error">⚠️ Totalmobile users is a required field</p>
+        <div id="input_resNo_single">
+            <p><label for="resNo">👥 Resource number:</label></p>
+            <% if form.failed_on?(:resNo, :present) %>
+                <p class="error">⚠️ Resource number is a required field</p>
+            <% end %>
+            <p><input name="resNo" maxlength="5" size="50" type="text" placeholder="Resource number"></p>
+        </div>
+
+        <div id="input_id_single">
+            <p><label for="id">👥 Job Identity:</label></p>
+            <% if form.failed_on?(:id) %>
+                <p class="error">⚠️ Fail!</p>
+            <% end %>
+            <p><input name="id" maxlength="100" size="50" type="text" placeholder="Job ID"></p>
+        </div>
+
+        <div id="input_dueDate_single">
+            <p><label for="dueDate">👥 Due Date:</label></p>
+            <% if form.failed_on?(:dueDate) %>
+                <p class="error">⚠️ Fail!</p>
+            <% end %>
+            <p><input name="dueDate" maxlength="100" size="50" type="text" placeholder="Due date"></p>
+        </div>
+
+        <div id="input_addr_single">
+            <p><label for="addr">👥 Address:</label></p>
+            <% if form.failed_on?(:addr) %>
+                <p class="error">⚠️ Fail!</p>
+            <% end %>
+            <p><input name="addr" maxlength="100" size="50" type="text" placeholder="Address"></p>
+        </div>
+
+        <p><label for="additionalProperties">👥 Additional Properties:</label></p>
+        <% if form.failed_on?(:additionalProperties) %>
+            <p class="error">⚠️ Fail!</p>
         <% end %>
-        <p><input id="user_names" name="user_names" maxlength="100" size="50" type="text" placeholder="Totalmobile users"></p>
+        <p><input name="additionalProperties" maxlength="100" size="50" type="text" placeholder="Additional properties"></p>
 
-        <p><label for="user_names">👥 Job Identity:</label></p>
-        <p><input id="user_names" name="user_names" maxlength="100" size="50" type="text" placeholder="Totalmobile users"></p>
-
-        <p><label for="user_names">👥 Survey Type:</label></p>
-        <p><input id="user_names" name="user_names" maxlength="100" size="50" type="text" placeholder="Totalmobile users"></p>
-
-        <p><label for="user_names">👥 Preallocated Status:</label></p>
-        <p><input id="user_names" name="user_names" maxlength="100" size="50" type="text" placeholder="Totalmobile users"></p>
-
-        <p><label for="user_names">👥 Authentication Number:</label></p>
-        <p><input id="user_names" name="user_names" maxlength="100" size="50" type="text" placeholder="Totalmobile users"></p>
-
-        <p><label for="user_names">👥 Due Date:</label></p>
-        <p><input id="user_names" name="user_names" maxlength="100" size="50" type="text" placeholder="Totalmobile users"></p>
-
-        <p><label for="user_names">👥 Address:</label></p>
-        <p><input id="user_names" name="user_names" maxlength="100" size="50" type="text" placeholder="Totalmobile users"></p>
-
-        <p><label for="user_names">👥 Additional Properties:</label></p>
-        <p><input id="user_names" name="user_names" maxlength="100" size="50" type="text" placeholder="Totalmobile users"></p>
-
-        <p><label for="skills">📚 Skills (comma separated, defaults to Survey if blank)</label></p>
-        <p><input id="skills" name="skills" maxlength="100" size="50" type="text" placeholder="Skills"></p>
-
-        <p><label for="job_count">🎚 Jobs per user:</label></p>
+        <p><label for="count">🎚 Job count:</label></p>
         <% if form.failed_on?(:job_count, :present) %>
-            <p class="error">⚠️ Jobs per user is a required field</p>
+            <p class="error">⚠️ Jobs count is a required field</p>
         <% end %>
-        <% if form.failed_on?(:job_count, :int) %>
-            <p class="error">⚠️ Jobs per user must be 1-100</p>
+        <% if form.failed_on?(:job_count, :uint) %>
+            <p class="error">⚠️ Jobs count must be a non-negative number</p>
         <% end %>
         <p>
-            <input id="job_count" name="job_count" maxlength="3" size="5" type="text" placeholder="1-100">
+            <input name="count" type="text" placeholder="1-100" maxlength="3" size="5">
         </p>
 
         <p><label for="location">🇬🇧 Location:</label></p>
         <p>
-            <select id="location" name="location">
+            <select name="location">
                 <option value="north">North</option>
                 <option value="east">East</option>
                 <option value="south">South</option>
@@ -88,5 +100,16 @@
             </select>
             <input type="submit" value="Send jobs">
         </p>
+
+        <% if (form.failed_on?(:idKind) ||
+               form.failed_on?(:resNoKind) ||
+               form.failed_on?(:dueDateKind) ||
+               form.failed_on?(:addrKind)) %>
+            <p class="error">⚠️ Error in hidden fields</p>
+        <% end %>
+        <input name="idKind" type="hidden" value="single">
+        <input name="resNoKind" type="hidden" value="single">
+        <input name="dueDateKind" type="hidden" value="set">
+        <input name="addrKind" type="hidden" value="single">
     </fieldset>
 </form>

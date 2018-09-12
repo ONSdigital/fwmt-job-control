@@ -139,36 +139,33 @@ post '/rabbit/create' do
     field :username, present: true
     field :password, present: true
 
-    field :idKind, present: true # one of: single, list, incr, rand
-    any :resNoKind, ["single", "list", "incr", "rand"]
-    field :id     # use one ID (single job only)
-    field :idList # provide a list of IDs
-    field :idIncrStart # pick IDs above the start
+    field :idKind, present: true, regexp: %r{^(single|list|incr|rand)$}
+    field :id,          present: false # use one ID (single job only)
+    field :idList,      present: false # provide a list of IDs
+    field :idIncrStart, present: false # pick IDs above the start
     # or, randomly generate IDs
 
-    field :surveyType, present: true
+    field :surveyType, present: true, regexp: %r{^(CCS|HH|GFF|LFS|LMS)$}
 
-    field :resNoKind, present: true # one of: single, list
-    any :resNoKind, ["single", "list"]
-    field :resNo     # use one resource number
-    field :resNoList # split jobs between a list of resource numbers
+    field :resNoKind, present: true, regexp: %r{^(single|list)$}
+    field :resNo,     present: false     # use one resource number
+    field :resNoList, present: false # split jobs between a list of resource numbers
 
-    field :dueDateKind, present: true # one of: set, +1day, +1week
-    any :dueDateKind, ["set", "+1day", "+1week"]
-    field :dueDate
+    field :dueDateKind, present: true, regexp: %r{^(set|\+1day|\+1week)$}
+    field :dueDate,   present: false
 
-    field :addrKind, present: true # one of: single, list, randlist
-    any :addrKind, ["single", "list", "randlist"]
-    field :addr
-    field :addrList
-    field :addrRandList
+    field :addrKind, present: true, regexp: %r{^(single|list|randlist)$}
+    field :addr,         present: false
+    field :addrList,     present: false
+    field :addrRandList, present: false
 
-    field :additionalProperties, present: true
+    field :additionalProperties, present: false
 
-    field :count, int: true
+    field :count, uint: true
   end
 
   if form.failed?
+    p "Fail!"
     output = erb :'rabbit/create'
     fill_in_form(output)
   else
