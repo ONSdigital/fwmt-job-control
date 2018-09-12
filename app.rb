@@ -4,10 +4,12 @@ require 'sucker_punch' # Must be required before sinatra.
 require 'sinatra'
 require 'sinatra/formkeeper'
 require 'sinatra/flash'
+require 'sinatra/content_for'
 require 'securerandom'
 require 'user_agent_parser'
 
 require_relative 'lib/job_request'
+require_relative 'lib/rabbit_handler'
 
 set :fwmt_development_url,   ENV['FWMT_DEVELOPMENT_URL']
 set :fwmt_preproduction_url, ENV['FWMT_PREPRODUCTION_URL']
@@ -26,6 +28,8 @@ helpers do
   end
 end
 
+helpers Sinatra::ContentFor
+
 before do
   headers 'Content-Type' => 'text/html; charset=utf-8'
   @fwmt_development_url   = settings.fwmt_development_url
@@ -33,11 +37,19 @@ before do
   @fwmt_production_url    = settings.fwmt_production_url
 end
 
-get '/?' do
-  erb :index, locals: { title: 'Create Job' }
+get '/' do
+  redirect '/tm/create'
 end
 
-post '/' do
+get '/tm/?' do
+  redirect '/tm/create'
+end
+
+get '/tm/create/?' do
+  erb :'tm/create'
+end
+
+post '/tm/create' do
   form do
     filters :strip
     field :server,     present: true
@@ -52,7 +64,7 @@ post '/' do
   end
 
   if form.failed?
-    output = erb :index, locals: { title: 'Create Job' }
+    output = erb :'tm/create'
     fill_in_form(output)
   else
     job_request = JobRequest.new(form[:server], form[:user_name], form[:password])
@@ -62,16 +74,11 @@ post '/' do
   end
 end
 
-# Just in case anybody tries it.
-get '/create/?' do
-  redirect '/'
+get '/tm/delete/?' do
+  erb :'tm/delete'
 end
 
-get '/delete/?' do
-  erb :delete, locals: { title: 'Delete Jobs' }
-end
-
-post '/delete' do
+post '/tm/delete' do
   form do
     filters :strip
     field :server,    present: true
@@ -81,7 +88,7 @@ post '/delete' do
   end
 
   if form.failed?
-    output = erb :delete, locals: { title: 'Delete Jobs' }
+    output = erb :'tm/delete'
     fill_in_form(output)
   else
     job_request = JobRequest.new(form[:server], form[:user_name], form[:password])
@@ -91,11 +98,11 @@ post '/delete' do
   end
 end
 
-get '/reallocate/?' do
-  erb :reallocate, locals: { title: 'Reallocate Jobs' }
+get '/tm/reallocate/?' do
+  erb :'tm/reallocate'
 end
 
-post '/reallocate' do
+post '/tm/reallocate' do
   form do
     filters :strip
     field :server,              present: true
@@ -106,7 +113,7 @@ post '/reallocate' do
   end
 
   if form.failed?
-    output = erb :reallocate, locals: { title: 'Reallocate Jobs' }
+    output = erb :'tm/reallocate'
     fill_in_form(output)
   else
     job_request = JobRequest.new(form[:server], form[:user_name], form[:password])
@@ -115,6 +122,90 @@ post '/reallocate' do
     redirect '/reallocate'
   end
 end
+
+get '/rabbit/?' do
+  redirect '/rabbit/create'
+end
+
+get '/rabbit/create/?' do
+  erb :'rabbit/create'
+end
+
+post '/rabbit/create' do
+  form do
+    filters :strip
+
+    field :server, present: true
+    field :username, present: true
+    field :password, present: true
+
+    field :idKind, present: true # one of: single, list, incr, rand
+    any :resNoKind, ["single", "list", "incr", "rand"]
+    field :id     # use one ID (single job only)
+    field :idList # provide a list of IDs
+    field :idIncrStart # pick IDs above the start
+    # or, randomly generate IDs
+
+    field :surveyType, present: true
+
+    field :resNoKind, present: true # one of: single, list
+    any :resNoKind, ["single", "list"]
+    field :resNo     # use one resource number
+    field :resNoList # split jobs between a list of resource numbers
+
+    field :dueDateKind, present: true # one of: set, +1day, +1week
+    any :dueDateKind, ["set", "+1day", "+1week"]
+    field :dueDate
+
+    field :addrKind, present: true # one of: single, list, randlist
+    any :addrKind, ["single", "list", "randlist"]
+    field :addr
+    field :addrList
+    field :addrRandList
+
+    field :additionalProperties, present: true
+
+    field :count, int: true
+  end
+
+  if form.failed?
+    output = erb :'rabbit/create'
+    fill_in_form(output)
+  else
+    handler = RabbitHandler.new(form[:server], form[:username], form[:password])
+    handler.run(form)
+    handler.close
+  end
+end
+
+get '/rabbit/cancel/?' do
+  erb :'rabbit/cancel'
+end
+
+post '/rabbit/cancel' do
+  
+end
+
+get '/rabbit/update/?' do
+  erb :'rabbit/update'
+end
+
+post '/rabbit/update' do
+  form do
+    filters :strip
+  end
+
+  if form.failed?
+    output = erb :'rabbit/update'
+    fill_in_form(output)
+  else
+    job_request = JobRequest.new(form[:server], form[:user_name], form[:password])
+    job_request.send_reallocate_message(form[:job_ids], form[:allocated_user_name])
+    flash[:notice] = 'Submitted reallocate requests to Totalmobile. Check the logs for returned message IDs or failure status.'
+    redirect '/reallocate'
+  end
+end
+
 
 error 404 do
   erb :error, locals: { title: 'Error 404', user_agent: parse_user_agent }
