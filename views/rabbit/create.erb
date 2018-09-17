@@ -49,13 +49,33 @@
             <p><input name="resNo" maxlength="5" size="50" type="text" placeholder="Resource number"></p>
         </div>
 
-        <div id="input_id_single">
-            <p><label for="id">👥 Job Identity:</label></p>
-            <% if form.failed_on?(:id) %>
-                <p class="error">⚠️ Fail!</p>
-            <% end %>
-            <p><input name="id" maxlength="100" size="50" type="text" placeholder="Job ID"></p>
-        </div>
+        <p><label for="id_input">👥 Job Identity:</label></p>
+        <% if form.failed_on?(:id) %>
+            <p class="error">⚠️ Fail!</p>
+        <% end %>
+        <p class="selector">
+            <input type="radio" name="idKind" value="single" id="radio_id_single" checked />
+            <label for="radio_id_single">Single</label>
+
+            <input type="radio" name="idKind" value="list" id="radio_id_list" />
+            <label for="radio_id_list">List</label>
+
+            <input type="radio" name="idKind" value="incr" id="radio_id_incr" />
+            <label for="radio_id_incr">Incremental</label>
+
+            <input type="radio" name="idKind" value="rand" id="radio_id_rand" />
+            <label for="radio_id_rand">Random</label>
+        </p>
+        <p id="input_id_single">
+            <input id="id_input" name="id" maxlength="100" size="50" type="text" placeholder="Job ID">
+        </p>
+        <p id="input_id_list" hidden>
+            <input id="id_input" name="idList" maxlength="100" size="50" type="text" placeholder="Job ID list, comma-seperated">
+        </p>
+        <p id="input_id_incr" hidden>
+            <input id="id_input" name="idIncrStart" maxlength="100" size="50" type="text" placeholder="Starting ID">
+        </p>
+        <p id="input_id_rand" hidden />
 
         <div id="input_dueDate_single">
             <p><label for="dueDate">👥 Due Date:</label></p>
@@ -107,7 +127,6 @@
                form.failed_on?(:addrKind)) %>
             <p class="error">⚠️ Error in hidden fields</p>
         <% end %>
-        <input name="idKind" type="hidden" value="single">
         <input name="resNoKind" type="hidden" value="single">
         <input name="dueDateKind" type="hidden" value="set">
         <input name="addrKind" type="hidden" value="single">

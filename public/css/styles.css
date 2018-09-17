@@ -103,6 +103,15 @@ legend {
   text-transform: uppercase;
 }
 
+.selector {
+  border-left: 20px;
+}
+
+.selector label {
+    display: inline;
+    border-top: none;
+}
+
 #error p {
   font-size: 140%;
 }
