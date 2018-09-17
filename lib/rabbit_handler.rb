@@ -4,7 +4,8 @@ require 'bunny'
 require 'json'
 
 class RabbitHandler
-  LAST_ADDRESS = 100 # There are up to one hundred test addresses per location
+  CHANNEL_NAME = ''
+  ROUTING_KEY = ''
 
   POSTCODES_CENSUS_1 = [
     'DN21 5XJ',
@@ -237,17 +238,16 @@ class RabbitHandler
   def run(form)
     for i in 0..(form[:count].to_i - 1)
       # address = @north_addresses['addresses'][rand(1..LAST_ADDRESS)]
-      postcodes = POSTCODES_CENSUS_5
+      postcodes = POSTCODES_CENSUS_4
       postcode = postcodes[i % postcodes.length]
-      address = {postCode: postcode}
       message = {
         actionType: "Create",
         jobIdentity: SecureRandom.hex(4),
         surveyType: form[:surveyType],
         preallocatedJob: false,
         mandatoryResourceAuthNo: nil,
-        dueDate: (Time.now.utc + (1*60*60)).iso8601,
-        address: address,
+        dueDate: Time.now.utc.iso8601,
+        address: {postCode: postcode},
       }
       p "Sending message: #{message}"
       send_one(message)
