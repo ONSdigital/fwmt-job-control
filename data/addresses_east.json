@@ -1,4 +1,6 @@
 {
+    "name": "east",
+    "longname": "East addresses",
     "addresses": [
         {
             "line1": "19 Warren Cl",
