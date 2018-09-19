@@ -10,6 +10,7 @@ require 'user_agent_parser'
 
 require_relative 'lib/job_request'
 require_relative 'lib/rabbit_handler'
+require_relative 'lib/address_data'
 
 set :fwmt_development_url,   ENV['FWMT_DEVELOPMENT_URL']
 set :fwmt_preproduction_url, ENV['FWMT_PREPRODUCTION_URL']
@@ -18,6 +19,10 @@ set :fwmt_production_url,    ENV['FWMT_PRODUCTION_URL']
 enable :sessions
 
 helpers do
+  def preset_address_lists
+    AddressData.get_data_files
+  end
+
   # View helper for escaping HTML output.
   def h(text)
     Rack::Utils.escape_html(text)

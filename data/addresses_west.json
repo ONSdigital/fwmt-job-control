@@ -1,4 +1,6 @@
 {
+    "name": "west",
+    "longname": "West addresses",
     "addresses": [
         {
             "line1": "1 St David's Rd",

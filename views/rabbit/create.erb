@@ -44,17 +44,21 @@
 
         <div id="input_resNo_single">
             <p><label for="resNo">👥 Resource number:</label></p>
+
             <% if form.failed_on?(:resNo, :present) %>
                 <p class="error">⚠️ Resource number is a required field</p>
             <% end %>
+
             <p><input name="resNo" maxlength="5" size="50" type="text" placeholder="Resource number"></p>
         </div>
 
         <div id="form_id">
             <p><label for="input_id">👥 Job Identity:</label></p>
+
             <% if form.failed_on?(:id) %>
                 <p class="error">⚠️ Fail!</p>
             <% end %>
+
             <p class="selector">
                 <input type="radio" name="idKind" value="single" id="radio_id_single" checked />
                 <label for="radio_id_single">Single</label>
@@ -68,6 +72,7 @@
                 <input type="radio" name="idKind" value="rand" id="radio_id_rand" />
                 <label for="radio_id_rand">Random</label>
             </p>
+
             <p id="input_id_single">
                 <input id="input_id" name="id" maxlength="100" size="50" type="text" placeholder="Job ID">
             </p>
@@ -82,19 +87,22 @@
 
         <div id="form_due_date">
             <p><label for="input_date">👥 Due Date:</label></p>
+
             <% if form.failed_on?(:dueDate) %>
                 <p class="error">⚠️ Fail!</p>
             <% end %>
+
             <p class="selector">
                 <input type="radio" name="dueDateKind" value="set" id="radio_due_date_set" checked />
-                <label for="radio_due_date_single">Exact date</label>
+                <label for="radio_due_date_set">Exact date</label>
+
+                <input type="radio" name="dueDateKind" value="hours" id="radio_due_date_hours" />
+                <label for="radio_due_date_hours">Hours into future</label>
 
                 <input type="radio" name="dueDateKind" value="days" id="radio_due_date_days" />
-                <label for="radio_due_date_list">Days into future</label>
-
-                <input type="radio" name="dueDateKind" value="weeks" id="radio_due_date_weeks" />
-                <label for="radio_due_date_incr">Weeks into future</label>
+                <label for="radio_due_date_days">Days into future</label>
             </p>
+
             <p id="input_due_date_set">
                 <input name="dueDate" maxlength="100" size="50" type="datetime-local" placeholder="Due date">
             </p>
@@ -107,50 +115,79 @@
         </div>
 
         <div id="form_addr">
-            <p><label for="addr">👥 Address:</label></p>
+            <p><label>👥 Address:</label></p>
+
             <% if form.failed_on?(:addr) %>
                 <p class="error">⚠️ Fail!</p>
             <% end %>
-            <p class="selector">
+
+            <p id="radios_addr" class="selector">
                 <input type="radio" name="addrKind" value="single" id="radio_addr_single" checked />
-                <label for="radio_addr_single">Exact date</label>
+                <label for="radio_addr_single">Single address</label>
 
-                <input type="radio" name="addrKind" value="preset_list" id="radio_addr_list" />
-                <label for="radio_addr_preset_list">Days into future</label>
+                <input type="radio" name="addrKind" value="preset_list" id="radio_addr_preset_list" />
+                <label for="radio_addr_preset_list">Addresses from preset list</label>
 
-                <input type="radio" name="addrKind" value="list" id="radio_addr_incr" />
-                <label for="radio_addr_list">Weeks into future</label>
+                <input type="radio" name="addrKind" value="list" id="radio_addr_custom_list" />
+                <label for="radio_addr_custom_list">Custom address list</label>
             </p>
-            <p><input name="addr" maxlength="100" size="50" type="text" placeholder="Address"></p>
+
+            <p id="radios_addr_strategy" class="selector">
+                <input type="radio" name="addrStrategy" value="random" id="radio_addr_strat_random" checked />
+                <label for="radio_addr_strat_random">Random</label>
+
+                <input type="radio" name="addrStrategy" value="incremental" id="radio_addr_strat_incr" />
+                <label for="radio_addr_strat_incr">Incremental</label>
+
+                <input type="radio" name="addrStrategy" value="once_per" id="radio_addr_strat_once_per" />
+                <label for="radio_addr_strat_once_per">Once per address</label>
+            </p>
+
+            <p id="input_addr">
+                <input name="addr" maxlength="100" size="50" type="text" placeholder="Address">
+            </p>
+            <p id="input_addr_preset_list">
+                <select name="addr">
+                    <% preset_address_lists().each do |preset| %>
+                        <option value="<%= preset["name"] %>"><%= preset["longname"] %></option>
+                    <% end %>
+                </select>
+            </p>
+            <p id="input_addr_custom_list">
+                <textarea rows="4" cols="50"></textarea>
+            </p>
         </div>
 
-        <p><label for="additionalProperties">👥 Additional Properties:</label></p>
-        <% if form.failed_on?(:additionalProperties) %>
-            <p class="error">⚠️ Fail!</p>
-        <% end %>
-        <p><input name="additionalProperties" maxlength="100" size="50" type="text" placeholder="Additional properties"></p>
+        <div id="form_additional_props">
+            <p><label>👥 Additional Properties:</label></p>
 
-        <p><label for="count">🎚 Job count:</label></p>
-        <% if form.failed_on?(:job_count, :present) %>
-            <p class="error">⚠️ Jobs count is a required field</p>
-        <% end %>
-        <% if form.failed_on?(:job_count, :uint) %>
-            <p class="error">⚠️ Jobs count must be a non-negative number</p>
-        <% end %>
-        <p>
-            <input name="count" type="text" placeholder="1-100" maxlength="3" size="5">
-        </p>
+            <% if form.failed_on?(:additionalProperties) %>
+                <p class="error">⚠️ Fail!</p>
+            <% end %>
 
-        <p><label for="location">🇬🇧 Location:</label></p>
-        <p>
-            <select name="location">
-                <option value="north">North</option>
-                <option value="east">East</option>
-                <option value="south">South</option>
-                <option value="west">West</option>
-            </select>
-            <input type="submit" value="Send jobs">
-        </p>
+            <button id="button_add_property" type="button">Add property</button>
+
+            <p id="input_additional_prop_template" hidden>
+                <input name="additionalProperties[][key]" maxlength="100" size="15" type="text" placeholder="Key">
+                <input name="additionalProperties[][value]" maxlength="100" size="50" type="text" placeholder="Value">
+                <button type="button">X</button>
+            </p>
+        </div>
+
+        <div id="form_job_count">
+            <p><label for="count">🎚 Job count:</label></p>
+
+            <% if form.failed_on?(:job_count, :present) %>
+                <p class="error">⚠️ Jobs count is a required field</p>
+            <% end %>
+            <% if form.failed_on?(:job_count, :uint) %>
+                <p class="error">⚠️ Jobs count must be a non-negative number</p>
+            <% end %>
+
+            <p>
+                <input name="count" type="text" placeholder="Number of jobs" maxlength="5" size="5">
+            </p>
+        </div>
 
         <% if (form.failed_on?(:idKind) ||
                form.failed_on?(:resNoKind) ||
