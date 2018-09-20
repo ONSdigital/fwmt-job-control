@@ -36,11 +36,24 @@
             <option value="LFS">Social Survey - LFS</option>
         </select></p>
 
-        <p><label for="world">🌎 World:</label></p>
-        <p>
-            <input type="radio" name="world" value="Default" checked> Manual (Default)
-            <input type="radio" name="world" value="MOD WORLD"> Mendel Engine
-        </p>
+        <div id="form_world">
+            <p><label for="world">🌎 World:</label></p>
+
+            <p class="selector">
+                <input type="radio" name="world" value="Default" id="radio_world_default" checked>
+                <label for="radio_world_default">Manual (Default)</label>
+
+                <input type="radio" name="world" value="MOD WORLD" id="radio_world_mendel">
+                <label for="radio_world_mendel">Mendel Engine (MOD WORLD)</label>
+
+                <input type="radio" name="world" value="Custom" id="radio_world_custom">
+                <label for="radio_world_custom">Custom</label>
+            </p>
+
+            <p id="input_world_custom">
+                <input name="customWorldName" maxlength="100" size="50" type="text" placeholder="Custom world name">
+            </p>
+        </div>
 
         <div id="input_resNo_single">
             <p><label for="resNo">👥 Resource number:</label></p>
@@ -76,13 +89,13 @@
             <p id="input_id_single">
                 <input id="input_id" name="id" maxlength="100" size="50" type="text" placeholder="Job ID">
             </p>
-            <p id="input_id_list" hidden>
+            <p id="input_id_list">
                 <input id="input_id" name="idList" maxlength="100" size="50" type="text" placeholder="Job ID list, comma-seperated">
             </p>
-            <p id="input_id_incr" hidden>
+            <p id="input_id_incr">
                 <input id="input_id" name="idIncrStart" maxlength="100" size="50" type="text" placeholder="Starting ID">
             </p>
-            <p id="input_id_rand" hidden />
+            <p id="input_id_rand"/>
         </div>
 
         <div id="form_due_date">
@@ -185,7 +198,7 @@
             <% end %>
 
             <p>
-                <input name="count" type="text" placeholder="Number of jobs" maxlength="5" size="5">
+                <input name="count" type="text" placeholder="Number of jobs" maxlength="5" size="50">
             </p>
         </div>
 
@@ -193,10 +206,7 @@
                form.failed_on?(:resNoKind) ||
                form.failed_on?(:dueDateKind) ||
                form.failed_on?(:addrKind)) %>
-            <p class="error">⚠️ Error in hidden fields</p>
+            <p class="error">⚠️ Error in kind fields</p>
         <% end %>
-        <input name="resNoKind" type="hidden" value="single">
-        <input name="dueDateKind" type="hidden" value="set">
-        <input name="addrKind" type="hidden" value="single">
     </fieldset>
 </form>
