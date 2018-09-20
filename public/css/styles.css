@@ -110,6 +110,7 @@ legend {
 .selector label {
     display: inline;
     border-top: none;
+    text-transform: none;
 }
 
 #error p {
