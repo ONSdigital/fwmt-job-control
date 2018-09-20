@@ -150,7 +150,7 @@ post '/rabbit/create' do
     field :idIncrStart, present: false # pick IDs above the start
     # or, randomly generate IDs
 
-    field :surveyType, present: true, regexp: %r{^(CCS|HH|GFF|LFS|LMS)$}
+    field :surveyType, present: true, regexp: %r{^(CCS|HH|GFF|LFS|OHS)$}
 
     field :resNoKind, present: true, regexp: %r{^(single|list)$}
     field :resNo,     present: false     # use one resource number
@@ -160,7 +160,7 @@ post '/rabbit/create' do
     field :dueDate,   present: false
 
     field :addrKind, present: true, regexp: %r{^(single|preset_list|list)$}
-    field :addrStrategy, present: false, regexp: %r{^(rand|incremental|once_each)$}
+    field :addrStrategy, present: false, regexp: %r{^(random|incremental|once_per)$}
     field :addr,         present: false
     field :addrList,     present: false
     field :addrRandList, present: false
@@ -172,6 +172,7 @@ post '/rabbit/create' do
 
   if form.failed?
     p "Fail!"
+    p form
     output = erb :'rabbit/create'
     fill_in_form(output)
   else
