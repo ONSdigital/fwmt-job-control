@@ -63,6 +63,8 @@
             <% end %>
 
             <p><input name="resNo" maxlength="5" size="50" type="text" placeholder="Resource number"></p>
+
+            <p><input name="resNoKind" maxlength="5" size="50" type="text" value="single"></p>
         </div>
 
         <div id="form_id">
@@ -200,6 +202,10 @@
             <p>
                 <input name="count" type="text" placeholder="Number of jobs" maxlength="5" size="50">
             </p>
+        </div>
+
+        <div>
+            <input type="submit" value="Send jobs">
         </div>
 
         <% if (form.failed_on?(:idKind) ||
