@@ -26,29 +26,16 @@ class RabbitHandler
   # CCS jobs - postcode only
 
   def run(form)
+    survey_type = form[:surveyType]
+    resno_gen = ResnoGenerator(form[:resNoKind], form[:resNo], form[:resNoList])
+    id_gen = IDGenerator(form[:idKind], form[:id], form[:idList], form[:idIncrStart])
+    addr_gen = AddressGenerator(form[:addrKind], form[:addrStrategy], form[:addr], form[:addrPreset], form[:addrList], form[:addrFile])
+    request_gen = RabbitCreateGenerator.initialize(survey_type, resno_gen, id_gen, addr_gen)
     for i in 0..(form[:count].to_i - 1)
-      addresses = AddressData.get_data_files.find { |f| f["name"] == "west" }["addresses"]
-      address = addresses[i & addresses.length]
-      message = {
-        actionType: "Create",
-        jobIdentity: SecureRandom.hex(4),
-        surveyType: form[:surveyType],
-        preallocatedJob: false,
-        mandatoryResourceAuthNo: nil,
-        dueDate: (Time.now + (60*60*24*1)).utc.iso8601,
-        address: {
-          line1: address['line1'],
-          line2: address['line2'],
-          line3: address['line3'],
-          line4: address['line4'],
-          townName: address['townName'],
-          postCode: address['postcode'],
-          latitude: address['latitude'],
-          longitude: address['longitude'],
-        },
-      }
-      p "Sending message: #{message}"
-      send_one(message)
+      request = request_gen.generate
+      p "Iteration: #{i}"
+      p "Sending message: #{request}"
+      send_one(request)
     end
   end
 end

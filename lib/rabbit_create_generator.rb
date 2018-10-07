@@ -3,8 +3,13 @@
 require 'bunny'
 require 'json'
 
-class RabbitCreateHandler
-  def initialize()
+class RabbitCreateGenerator
+  def initialize(survey_type, resno_gen, id_gen, addr_gen, date_gen)
+    @survey_type = survey_type
+    @resno_gen = resno_gen
+    @id_gen = id_gen
+    @addr_gen = addr_gen
+    @date_gen = date_gen
   end
 
   # CCS jobs - postcode only
@@ -13,26 +18,19 @@ class RabbitCreateHandler
     for i in 0..(form[:count].to_i - 1)
       addresses = AddressData.get_data_files.find { |f| f["name"] == "west" }["addresses"]
       address = addresses[i & addresses.length]
-      message = {
+      resno = @resno_gen.generate
+      id = @id_gen.generate
+      address = @address_gen.generate
+      date = @date_gen.generate
+      return {
         actionType: "Create",
-        jobIdentity: SecureRandom.hex(4),
-        surveyType: form[:surveyType],
+        jobIdentity: id,
+        surveyType: @survey_type,
         preallocatedJob: false,
-        mandatoryResourceAuthNo: nil,
-        dueDate: (Time.now + (60*60*24*1)).utc.iso8601,
-        address: {
-          line1: address['line1'],
-          line2: address['line2'],
-          line3: address['line3'],
-          line4: address['line4'],
-          townName: address['townName'],
-          postCode: address['postcode'],
-          latitude: address['latitude'],
-          longitude: address['longitude'],
-        },
+        mandatoryResourceAuthNo: resno,
+        dueDate: date,
+        address: address,
       }
-      p "Sending message: #{message}"
-      send_one(message)
     end
   end
 end

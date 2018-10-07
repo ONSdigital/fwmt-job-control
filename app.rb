@@ -8,9 +8,17 @@ require 'sinatra/content_for'
 require 'securerandom'
 require 'user_agent_parser'
 
+require_relative 'lib/address_data'
+
+require_relative 'lib/date_generator'
+require_relative 'lib/address_generator'
+require_relative 'lib/id_generator'
+require_relative 'lib/resno_generator'
+
+require_relative 'lib/rabbit_create_generator'
+
 require_relative 'lib/job_request'
 require_relative 'lib/rabbit_handler'
-require_relative 'lib/address_data'
 
 set :fwmt_development_url,   ENV['FWMT_DEVELOPMENT_URL']
 set :fwmt_preproduction_url, ENV['FWMT_PREPRODUCTION_URL']
@@ -153,10 +161,10 @@ post '/rabbit/create' do
     field :surveyType, present: true, regexp: %r{^(CCS|HH|GFF|LFS|OHS)$}
 
     field :resNoKind, present: true, regexp: %r{^(single|list)$}
-    field :resNo,     present: false     # use one resource number
+    field :resNo,     present: false # use one resource number
     field :resNoList, present: false # split jobs between a list of resource numbers
 
-    field :dueDateKind, present: true, regexp: %r{^(set|\days|\weeks)$}
+    field :dueDateKind, present: true, regexp: %r{^(set|\hours|\days)$}
     field :dueDate,   present: false
 
     field :addrKind, present: true, regexp: %r{^(single|preset_list|list)$}

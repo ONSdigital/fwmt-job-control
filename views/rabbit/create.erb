@@ -145,6 +145,9 @@
 
                 <input type="radio" name="addrKind" value="list" id="radio_addr_custom_list" />
                 <label for="radio_addr_custom_list">Custom address list</label>
+
+                <input type="radio" name="addrKind" value="file" id="radio_addr_custom_file" />
+                <label for="radio_addr_custom_list">Custom address file</label>
             </p>
 
             <p id="radios_addr_strategy" class="selector">
@@ -162,14 +165,19 @@
                 <input name="addr" maxlength="100" size="50" type="text" placeholder="Address">
             </p>
             <p id="input_addr_preset_list">
-                <select name="addr">
+                <select name="addrPreset">
                     <% preset_address_lists().each do |preset| %>
                         <option value="<%= preset["name"] %>"><%= preset["longname"] %></option>
                     <% end %>
                 </select>
             </p>
             <p id="input_addr_custom_list">
-                <textarea rows="4" cols="50"></textarea>
+                <textarea name="addrList" rows="4" cols="50">
+                    line1,line2,line3,line4,town,postcode,lat,long
+                </textarea>
+            </p>
+            <p id="input_addr_file">
+                <input type="file" name="addrFile">
             </p>
         </div>
 
