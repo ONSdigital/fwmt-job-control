@@ -83,7 +83,7 @@ post '/tm/create' do
     job_request = JobRequest.new(form[:server], form[:user_name], form[:password])
     job_request.send_create_message(form)
     flash[:notice] = 'Submitted jobs to Totalmobile. Check the logs for returned message IDs or failure status.'
-    redirect '/'
+    redirect '/tm/create'
   end
 end
 
@@ -187,6 +187,8 @@ post '/rabbit/create' do
     handler = RabbitHandler.new(form[:server], form[:username], form[:password])
     handler.run(form)
     handler.close
+    flash[:notice] = 'All jobs sent to Rabbit'
+    redirect '/rabbit/create'
   end
 end
 

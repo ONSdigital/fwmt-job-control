@@ -1,17 +1,22 @@
 class DateGenerator
-  def initialize(kind, hours=nil, days=nil)
+  def initialize(kind, date=nil, hours=nil, days=nil)
     raise ArgumentError "invalid kind" if not [:single, :list].include?(kind)
     @kind = kind
     case @kind
     when :set
-      @authnos = [authno_single]
+      raise ArgumentError "no date provided" if date == nil
+      @date = date_parsed(date)
     when :hours
       raise ArgumentError "no hours provided" if hours == nil
-      @hours = hours
+      @date = date_now_plus_hours(hours)
     when :days
       raise ArgumentError "no days provided" if days == nil
-      @days = days
+      @date = date_now_plus_days(days)
     end
+  end
+
+  def date_parsed(date)
+    return Time.httpdate(date) rescue Time.parse(date)
   end
 
   def date_now
@@ -27,13 +32,6 @@ class DateGenerator
   end
 
   def generate
-    case @kind
-    when :set
-      return date_now
-    when :hours
-      return date_now_plus_hours @hours
-    when :days
-      return date_now_plus_days @days
-    end
+    return @date
   end
 end
