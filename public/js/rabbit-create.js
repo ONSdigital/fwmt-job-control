@@ -1,11 +1,6 @@
 $(document).ready(function() {
+    // selector for Survey Type
     $("#select_survey_type").change(function () {
-        // var case = $( "#cases option:selected" ).val();
-        // if(case=="general")
-        // {
-        //     //show 2 form fields here and show div
-        //     $("#general").show();
-        // }
     });
 
     // radio buttons in the World form
@@ -61,8 +56,7 @@ $(document).ready(function() {
 
     // radio buttons in the Address form
     function form_addr_select() {
-        console.log("Run");
-        $("#radios_addr_strategy, #input_addr, #input_addr_preset_list, #input_addr_custom_list").hide();
+        $("#radios_addr_strategy, #input_addr, #input_addr_preset_list, #input_addr_custom_list, #input_addr_custom_file").hide();
         switch (this.id) {
         case "radio_addr_single":
             $("#input_addr").show();
@@ -73,17 +67,31 @@ $(document).ready(function() {
         case "radio_addr_custom_list":
             $("#radios_addr_strategy, #input_addr_custom_list").show();
             break;
+        case "radio_addr_custom_file":
+            $("#radios_addr_strategy, #input_addr_custom_file").show();
+            break;
         }
     }
-    $("#radio_addr_single, #radio_addr_preset_list, #radio_addr_custom_list").change(form_addr_select);
+    $("#radio_addr_single, #radio_addr_preset_list, #radio_addr_custom_list, #radio_addr_custom_file").change(form_addr_select);
     form_addr_select.call($("#radios_addr input:checked").filter(":first")[0]);
 
     // radio buttons in the Address strategy form
-    function form_addr_select_strategy() {
+    function form_addr_strategy_select() {
+        $("#form_job_count input").prop('disabled', false);
+        switch (this.id) {
+        case "radio_addr_strat_random":
+        case "radio_addr_strat_incr":
+            break;
+        case "radio_addr_strat_once_per":
+            $("#form_job_count input").val('');
+            $("#form_job_count input").prop('disabled', true);
+            break;
+        }
     }
-    $("#radio_addr_strat_random, #radio_addr_strat_incr, #radio_addr_strat_once_per").change(form_addr_select_strategy);
-    form_addr_select_strategy.call($("#radios_addr_strategy input:checked").filter(":first")[0]);
+    $("#radio_addr_strat_random, #radio_addr_strat_incr, #radio_addr_strat_once_per").change(form_addr_strategy_select);
+    form_addr_strategy_select.call($("#radios_addr_strategy input:checked").filter(":first")[0]);
 
+    // HTML for additional properties
     function delete_additional_property() {
         $(this).parent("p").remove();
     }

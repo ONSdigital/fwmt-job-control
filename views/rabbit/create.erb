@@ -55,14 +55,28 @@
             </p>
         </div>
 
-        <div id="input_resNo_single">
-            <p><label for="resNo">👥 Resource number:</label></p>
+        <div id="input_resno_single">
+            <p><label for="resno">👥 Resource number:</label></p>
 
             <% if form.failed_on?(:resNo, :present) %>
                 <p class="error">⚠️ Resource number is a required field</p>
             <% end %>
 
-            <p><input name="resNo" maxlength="5" size="50" type="text" placeholder="Resource number"></p>
+            <p class="selector">
+                <input type="radio" name="idKind" value="single" id="radio_resno_single" checked />
+                <label for="radio_resno_single">Single</label>
+
+                <input type="radio" name="idKind" value="list" id="radio_resno_list" />
+                <label for="radio_resno_list">List</label>
+            </p>
+
+            <p id=input_resno_single">
+                <input name="resNo" maxlength="5" size="50" type="text" placeholder="Resource number">
+            </p>
+
+            <p id=input_resno_list">
+                <input name="resNoList" maxlength="5" size="50" type="text" placeholder="Resource numbers, comma seperated">
+            </p>
 
             <p><input name="resNoKind" maxlength="5" size="50" type="text" value="single"></p>
         </div>
@@ -108,6 +122,7 @@
             <% end %>
 
             <p class="selector">
+                <span>Input a date in the form: </span>
                 <input type="radio" name="dueDateKind" value="set" id="radio_due_date_set" checked />
                 <label for="radio_due_date_set">Exact date</label>
 
@@ -137,6 +152,8 @@
             <% end %>
 
             <p id="radios_addr" class="selector">
+                <span>Address source:</span>
+
                 <input type="radio" name="addrKind" value="single" id="radio_addr_single" checked />
                 <label for="radio_addr_single">Single address</label>
 
@@ -147,21 +164,24 @@
                 <label for="radio_addr_custom_list">Custom address list</label>
 
                 <input type="radio" name="addrKind" value="file" id="radio_addr_custom_file" />
-                <label for="radio_addr_custom_list">Custom address file</label>
+                <label for="radio_addr_custom_file">Custom address file</label>
             </p>
 
             <p id="radios_addr_strategy" class="selector">
+                <span>Address selection strategy:</span>
+
                 <input type="radio" name="addrStrategy" value="random" id="radio_addr_strat_random" checked />
-                <label for="radio_addr_strat_random">Random</label>
+                <label for="radio_addr_strat_random" title="Send jobs at random">Random</label>
 
                 <input type="radio" name="addrStrategy" value="incremental" id="radio_addr_strat_incr" />
-                <label for="radio_addr_strat_incr">Incremental</label>
+                <label for="radio_addr_strat_incr" title="Send jobs in the order they appear in the list, looping if needed">Incremental</label>
 
                 <input type="radio" name="addrStrategy" value="once_per" id="radio_addr_strat_once_per" />
-                <label for="radio_addr_strat_once_per">Once per address</label>
+                <label for="radio_addr_strat_once_per" title="Send exactly the number of jobs in the list">Once per address</label>
             </p>
 
             <p id="input_addr">
+                <span>Input an address in the form: 'line1,line2,line3,line4,town,postcode,lat,long'</span>
                 <input name="addr" maxlength="100" size="50" type="text" placeholder="Address">
             </p>
             <p id="input_addr_preset_list">
@@ -172,11 +192,11 @@
                 </select>
             </p>
             <p id="input_addr_custom_list">
-                <textarea name="addrList" rows="4" cols="50">
-                    line1,line2,line3,line4,town,postcode,lat,long
-                </textarea>
+                <textarea name="addrList" rows="4" cols="50">line1,line2,line3,line4,town,postcode,lat,long</textarea>
             </p>
-            <p id="input_addr_file">
+            <p id="input_addr_custom_file">
+                <span>Select a CSV file containing the headings: 'line1,line2,line3,line4,town,postcode,lat,long'</span>
+                <br>
                 <input type="file" name="addrFile">
             </p>
         </div>
@@ -213,7 +233,8 @@
         </div>
 
         <div>
-            <input type="submit" value="Send jobs">
+            <input type="submit" name="send" value="Send jobs">
+            <input type="submit" name="view" value="View jobs">
         </div>
 
         <% if (form.failed_on?(:idKind) ||

@@ -16,8 +16,6 @@ class RabbitCreateGenerator
 
   def generate()
     for i in 0..(form[:count].to_i - 1)
-      addresses = AddressData.get_data_files.find { |f| f["name"] == "west" }["addresses"]
-      address = addresses[i & addresses.length]
       resno = @resno_gen.generate
       id = @id_gen.generate
       address = @address_gen.generate
