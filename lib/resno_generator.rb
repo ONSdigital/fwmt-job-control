@@ -8,8 +8,8 @@ class ResnoGenerator
       @authnos = [authno_single]
     when :list
       raise ArgumentError "no authno list provided" if authno_list == nil
-      raise ArgumentError "authno list is not an array" if not authno_list.is_a?(Array)
-      @authnos = authno_list
+      raise ArgumentError "authno list is not an string" if not authno_list.is_a?(String)
+      @authnos = authno_list.split(',')
     end
   end
 
