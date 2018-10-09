@@ -4,21 +4,22 @@ require 'bunny'
 require 'json'
 
 class RabbitCreateGenerator
-  def initialize(survey_type, resno_gen, id_gen, addr_gen, date_gen)
+  def initialize(survey_type, resno_gen, id_gen, addr_gen, date_gen, count)
     @survey_type = survey_type
     @resno_gen = resno_gen
     @id_gen = id_gen
     @addr_gen = addr_gen
     @date_gen = date_gen
+    @count = count
   end
 
   # CCS jobs - postcode only
 
   def generate()
-    for i in 0..(form[:count].to_i - 1)
+    for i in 0..(@count - 1)
       resno = @resno_gen.generate
       id = @id_gen.generate
-      address = @address_gen.generate
+      address = @addr_gen.generate
       date = @date_gen.generate
       return {
         actionType: "Create",

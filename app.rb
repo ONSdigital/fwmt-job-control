@@ -164,8 +164,10 @@ post '/rabbit/create' do
     field :resNo,     present: false # use one resource number
     field :resNoList, present: false # split jobs between a list of resource numbers
 
-    field :dueDateKind, present: true, regexp: %r{^(set|hours|days)$}
-    field :dueDate,   present: false
+    field :dueDateKind,  present: true, regexp: %r{^(set|hours|days)$}
+    field :dueDate,      present: false
+    field :dueDateHours, present: false
+    field :dueDateDays,  present: false
 
     field :addrKind, present: true, regexp: %r{^(single|preset_list|list)$}
     field :addrStrategy, present: false, regexp: %r{^(random|incremental|once_per)$}

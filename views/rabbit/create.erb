@@ -71,10 +71,10 @@
             <% end %>
 
             <p class="selector">
-                <input type="radio" name="idKind" value="single" id="radio_resno_single" checked />
+                <input type="radio" name="resNoKind" value="single" id="radio_resno_single" checked />
                 <label for="radio_resno_single">Single</label>
 
-                <input type="radio" name="idKind" value="list" id="radio_resno_list" />
+                <input type="radio" name="resNoKind" value="list" id="radio_resno_list" />
                 <label for="radio_resno_list">List</label>
             </p>
 
@@ -153,10 +153,10 @@
                 <input name="dueDate" maxlength="100" size="50" type="datetime-local" placeholder="Due date">
             </p>
             <p id="input_due_date_hours">
-                <input name="dueDate" maxlength="100" size="50" type="number" placeholder="Number of hours">
+                <input name="dueDateHours" maxlength="100" size="50" type="number" placeholder="Number of hours">
             </p>
             <p id="input_due_date_days">
-                <input name="dueDate" maxlength="100" size="50" type="number" placeholder="Number of weeks">
+                <input name="dueDateDays" maxlength="100" size="50" type="number" placeholder="Number of weeks">
             </p>
         </div>
 
@@ -198,6 +198,7 @@
 
             <p id="input_addr">
                 <span>Input an address in the form: 'line1,line2,line3,line4,town,postcode,lat,long'</span>
+                <br>
                 <input name="addr" maxlength="100" size="50" type="text" placeholder="Address">
             </p>
             <p id="input_addr_preset_list">
