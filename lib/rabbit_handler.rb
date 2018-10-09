@@ -27,10 +27,11 @@ class RabbitHandler
 
   def run(form)
     survey_type = form[:surveyType]
-    resno_gen = ResnoGenerator(form[:resNoKind], form[:resNo], form[:resNoList])
-    id_gen = IDGenerator(form[:idKind], form[:id], form[:idList], form[:idIncrStart])
-    addr_gen = AddressGenerator(form[:addrKind], form[:addrStrategy], form[:addr], form[:addrPreset], form[:addrList], form[:addrFile])
-    request_gen = RabbitCreateGenerator.initialize(survey_type, resno_gen, id_gen, addr_gen)
+    resno_gen = ResnoGenerator.new(form[:resNoKind], form[:resNo], form[:resNoList])
+    id_gen = IDGenerator.new(form[:idKind], form[:id], form[:idList], form[:idIncrStart])
+    addr_gen = AddressGenerator.new(form[:addrKind], form[:addrStrategy], form[:addr], form[:addrPreset], form[:addrList], form[:addrFile])
+    date_gen = DateGenerator.new(form[:dueDateKind], form[:dueDate], form[:dueDateHours], form[:dueDateDays])
+    request_gen = RabbitCreateGenerator.new(survey_type, resno_gen, id_gen, addr_gen, date_gen, form[:count].to_i)
     for i in 0..(form[:count].to_i - 1)
       request = request_gen.generate
       p "Iteration: #{i}"
