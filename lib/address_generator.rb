@@ -20,7 +20,7 @@ class AddressGenerator
     when "preset"
       @kind = :preset
       raise ArgumentError, "no address preset list provided" if addr_single == nil
-      @addresses = AddressData.get_data_files(addr_preset)
+      @addresses = AddressData.find_addresses(addr_preset)
     when "list"
       @kind = :list
       raise ArgumentError, "no address list provided" if addr_single == nil

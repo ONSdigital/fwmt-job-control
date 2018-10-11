@@ -11,7 +11,7 @@ class RabbitHandler
     @connection = Bunny.new(hostname: url)
     @connection.start
     @channel = @connection.create_channel
-    @exchange = @channel.topic(CHANNEL_NAME, durable: true)
+    @exchange = @channel.direct(CHANNEL_NAME, durable: true)
   end
 
   def close()
