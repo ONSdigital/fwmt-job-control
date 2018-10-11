@@ -169,11 +169,12 @@ post '/rabbit/create' do
     field :dueDateHours, present: false
     field :dueDateDays,  present: false
 
-    field :addrKind, present: true, regexp: %r{^(single|preset_list|list)$}
+    field :addrKind, present: true, regexp: %r{^(single|preset|list|file)$}
     field :addrStrategy, present: false, regexp: %r{^(random|incremental|once_per)$}
     field :addr,         present: false
+    field :addrPreset,   present: false
     field :addrList,     present: false
-    field :addrRandList, present: false
+    field :addrFile,     present: false
 
     field :additionalProperties, present: false
 

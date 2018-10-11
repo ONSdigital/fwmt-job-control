@@ -18,6 +18,8 @@ module AddressData
   end
 
   def self.find_addresses(name)
-    return get_data_files.find { |f| f["name"] == name }["addresses"]
+    p "start"
+    p name
+    return get_data_files.find { |f| p f; f["name"] == name }["addresses"]
   end
 end
