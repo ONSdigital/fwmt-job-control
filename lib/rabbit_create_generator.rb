@@ -15,21 +15,19 @@ class RabbitCreateGenerator
 
   # CCS jobs - postcode only
 
-  def generate()
-    for i in 0..(@count - 1)
-      resno = @resno_gen.generate
-      id = @id_gen.generate
-      address = @addr_gen.generate
-      date = @date_gen.generate
-      return {
-        actionType: "Create",
-        jobIdentity: id,
-        surveyType: @survey_type,
-        preallocatedJob: false,
-        mandatoryResourceAuthNo: resno,
-        dueDate: date,
-        address: address,
-      }
-    end
+  def generate
+    resno = @resno_gen.generate
+    id = @id_gen.generate
+    address = @addr_gen.generate
+    date = @date_gen.generate
+    {
+      actionType: 'Create',
+      jobIdentity: id,
+      surveyType: @survey_type,
+      preallocatedJob: false,
+      mandatoryResourceAuthNo: resno,
+      dueDate: date,
+      address: address
+    }
   end
 end
