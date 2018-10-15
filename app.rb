@@ -23,6 +23,7 @@ require_relative 'lib/rabbit_handler'
 set :fwmt_development_url,   ENV['FWMT_DEVELOPMENT_URL']
 set :fwmt_preproduction_url, ENV['FWMT_PREPRODUCTION_URL']
 set :fwmt_production_url,    ENV['FWMT_PRODUCTION_URL']
+set :fwmt_censustest_url,    ENV['FWMT_CENSUSTEST_URL']
 
 enable :sessions
 
@@ -48,6 +49,7 @@ before do
   @fwmt_development_url   = settings.fwmt_development_url
   @fwmt_preproduction_url = settings.fwmt_preproduction_url
   @fwmt_production_url    = settings.fwmt_production_url
+  @fwmt_censustest_url    = settings.fwmt_censustest_url
 end
 
 get '/' do
