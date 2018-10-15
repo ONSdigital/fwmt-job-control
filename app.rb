@@ -171,15 +171,19 @@ post '/rabbit/create' do
     field :dueDateHours, present: false
     field :dueDateDays,  present: false
 
-    field :addrKind, present: true, regexp: %r{^(single|preset_list|list)$}
+    field :addrKind, present: true, regexp: %r{^(single|preset|list|file)$}
     field :addrStrategy, present: false, regexp: %r{^(random|incremental|once_per)$}
     field :addr,         present: false
+    field :addrPreset,   present: false
     field :addrList,     present: false
-    field :addrRandList, present: false
+    field :addrFile,     present: false
 
     field :additionalProperties, present: false
 
     field :count, uint: true
+
+    field :send, present: false
+    field :view, present: false
   end
 
   if form.failed?
@@ -189,11 +193,17 @@ post '/rabbit/create' do
     fill_in_form(output)
   else
     handler = RabbitHandler.new(form[:server], form[:username], form[:password])
-    handler.run(form)
+    result = handler.run(form)
     handler.close
     flash[:notice] = 'All jobs sent to Rabbit'
-    redirect '/rabbit/create'
+    redirect '/rabbit/create' if form[:send]
+    flash[:jobs] = result
+    redirect '/rabbit/show' if form[:view]
   end
+end
+
+get '/rabbit/show' do
+  erb :'rabbit/show'
 end
 
 get '/rabbit/cancel/?' do

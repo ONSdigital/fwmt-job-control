@@ -8,13 +8,13 @@ class RabbitHandler
   ROUTING_KEY = 'jobsvc.job.request'
 
   def initialize(url, username, password)
-    @connection = Bunny.new(hostname: url)
+    @connection = Bunny.new(hostname: url, username: username, password: password)
     @connection.start
     @channel = @connection.create_channel
-    @exchange = @channel.topic(CHANNEL_NAME, durable: true)
+    @exchange = @channel.direct(CHANNEL_NAME, durable: true)
   end
 
-  def close()
+  def close
     @connection.close
   end
 
@@ -32,11 +32,15 @@ class RabbitHandler
     addr_gen = AddressGenerator.new(form[:addrKind], form[:addrStrategy], form[:addr], form[:addrPreset], form[:addrList], form[:addrFile])
     date_gen = DateGenerator.new(form[:dueDateKind], form[:dueDate], form[:dueDateHours], form[:dueDateDays])
     request_gen = RabbitCreateGenerator.new(survey_type, resno_gen, id_gen, addr_gen, date_gen, form[:count].to_i)
-    for i in 0..(form[:count].to_i - 1)
+    requests = []
+    send = form[:send]
+    (1..form[:count].to_i).each do
       request = request_gen.generate
       p "Iteration: #{i}"
       p "Sending message: #{request}"
-      send_one(request)
+      send_one(request) if send
+      requests << request unless send
     end
+    return requests unless send
   end
 end

@@ -1,23 +1,19 @@
+# frozen_string_literal: true
+
 module AddressData
   @@data = nil
 
   def self.read_data_files
     @@data = []
-    for filename in Dir["data/*.json"]
-      json = JSON.parse(File.read(filename))
-      @@data << json
-    end
+    Dir['data/*.json'].each { |filename| @@data << JSON.parse(File.read(filename)) }
   end
 
   def self.get_data_files
-    if @@data == nil
-      read_data_files
-    end
-
-    return @@data
+    read_data_files if @@data.nil?
+    @@data
   end
 
   def self.find_addresses(name)
-    return get_data_files.find { |f| f["name"] == name }["addresses"]
+    get_data_files.find { |f| f['name'] == name }['addresses']
   end
 end
