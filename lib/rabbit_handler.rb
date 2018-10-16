@@ -34,7 +34,7 @@ class RabbitHandler
     request_gen = RabbitCreateGenerator.new(survey_type, resno_gen, id_gen, addr_gen, date_gen, form[:count].to_i)
     requests = []
     send = form[:send]
-    (1..form[:count].to_i).each do
+    (1..form[:count].to_i).each do |i|
       request = request_gen.generate
       p "Iteration: #{i}"
       p "Sending message: #{request}"
