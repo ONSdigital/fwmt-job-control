@@ -2,7 +2,7 @@
 
 class AddressGenerator
   def initialize(kind, strategy, addr_single = nil, addr_preset = nil, addr_list = nil, addr_file = nil)
-    raise ArgumentError, 'invalid kind' unless %w[single preset list].include?(kind)
+    raise ArgumentError, 'invalid kind' unless %w[single preset list file].include?(kind)
     raise ArgumentError, 'invalid strategy' unless %w[random incremental once_per].include?(strategy)
 
     case strategy
@@ -36,9 +36,12 @@ class AddressGenerator
       @kind = :file
       raise ArgumentError, 'no address file provided' if addr_file.nil?
 
-      @addresses = []
-      CSV.parse(addr_file) do |row|
-        @addresses << parse_line(row)
+      p addr_file
+      while data = addr_file[:tempfile].read(65536)
+        @addresses = []
+        CSV.parse(data) do |row|
+          @addresses << parse_line(row)
+        end
       end
     end
     @index = 0
