@@ -7,6 +7,7 @@ require 'sinatra/flash'
 require 'sinatra/content_for'
 require 'securerandom'
 require 'user_agent_parser'
+require 'csv'
 
 require_relative 'lib/address_data'
 
