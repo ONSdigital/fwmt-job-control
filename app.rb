@@ -149,34 +149,32 @@ end
 
 post '/rabbit/create' do
   form do
-    filters :strip
-
-    field :server, present: true
-    field :username, present: true
-    field :password, present: true
+    field :server, present: true, filters: :strip
+    field :username, present: true, filters: :strip
+    field :password, present: true, filters: :strip
 
     field :idKind, present: true, regexp: %r{^(single|list|incr|rand)$}
-    field :id,          present: false # use one ID (single job only)
-    field :idList,      present: false # provide a list of IDs
-    field :idIncrStart, present: false # pick IDs above the start
+    field :id,          present: false, filters: :strip # use one ID (single job only)
+    field :idList,      present: false, filters: :strip # provide a list of IDs
+    field :idIncrStart, present: false, filters: :strip # pick IDs above the start
     # or, randomly generate IDs
 
-    field :surveyType, present: true, regexp: %r{^(CCS|HH|GFF|LFS|OHS)$}
+    field :surveyType, present: true, regexp: %r{^(CCS|HH|GFF|LFS|OHS)$}, filters: :strip
 
-    field :resNoKind, present: true, regexp: %r{^(single|list)$}
+    field :resNoKind, present: true, regexp: %r{^(single|list)$}, filters: :strip
     field :resNo,     present: false # use one resource number
     field :resNoList, present: false # split jobs between a list of resource numbers
 
-    field :dueDateKind,  present: true, regexp: %r{^(set|hours|days)$}
-    field :dueDate,      present: false
-    field :dueDateHours, present: false
-    field :dueDateDays,  present: false
+    field :dueDateKind,  present: true, regexp: %r{^(set|hours|days)$}, filters: :strip
+    field :dueDate,      present: false, filters: :strip
+    field :dueDateHours, present: false, filters: :strip
+    field :dueDateDays,  present: false, filters: :strip
 
-    field :addrKind, present: true, regexp: %r{^(single|preset|list|file)$}
-    field :addrStrategy, present: false, regexp: %r{^(random|incremental|once_per)$}
-    field :addr,         present: false
-    field :addrPreset,   present: false
-    field :addrList,     present: false
+    field :addrKind, present: true, regexp: %r{^(single|preset|list|file)$}, filters: :strip
+    field :addrStrategy, present: false, regexp: %r{^(random|incremental|once_per)$}, filters: :strip
+    field :addr,         present: false, filters: :strip
+    field :addrPreset,   present: false, filters: :strip
+    field :addrList,     present: false, filters: :strip
     field :addrFile,     present: false
 
     field :additionalProperties, present: false
