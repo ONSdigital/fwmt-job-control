@@ -30,13 +30,13 @@ class RabbitHandler
     resno_gen = ResnoGenerator.new(form[:resNoKind], form[:resNo], form[:resNoList])
     id_gen = IDGenerator.new(form[:idKind], form[:id], form[:idList], form[:idIncrStart])
     addr_gen = AddressGenerator.new(form[:addrKind], form[:addrStrategy], form[:addr], form[:addrPreset], form[:addrList], form[:addrFile])
+    count = form[:count].nil? ? addr_gen.length : form[:count].to_i
     date_gen = DateGenerator.new(form[:dueDateKind], form[:dueDate], form[:dueDateHours], form[:dueDateDays])
-    request_gen = RabbitCreateGenerator.new(survey_type, resno_gen, id_gen, addr_gen, date_gen, form[:count].to_i)
+    request_gen = RabbitCreateGenerator.new(survey_type, resno_gen, id_gen, addr_gen, date_gen, count)
     requests = []
     send = form[:send]
-    (1..form[:count].to_i).each do |i|
+    (1..count).each do |i|
       request = request_gen.generate
-      p "Iteration: #{i}"
       p "Sending message: #{request}"
       send_one(request) if send
       requests << request unless send
