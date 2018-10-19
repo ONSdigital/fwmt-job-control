@@ -186,7 +186,6 @@ post '/rabbit/create' do
   end
 
   if form.failed?
-    p "Fail!"
     p form
     output = erb :'rabbit/create'
     fill_in_form(output)

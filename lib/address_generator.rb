@@ -36,10 +36,9 @@ class AddressGenerator
       @kind = :file
       raise ArgumentError, 'no address file provided' if addr_file.nil?
 
-      p addr_file
-      while data = addr_file[:tempfile].read(65536)
+      while data = addr_file[:tempfile].read(65_536)
         @addresses = []
-        CSV.parse(data) do |row|
+        CSV.parse(data, headers: true) do |row|
           @addresses << parse_line(row)
         end
       end
@@ -49,14 +48,14 @@ class AddressGenerator
 
   def parse_line(row)
     {
-      'line1' => row[0],
-      'line2' => row[1],
-      'line3' => row[2],
-      'line4' => row[3],
-      'townName' => row[4],
-      'postcode' => row[5],
-      'latitude' => row[5],
-      'longitude' => row[6]
+      'line1' => row['line1'],
+      'line2' => row['line2'],
+      'line3' => row['line3'],
+      'line4' => row['line4'],
+      'townName' => row['town'],
+      'postcode' => row['postcode'],
+      'latitude' => row['lat'],
+      'longitude' => row['long']
     }
   end
 
