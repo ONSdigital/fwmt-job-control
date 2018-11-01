@@ -1,4 +1,6 @@
 {
+    "name": "north",
+    "longname": "North addresses",
     "addresses": [
         {
             "line1": "1 Arlington Ave",

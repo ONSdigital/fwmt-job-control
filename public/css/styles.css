@@ -70,8 +70,6 @@ input[type="password"], input[type="text"] {
 }
 
 input[type="submit"] {
-  background-color: #28a745;
-  background-image: linear-gradient(-180deg, #34d058 0%, #28a745 90%);
   border: 1px solid rgba(27, 31, 35, 0.2);
   border-radius: 0.25em;
   color: #fff;
@@ -82,6 +80,16 @@ input[type="submit"] {
   line-height: 20px;
   padding: 6px 12px;
   vertical-align: middle;
+}
+
+input[type="submit"][name="view"] {
+    background-color: #1074d1;
+    background-image: linear-gradient(-180deg, #1d7bd3 0%, #1074d1 90%);
+}
+
+input[type="submit"][name="send"] {
+    background-color: #28a745;
+    background-image: linear-gradient(-180deg, #34d058 0%, #28a745 90%);
 }
 
 label {
@@ -103,20 +111,30 @@ legend {
   text-transform: uppercase;
 }
 
+.selector {
+  border-left: 20px;
+}
+
+.selector label {
+    display: inline;
+    border-top: none;
+    text-transform: none;
+}
+
 #error p {
   font-size: 140%;
 }
 
-#logo-fwmt {
-  color: #ff4f00;
+.logo span:nth-child(1) {
+    color: #ff4f00;
 }
 
-#logo-job {
-  color: #ba160c;
+.logo span:nth-child(2) {
+    color: #ba160c;
 }
 
-#logo-control {
-  color: #4a628f;
+.logo span:nth-child(3) {
+    color: #4a628f;
 }
 
 #system-info {
@@ -144,4 +162,46 @@ legend {
 
 .message-id {
   margin-left: 20px;
+}
+
+.navbar-entry {
+    position: relative;
+    display: inline-block;
+    /* border-bottom: 1px solid black; */
+}
+
+.navbar-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    border: 1px solid black;
+    padding: 1px;
+    background: white;
+}
+
+.navbar-entry:hover > .navbar-dropdown {
+    display: block;
+}
+
+.navbar-dropdown > span {
+}
+
+.nav-links {
+    font-size: 70%;
+}
+
+.nav-links ul {
+    list-style: none;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: 0px;
+}
+
+.navbar-arrow {
+    border-top: 5px solid black;
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    margin: auto;
+    width: 0px;
+    padding-bottom: 5px;
 }

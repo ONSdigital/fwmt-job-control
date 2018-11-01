@@ -1,3 +1,9 @@
+<% content_for :supertitle do %>
+    TM
+<% end %>
+<% content_for :title do %>
+    Delete Job
+<% end %>
 <form action="/delete" method="post">
   <fieldset>
     <legend>Totalmobile Server</legend>
@@ -7,6 +13,7 @@
         <option value="<%= @fwmt_development_url %>">Development</option>
         <option value="<%= @fwmt_preproduction_url %>">Test</option>
         <option value="<%= @fwmt_production_url %>">Production</option>
+        <option value="<%= @fwmt_censustest_url %>">Census Test</option>
       </select>
     </p>
     <p><label for="user_name">🔑 Credentials:</label></p>

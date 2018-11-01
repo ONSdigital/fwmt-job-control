@@ -1,0 +1,75 @@
+<% content_for :supertitle do %>
+    TM
+<% end %>
+<% content_for :title do %>
+    Create Job
+<% end %>
+<form action="/tm/create" method="post">
+    <fieldset>
+        <legend>Totalmobile Server</legend>
+        <p><label for="server">☁️ Environment:</label></p>
+        <p>
+            <select id="server" name="server">
+                <option value="<%= @fwmt_development_url %>">Development</option>
+                <option value="<%= @fwmt_preproduction_url %>">Test</option>
+                <option value="<%= @fwmt_production_url %>">Production</option>
+                <option value="<%= @fwmt_censustest_url %>">Census Test</option>
+            </select>
+        </p>
+        <p><label for="user_name">🔑 Credentials:</label></p>
+        <% if form.failed_on?(:user_name) || form.failed_on?(:password) %>
+            <p class="error">⚠️ Credentials are required</p>
+        <% end %>
+        <p>
+            <input id="user_name" name="user_name" maxlength="100" size="25" type="text" placeholder="Username"> <input name="password" maxlength="100" size="25" type="password" placeholder="Password">
+        </p>
+    </fieldset>
+    <fieldset>
+        <legend>Jobs</legend>
+        <p><label for="survey">📈 Survey:</label></p>
+        <p>
+            <select id="survey" name="survey">
+                <option value="CCS">Census - CCS</option>
+                <option value="HH">Census - HH</option>
+                <option value="GFF" selected>Social Survey - GFF</option>
+                <option value="LFS">Social Survey - LFS</option>
+            </select>
+        </p>
+        <p><label for="world">🌎 World:</label></p>
+        <p>
+            <input type="radio" id="world" name="world" value="Default" checked> Manual (Default)
+            <input type="radio" name="world" value="MOD WORLD"> Mendel Engine
+        </p>
+        <p><label for="user_names">👥 Totalmobile users (comma separated, leave blank for auto-allocation):</label></p>
+        <% if form.failed_on?(:user_names) %>
+            <p class="error">⚠️ Totalmobile users is a required field</p>
+        <% end %>
+        <p>
+            <input id="user_names" name="user_names" maxlength="100" size="50" type="text" placeholder="Totalmobile users">
+        </p>
+        <p><label for="skills">📚 Skills (comma separated, defaults to Survey if blank)</label></p>
+        <p>
+            <input id="skills" name="skills" maxlength="100" size="50" type="text" placeholder="Skills">
+        </p>
+        <p><label for="job_count">🎚 Jobs per user:</label></p>
+        <% if form.failed_on?(:job_count, :present) %>
+            <p class="error">⚠️ Jobs per user is a required field</p>
+        <% end %>
+        <% if form.failed_on?(:job_count, :int) %>
+            <p class="error">⚠️ Jobs per user must be 1-100</p>
+        <% end %>
+        <p>
+            <input id="job_count" name="job_count" maxlength="3" size="5" type="text" placeholder="1-100">
+        </p>
+        <p><label for="location">🇬🇧 Location:</label></p>
+        <p>
+            <select id="location" name="location">
+                <option value="north">North</option>
+                <option value="east">East</option>
+                <option value="south">South</option>
+                <option value="west">West</option>
+            </select>
+            <input type="submit" value="Send jobs">
+        </p>
+    </fieldset>
+</form>

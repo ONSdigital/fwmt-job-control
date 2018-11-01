@@ -8,8 +8,10 @@ gem 'rest-client'
 gem 'sinatra'
 gem 'sinatra-flash'
 gem 'sinatra-formkeeper'
+gem 'sinatra-contrib'
 gem 'sucker_punch', '~> 2.0'
 gem 'user_agent_parser'
+gem 'bunny', '>= 2.6.4'
 
 group :development do
   gem 'rerun'

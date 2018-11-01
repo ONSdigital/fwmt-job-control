@@ -1,4 +1,6 @@
 {
+    "name": "south",
+    "longname": "South addresses",
     "addresses": [
         {
             "line1": "5 Chesil Wood",

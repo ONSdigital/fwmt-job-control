@@ -36,6 +36,7 @@ The environment variables below must be provided:
 FWMT_DEVELOPMENT_URL
 FWMT_PREPRODUCTION_URL
 FWMT_PRODUCTION_URL
+FWMT_CENSUSTEST_URL
 ```
 
 ## Building
