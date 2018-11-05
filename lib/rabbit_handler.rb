@@ -7,8 +7,9 @@ class RabbitHandler
   CHANNEL_NAME = 'rm-jobsvc-exchange'
   ROUTING_KEY = 'jobsvc.job.request'
 
-  def initialize(url, username, password)
-    @connection = Bunny.new(hostname: url, username: username, password: password)
+  def initialize(url, username, password, vhost)
+    p vhost
+    @connection = Bunny.new(hostname: url, username: username, password: password, vhost: vhost)
     @connection.start
     @channel = @connection.create_channel
     @exchange = @channel.direct(CHANNEL_NAME, durable: true)

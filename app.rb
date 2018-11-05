@@ -149,9 +149,10 @@ end
 
 post '/rabbit/create' do
   form do
-    field :server, present: true, filters: :strip
-    field :username, present: true, filters: :strip
-    field :password, present: true, filters: :strip
+    field :server,   present: true,  filters: :strip
+    field :username, present: true,  filters: :strip
+    field :password, present: true,  filters: :strip
+    field :vhost,    present: false, filters: :strip
 
     field :idKind, present: true, regexp: %r{^(single|list|incr|rand)$}
     field :id,          present: false, filters: :strip # use one ID (single job only)
@@ -190,7 +191,8 @@ post '/rabbit/create' do
     output = erb :'rabbit/create'
     fill_in_form(output)
   else
-    handler = RabbitHandler.new(form[:server], form[:username], form[:password])
+    vhost = form[:vhost].length == 0 ? nil : form[:vhost]
+    handler = RabbitHandler.new(form[:server], form[:username], form[:password], vhost)
     result = handler.run(form)
     handler.close
     flash[:notice] = 'All jobs sent to Rabbit'
