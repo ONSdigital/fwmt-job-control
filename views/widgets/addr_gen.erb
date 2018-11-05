@@ -1,0 +1,57 @@
+<div id="addr_form">
+    <p><label>👥 Address:</label></p>
+
+    <% if form.failed_on?(:addr_kind, :present) %>
+        <p class="error">⚠️ Please select an option</p>
+    <% end %>
+
+    <p id="addr_radios" class="selector">
+        <span>Address source:</span>
+
+        <input type="radio" name="addr_kind" value="single" id="addr_radio_single" checked />
+        <label for="addr_radio_single">Single address</label>
+
+        <input type="radio" name="addr_kind" value="preset" id="addr_radio_preset_list" />
+        <label for="addr_radio_preset_list">Addresses from preset list</label>
+
+        <input type="radio" name="addr_kind" value="list" id="addr_radio_custom_list" />
+        <label for="addr_radio_custom_list">Custom address list</label>
+
+        <input type="radio" name="addr_kind" value="file" id="addr_radio_custom_file" />
+        <label for="addr_radio_custom_file">Custom address file</label>
+    </p>
+
+    <p id="addr_radios_strategy" class="selector">
+        <span>Address selection strategy:</span>
+
+        <input type="radio" name="addr_strategy" value="random" id="addr_radio_strat_random" checked />
+        <label for="addr_radio_strat_random" title="Send jobs at random">Random</label>
+
+        <input type="radio" name="addr_strategy" value="incremental" id="addr_radio_strat_incr" />
+        <label for="addr_radio_strat_incr" title="Send jobs in the order they appear in the list, looping if needed">Incremental</label>
+
+        <input type="radio" name="addr_strategy" value="once_per" id="addr_radio_strat_once_per" />
+        <label for="addr_radio_strat_once_per" title="Send exactly the number of jobs in the list">Once per address</label>
+    </p>
+
+    <p id="addr_input_single">
+        <span>Input an address in the form: 'line1,line2,line3,line4,town,postcode,lat,long'</span>
+        <br>
+        <input name="addr_single" maxlength="100" size="50" type="text" placeholder="Address">
+    </p>
+    <p id="addr_input_preset">
+        <select name="addr_preset">
+            <% preset_address_lists().each do |preset| %>
+                <option value="<%= preset["name"] %>"><%= preset["longname"] %></option>
+            <% end %>
+        </select>
+    </p>
+    <p id="addr_input_list">
+        <textarea name="addr_list" rows="4" cols="50">line1,line2,line3,line4,town,postcode,lat,long</textarea>
+    </p>
+    <p id="addr_input_file">
+        <span>Select a CSV file containing the headings: 'line1,line2,line3,line4,town,postcode,lat,long'</span>
+        <br>
+        <input type="file" name="addr_file">
+    </p>
+</div>
