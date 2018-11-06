@@ -21,10 +21,29 @@ require_relative 'lib/rabbit_create_generator'
 require_relative 'lib/job_request'
 require_relative 'lib/rabbit_handler'
 
+# TM Endpoints
 set :fwmt_development_url,   ENV['FWMT_DEVELOPMENT_URL']
 set :fwmt_preproduction_url, ENV['FWMT_PREPRODUCTION_URL']
 set :fwmt_production_url,    ENV['FWMT_PRODUCTION_URL']
 set :fwmt_censustest_url,    ENV['FWMT_CENSUSTEST_URL']
+
+# Admin Login
+set :fwmt_admin_username,    ENV['FWMT_ADMIN_USERNAME']
+set :fwmt_admin_password,    ENV['FWMT_ADMIN_PASSWORD']
+
+# Census Login
+set :fwmt_census_username,   ENV['FWMT_CENSUS_USERNAME']
+set :fwmt_census_password,   ENV['FWMT_CENSUS_PASSWORD']
+
+# SSD Login
+set :fwmt_ssd_username,      ENV['FWMT_SSD_USERNAME']
+set :fwmt_ssd_password,      ENV['FWMT_SSD_PASSWORD']
+
+# CloudFoundry Settings
+set :fwmt_cf_enabled,        ENV['FWMT_CF_ENABLED']
+set :fwmt_cf_env_name,       ENV['FWMT_CF_ENV_NAME']
+set :fwmt_cf_env_tm_url,     ENV['FWMT_CF_ENV_TM_URL']
+set :fwmt_cf_env_rabbit_url, ENV['FWMT_CF_ENV_RABBIT_URL']
 
 enable :sessions
 
