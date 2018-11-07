@@ -31,14 +31,6 @@ set :fwmt_censustest_url,    ENV['FWMT_CENSUSTEST_URL']
 set :fwmt_admin_username,    ENV['FWMT_ADMIN_USERNAME']
 set :fwmt_admin_password,    ENV['FWMT_ADMIN_PASSWORD']
 
-# Census Login
-set :fwmt_census_username,   ENV['FWMT_CENSUS_USERNAME']
-set :fwmt_census_password,   ENV['FWMT_CENSUS_PASSWORD']
-
-# SSD Login
-set :fwmt_ssd_username,      ENV['FWMT_SSD_USERNAME']
-set :fwmt_ssd_password,      ENV['FWMT_SSD_PASSWORD']
-
 # CloudFoundry Settings
 set :fwmt_cf_enabled,        ENV['FWMT_CF_ENABLED']
 set :fwmt_cf_env_name,       ENV['FWMT_CF_ENV_NAME']

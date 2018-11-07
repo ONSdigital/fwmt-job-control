@@ -1,6 +1,4 @@
-<fieldset>
-    <legend>Rabbit Queue Details</legend>
-
+<div id="rabbit_form">
     <p><label for="rabbit_input_url">☁️ Queue URL:</label></p>
     <% if form.failed_on?(:rabbit_url, :required) %>
         <p class="error">⚠️ A URL is required</p>
@@ -16,4 +14,5 @@
         <input name="rabbit_password" type="password" placeholder="Password" maxlength="100" size="25">
         <input name="rabbit_vhost" type="text" placeholder="Virtual Host" maxlength="100" size="25">
     </p>
-</fieldset>
+
+</div>
