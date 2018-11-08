@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require 'time'
-require 'json'
-
 require_relative 'visit_job'
 require_relative 'update_job'
 require_relative 'delete_job'

@@ -9,7 +9,7 @@
 <script src="/js/rabbit-create.js" type="text/javascript"></script>
 
 <form action="/rabbit/create" method="post" enctype="multipart/form-data">
-    <% if not @fwmt_cf_enabled %>
+    <% if not settings.fwmt_cf_enabled %>
         <fieldset>
             <legend>Rabbit Queue Details</legend>
 
