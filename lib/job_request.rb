@@ -66,10 +66,10 @@ class JobRequest
   end
 
   def load_address_files
-    @north_addresses = JSON.parse(File.read(File.join(__dir__, '../../data/addresses_north.json')))
-    @east_addresses  = JSON.parse(File.read(File.join(__dir__, '../../data/addresses_east.json')))
-    @south_addresses = JSON.parse(File.read(File.join(__dir__, '../../data/addresses_south.json')))
-    @west_addresses  = JSON.parse(File.read(File.join(__dir__, '../../data/addresses_west.json')))
+    @north_addresses = JSON.parse(File.read(File.join(__dir__, '../data/addresses_north.json')))
+    @east_addresses  = JSON.parse(File.read(File.join(__dir__, '../data/addresses_east.json')))
+    @south_addresses = JSON.parse(File.read(File.join(__dir__, '../data/addresses_south.json')))
+    @west_addresses  = JSON.parse(File.read(File.join(__dir__, '../data/addresses_west.json')))
   end
 
   def select_random_address
