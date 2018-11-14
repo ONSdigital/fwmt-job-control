@@ -23,7 +23,6 @@ class JobRequest
     load_address_files
 
     mendel = form[:world] != "Default"
-    p mendel
 
     user_names = form[:user_names].split(',')
     user_names.each do |user_name|
