@@ -22,12 +22,15 @@ class JobRequest
     @location = form[:location]
     load_address_files
 
+    mendel = form[:world] != "Default"
+    p mendel
+
     user_names = form[:user_names].split(',')
     user_names.each do |user_name|
-      1.upto(form[:job_count].to_i) { send_create_message_for_survey(form[:survey], user_name, form[:skills], form[:world], form[:mendel]) }
+      1.upto(form[:job_count].to_i) { send_create_message_for_survey(form[:survey], user_name, form[:skills], form[:world], mendel) }
     end
 
-    send_create_message_for_survey(form[:survey], nil, form[:skills], form[:world]) if user_names.empty?
+    send_create_message_for_survey(form[:survey], nil, form[:skills], form[:world], mendel) if user_names.empty?
   end
 
   def send_create_message_for_survey(survey, user_name, skills, world, mendel)
