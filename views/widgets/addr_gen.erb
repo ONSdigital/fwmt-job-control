@@ -1,3 +1,5 @@
+<script src="js/addr_gen.js" type="text/javascript"></script>
+
 <div id="addr_form">
     <p><label>👥 Address:</label></p>
 
@@ -5,7 +7,7 @@
         <p class="error">⚠️ Please select an option</p>
     <% end %>
 
-    <p id="addr_radios" class="selector">
+    <p id="addr_radios_kind" class="selector">
         <span>Address source:</span>
 
         <input type="radio" name="addr_kind" value="single" id="addr_radio_single" checked />
@@ -42,7 +44,7 @@
     <p id="addr_input_preset">
         <select name="addr_preset">
             <% preset_address_lists().each do |preset| %>
-                <option value="<%= preset["name"] %>"><%= preset["longname"] %></option>
+                <option value="<%= preset['name'] %>"><%= preset['longname'] %></option>
             <% end %>
         </select>
     </p>
