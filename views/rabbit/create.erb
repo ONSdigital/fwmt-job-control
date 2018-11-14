@@ -31,6 +31,7 @@
                 <option value="CCS">Census - CCS</option>
                 <option value="HH">Census - HH</option>
                 <option value="OHS">Census - OHS</option>
+                <option value="CE">Census - CE</option>
                 <option value="GFF" selected>Social Survey - GFF</option>
                 <option value="LFS">Social Survey - LFS</option>
                 <option value="Custom">Custom</option>
@@ -162,7 +163,7 @@
         </div>
 
         <div id="form_addr">
-            <p><label>👥 Address:</label></p>
+            <p><label>🏘️ Address:</label></p>
 
             <% if form.failed_on?(:addrKind, :present) %>
                 <p class="error">⚠️ A means of providing an address must be selected</p>
@@ -218,6 +219,8 @@
                 <input type="file" name="addrFile">
             </p>
         </div>
+
+        <%= erb :'widgets/contact' %>
 
         <div id="form_additional_props">
             <p><label>👥 Additional Properties:</label></p>

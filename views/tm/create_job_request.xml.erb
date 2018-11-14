@@ -58,9 +58,15 @@
                     <ns3:WorkType><%= work_type %></ns3:WorkType>
                     <ns3:Dispatched>false</ns3:Dispatched>
                   <% if user_name %>
-                    <ns3:AllocatedTo>
+                    <% if mendel %>
+                      <ns3:MandatoryResource>
                         <ns3:Username><%= user_name %></ns3:Username>
-                    </ns3:AllocatedTo>
+                      </ns3:MandatoryResource>
+                    <% else %>
+                      <ns3:AllocatedTo>
+                          <ns3:Username><%= user_name %></ns3:Username>
+                      </ns3:AllocatedTo>
+                    <% end %>
                   <% end %>
                     <ns3:AppointmentPending>false</ns3:AppointmentPending>
                     <ns3:World>

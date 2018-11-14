@@ -24,18 +24,18 @@ class JobRequest
 
     user_names = form[:user_names].split(',')
     user_names.each do |user_name|
-      1.upto(form[:job_count].to_i) { send_create_message_for_survey(form[:survey], user_name, form[:skills], form[:world]) }
+      1.upto(form[:job_count].to_i) { send_create_message_for_survey(form[:survey], user_name, form[:skills], form[:world], form[:mendel]) }
     end
 
     send_create_message_for_survey(form[:survey], nil, form[:skills], form[:world]) if user_names.empty?
   end
 
-  def send_create_message_for_survey(survey, user_name, skills, world)
+  def send_create_message_for_survey(survey, user_name, skills, world, mendel)
     job_id = SecureRandom.hex(4)
 
     # Dynamically dispatch to the private create method for the survey.
     method_name = "send_#{survey.downcase}_create_message"
-    send(method_name, job_id, user_name, skills, world)
+    send(method_name, job_id, user_name, skills, world, mendel)
   end
 
   def send_delete_message(job_ids)
@@ -54,7 +54,7 @@ class JobRequest
 
   private
 
-  def default_survey_variables(job_id, user_name, skills, world)
+  def default_survey_variables(job_id, user_name, skills, world, mendel)
     { job_id: job_id,
       address: select_random_address,
       tla: nil,
@@ -62,7 +62,8 @@ class JobRequest
       work_type: nil,
       user_name: user_name,
       skills: skills,
-      world: world }
+      world: world,
+      mendel: mendel }
   end
 
   def load_address_files
@@ -77,32 +78,32 @@ class JobRequest
     instance_variable_get("@#{@location}_addresses")['addresses'][rand(1..LAST_ADDRESS)]
   end
 
-  def send_ccs_create_message(job_id, user_name, skills, world)
-    variables = default_survey_variables(job_id, user_name, skills, world).merge(
+  def send_ccs_create_message(job_id, user_name, skills, world, mendel)
+    variables = default_survey_variables(job_id, user_name, skills, world, mendel).merge(
       tla: 'CCS', work_type: 'CCS'
     )
 
     send_create_job_request_message(job_id, variables)
   end
 
-  def send_gff_create_message(job_id, user_name, skills, world)
-    variables = default_survey_variables(job_id, user_name, skills, world).merge(
+  def send_gff_create_message(job_id, user_name, skills, world, mendel)
+    variables = default_survey_variables(job_id, user_name, skills, world, mendel).merge(
       tla: 'SLC', work_type: 'SS'
     )
 
     send_create_job_request_message(job_id, variables)
   end
 
-  def send_hh_create_message(job_id, user_name, skills, world)
-    variables = default_survey_variables(job_id, user_name, skills, world).merge(
+  def send_hh_create_message(job_id, user_name, skills, world, mendel)
+    variables = default_survey_variables(job_id, user_name, skills, world, mendel).merge(
       tla: 'Census', work_type: 'HH'
     )
 
     send_create_job_request_message(job_id, variables)
   end
 
-  def send_lfs_create_message(job_id, user_name, skills, world)
-    variables = default_survey_variables(job_id, user_name, skills, world).merge(
+  def send_lfs_create_message(job_id, user_name, skills, world, mendel)
+    variables = default_survey_variables(job_id, user_name, skills, world, mendel).merge(
       tla: 'LFS', work_type: 'SS'
     )
 

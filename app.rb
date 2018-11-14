@@ -212,7 +212,7 @@ post '/rabbit/create' do
     field :idIncrStart, present: false, filters: :strip # pick IDs above the start
     # or, randomly generate IDs
 
-    field :surveyType, present: true, regexp: %r{^(CCS|HH|GFF|LFS|OHS)$}, filters: :strip
+    field :surveyType, present: true, regexp: %r{^(CCS|HH|GFF|CE|LFS|OHS)$}, filters: :strip
 
     field :resNoKind, present: true, regexp: %r{^(single|list)$}, filters: :strip
     field :resNo,     present: false # use one resource number
@@ -229,6 +229,11 @@ post '/rabbit/create' do
     field :addrPreset,   present: false, filters: :strip
     field :addrList,     present: false, filters: :strip
     field :addrFile,     present: false
+
+    field :contact_name,         present: false, filters: :strip
+    field :contact_surname,      present: false, filters: :strip
+    field :contact_email,        present: false, filters: :strip
+    field :contact_phone_number, present: false, filters: :strip
 
     field :additionalProperties, present: false
 
@@ -249,6 +254,7 @@ post '/rabbit/create' do
                                   settings.fwmt_cf_rabbit_password,
                                   settings.fwmt_cf_rabbit_vhost)
     else
+      vhost = form[:vhost]
       vhost = form[:vhost].length == 0 ? nil : form[:vhost]
       handler = RabbitHandler.new(form[:server], form[:username], form[:password], vhost)
     end
