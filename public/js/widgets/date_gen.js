@@ -15,5 +15,5 @@ $(document).ready(function() {
         }
     }
     $("#due_date_radio_set, #due_date_radio_hours, #due_date_radio_days").change(due_date_update);
-    form_due_date_select.call($("#due_date_form input:checked").filter(":first")[0]);
+    due_date_update.call($("#due_date_form input:checked").filter(":first")[0]);
 });

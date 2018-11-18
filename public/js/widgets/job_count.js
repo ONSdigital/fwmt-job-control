@@ -7,6 +7,6 @@ $(document).ready(function() {
             $('#job_count_form input').prop('disabled', true);
         }
     }
-    $('#addr_radio_strat_random, #addr_radio_strat_incr, #addr_radio_strat_once_per').change(addr_form_update_strategy);
+    $('#addr_radio_strat_random, #addr_radio_strat_incr, #addr_radio_strat_once_per').change(job_count_update);
     job_count_update.call();
 });
