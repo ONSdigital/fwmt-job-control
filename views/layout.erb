@@ -1,51 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <title><%= yield_content :supertitle %> - <%=yield_content :title %> - FWMT Job Control</title>
-        <link rel="stylesheet" type="text/css" href="/css/styles.css">
+        <link rel="stylesheet" type="text/css" href="/css/styles.css"/>
         <script type="text/javascript" src="/js/jquery-latest.js"></script>
     </head>
     <body>
-        <h1 class="navbar-header">
-            <a href="/" class="logo">
-                <span>FWMT</span>
-                <span>Job</span>
-                <span>Control</span>
-                <% if settings.fwmt_cf_enabled %>
-                    <span>(<%= settings.fwmt_cf_env_name %>)</span>
-                <% end %>
-            </a>
-            <span> ➤ </span>
-            <div class="navbar-entry">
-                <span><%=yield_content :supertitle %></span>
-                <div class="navbar-arrow"></div>
-                <div class="navbar-dropdown nav-links">
-                    <ul>
-                        <li><a href="/tm">TM</a></li>
-                        <li><a href="/rabbit">Rabbit</a></li>
-                    </ul>
+        <div style="header-div">
+            <h1>
+                <a href="/" class="logo">
+                    <span>FWMT</span>
+                    <span>Job</span>
+                    <span>Control</span>
+                    <% if settings.fwmt_cf_enabled %>
+                        <span>(<%= settings.fwmt_cf_env_name %>)</span>
+                    <% end %>
+                </a>
+            </h1>
+            <div class="header-div-inner h1-div">
+                <span> ➤ </span>
+                <div class="navbar-entry">
+                    <span><%=yield_content :supertitle %></span>
+                    <span class="navbar-arrow"></span>
+                    <div class="navbar-dropdown nav-links">
+                        <ul>
+                            <li><a href="/tm">TM</a></li>
+                            <li><a href="/rabbit">Rabbit</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <span> ➤ </span>
+                <div class="navbar-entry">
+                    <span><%=yield_content :title %></span>
+                    <span class="navbar-arrow"></span>
+                    <div class="navbar-dropdown nav-links">
+                        <ul>
+                            <li><a href="create">Create</a></li>
+                            <li><a href="delete">Delete</a></li>
+                            <li><a href="reallocate">Reallocate</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <span> ➤ </span>
-            <div class="navbar-entry">
-                <span><%=yield_content :title %></span>
-                <div class="navbar-arrow"></div>
-                <div class="navbar-dropdown nav-links">
-                    <ul>
-                        <li><a href="create">Create</a></li>
-                        <li><a href="delete">Delete</a></li>
-                        <li><a href="reallocate">Reallocate</a></li>
-                    </ul>
-                </div>
-            </div>
-        </h1>
+        </div>
+
         <% if flash[:error] %>
             <p class="error">⚠️ <%= flash[:error] %></p>
         <% end %>
+
         <% if flash[:notice] %>
             <p class="notice">✅ <%= flash[:notice] %></p>
         <% end %>
+
         <%= yield %>
     </body>
 </html>

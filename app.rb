@@ -223,12 +223,7 @@ post '/rabbit/create' do
     field :dueDateHours, present: false, filters: :strip
     field :dueDateDays,  present: false, filters: :strip
 
-    field :addrKind, present: true, regexp: %r{^(single|preset|list|file)$}, filters: :strip
-    field :addrStrategy, present: false, regexp: %r{^(random|incremental|once_per)$}, filters: :strip
-    field :addr,         present: false, filters: :strip
-    field :addrPreset,   present: false, filters: :strip
-    field :addrList,     present: false, filters: :strip
-    field :addrFile,     present: false
+    AddressGenerator.form_config self
 
     field :contact_name,         present: false, filters: :strip
     field :contact_surname,      present: false, filters: :strip
@@ -244,8 +239,9 @@ post '/rabbit/create' do
   end
 
   if form.failed?
-    output = erb :'rabbit/create'
     p form
+    flash.now[:error] = 'Error in form'
+    output = erb :'rabbit/create'
     fill_in_form(output)
   else
     if settings.fwmt_cf_enabled
@@ -298,7 +294,6 @@ post '/rabbit/update' do
     redirect '/reallocate'
   end
 end
-
 
 error 404 do
   erb :error, locals: { title: 'Error 404', user_agent: parse_user_agent }

@@ -35,8 +35,9 @@ form {
   width: 50%;
 }
 
-h1 {
+h1, .h1-div {
   font-size: 240%;
+  font-weight: bold;
   text-transform: uppercase;
 }
 
@@ -208,4 +209,13 @@ legend {
     margin: auto;
     width: 0px;
     padding-bottom: 5px;
+    display: block;
+}
+
+.header-div {
+    text-align: center;
+}
+
+.header-div-inner, h1 {
+    display: inline;
 }

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'sinatra/formkeeper'
+
 class AddressGenerator
   def initialize(kind, strategy, addr_single = nil, addr_preset = nil, addr_list = nil, addr_file = nil)
     raise ArgumentError, 'invalid kind' unless %w[single preset list file].include?(kind)
@@ -44,6 +46,15 @@ class AddressGenerator
       end
     end
     @index = 0
+  end
+
+  def self.form_config(form)
+    form.field :addr_kind,     present: true,  regexp: %r{^(single|preset|list|file)$}, filters: :strip
+    form.field :addr_strategy, present: false, regexp: %r{^(random|incremental|once_per)$}, filters: :strip
+    form.field :addr_single,   present: false, filters: :strip
+    form.field :addr_preset,   present: false, filters: :strip
+    form.field :addr_list,     present: false, filters: :strip
+    form.field :addr_file,     present: false
   end
 
   def parse_line(row)
