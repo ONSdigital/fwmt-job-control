@@ -3,7 +3,7 @@
 class DateGenerator
   def self.form_config(form)
     form.field :due_date_kind, present: true, regexp: %r{^(set|hours|days)$}, filters: :strip
-    form.field :due_date,             present: false, filters: :strip
+    form.field :due_date_set,         present: false, filters: :strip
     form.field :due_date_hours_ahead, present: false, filters: :strip
     form.field :due_date_days_ahead,  present: false, filters: :strip
   end

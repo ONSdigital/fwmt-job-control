@@ -31,7 +31,7 @@ class RabbitHandler
     id_gen = IDGenerator.new(form[:id_kind], form[:id], form[:id_list], form[:id_incr_start])
     addr_gen = AddressGenerator.new(form[:addr_kind], form[:addr_strategy], form[:addr_single], form[:addr_preset], form[:addr_list], form[:addr_file])
     count = form[:count].nil? ? addr_gen.length : form[:count].to_i
-    date_gen = DateGenerator.new(form[:due_date_kind], form[:due_date], form[:due_date_hours_ahead], form[:due_date_days_ahead])
+    date_gen = DateGenerator.new(form[:due_date_kind], form[:due_date_set], form[:due_date_hours_ahead], form[:due_date_days_ahead])
     contact_gen = ContactGenerator.new(form[:contact_name], form[:contact_surname], form[:contact_email], form[:contact_phone_number])
     additional_properties = AddProps.hash_props(form[:additional_properties])
     request_gen = RabbitCreateGenerator.new(survey_type = survey_type,
