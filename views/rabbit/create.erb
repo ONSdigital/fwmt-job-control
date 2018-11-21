@@ -6,9 +6,10 @@
     Create Job
 <% end %>
 
-<% if flash[:notice] %>
-    <p class="notice">✅ <%= flash[:notice] %></p>
+<% if flash[:jobs] %>
+    <p class="job_id_list">✅ <%= flash[:jobs] %></p>
 <% end %>
+
 
 <form action="/rabbit/create" method="post" enctype="multipart/form-data">
     <% if not settings.fwmt_cf_enabled %>

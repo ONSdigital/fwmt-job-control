@@ -8,17 +8,25 @@
     <% end %>
 
     <p class="selector">
-        <input type="radio" name="world" value="Default" id="radio_world_default" checked>
-        <label for="radio_world_default">Manual (Default)</label>
+        <input type="radio" name="tm_world" value="Default" id="world_radio_manual" checked>
+        <label for="world_radio_manual">Manual (Default)</label>
 
-        <input type="radio" name="world" value="MOD WORLD" id="radio_world_mendel">
-        <label for="radio_world_mendel">Mendel Engine (MOD WORLD)</label>
+        <input type="radio" name="tm_world" value="MOD WORLD" id="world_radio_mendel">
+        <label for="world_radio_mendel">Mendel Engine (MOD WORLD)</label>
 
-        <input type="radio" name="world" value="Custom" id="radio_world_custom">
-        <label for="radio_world_custom">Custom</label>
+        <input type="radio" name="tm_world" value="custom" id="world_radio_custom">
+        <label for="world_radio_custom">Custom</label>
     </p>
 
-    <p id="input_world_custom">
-        <input name="customWorldName" maxlength="100" size="50" type="text" placeholder="Custom world name">
+    <p id="world_input_custom">
+        <input name="tm_world_custom" maxlength="100" size="50" type="text" placeholder="Custom world name">
+    </p>
+
+    <p id="world_input_mendel" class="selector">
+        <input type="radio" name="tm_world_custom_type" value="manual" id="world_radio_c_d" checked>
+        <label for="world_radio_c_d">Manual</label>
+
+        <input type="radio" name="tm_world_custom_type" value="mendel" id="world_radio_c_m">
+        <label for="world_radio_c_m">Mendel</label>
     </p>
 </div>

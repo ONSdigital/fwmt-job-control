@@ -15,10 +15,7 @@ require_relative 'lib/cf_env_parser'
 
 require_relative 'lib/address_data'
 
-require_relative 'lib/date_generator'
-require_relative 'lib/address_generator'
-require_relative 'lib/id_generator'
-require_relative 'lib/resno_generator'
+require_relative 'lib/widgets'
 
 require_relative 'lib/rabbit_create_generator'
 
@@ -201,36 +198,23 @@ end
 
 post '/rabbit/create' do
   form do
-    field :server,   present: false, filters: :strip
-    field :username, present: false, filters: :strip
-    field :password, present: false, filters: :strip
-    field :vhost,    present: false, filters: :strip
+    TMServer.form_config self
 
-    field :idKind, present: true, regexp: %r{^(single|list|incr|rand)$}
-    field :id,          present: false, filters: :strip # use one ID (single job only)
-    field :idList,      present: false, filters: :strip # provide a list of IDs
-    field :idIncrStart, present: false, filters: :strip # pick IDs above the start
-    # or, randomly generate IDs
+    TMWorld.form_config self
 
-    field :surveyType, present: true, regexp: %r{^(CCS|HH|GFF|CE|LFS|OHS)$}, filters: :strip
+    ResnoGenerator.form_config self
 
-    field :resNoKind, present: true, regexp: %r{^(single|list)$}, filters: :strip
-    field :resNo,     present: false # use one resource number
-    field :resNoList, present: false # split jobs between a list of resource numbers
+    IDGenerator.form_config self
 
-    field :dueDateKind,  present: true, regexp: %r{^(set|hours|days)$}, filters: :strip
-    field :dueDate,      present: false, filters: :strip
-    field :dueDateHours, present: false, filters: :strip
-    field :dueDateDays,  present: false, filters: :strip
+    SurveyType.form_config self
+
+    DateGenerator.form_config self
 
     AddressGenerator.form_config self
 
-    field :contact_name,         present: false, filters: :strip
-    field :contact_surname,      present: false, filters: :strip
-    field :contact_email,        present: false, filters: :strip
-    field :contact_phone_number, present: false, filters: :strip
+    ContactGenerator.form_config self
 
-    field :additionalProperties, present: false
+    AddProps.form_config self
 
     field :count, uint: true
 
@@ -250,15 +234,17 @@ post '/rabbit/create' do
                                   settings.fwmt_cf_rabbit_password,
                                   settings.fwmt_cf_rabbit_vhost)
     else
-      vhost = form[:vhost]
-      vhost = form[:vhost].length == 0 ? nil : form[:vhost]
-      handler = RabbitHandler.new(form[:server], form[:username], form[:password], vhost)
+      vhost = form[:rabbit_vhost]
+      if not vhost.nil?
+        vhost = vhost.length == 0 ? nil : vhost
+      end
+      handler = RabbitHandler.new(form[:rabbit_server], form[:rabbit_username], form[:rabbit_password], vhost)
     end
     result = handler.run(form)
     handler.close
     flash[:notice] = 'All jobs sent to Rabbit'
-    redirect '/rabbit/create' if form[:send]
     flash[:jobs] = result
+    redirect '/rabbit/create' if form[:send]
     redirect '/rabbit/show' if form[:view]
   end
 end

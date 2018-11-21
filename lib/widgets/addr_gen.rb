@@ -3,6 +3,15 @@
 require 'sinatra/formkeeper'
 
 class AddressGenerator
+  def self.form_config(form)
+    form.field :addr_kind,     present: true,  regexp: %r{^(single|preset|list|file)$}, filters: :strip
+    form.field :addr_strategy, present: false, regexp: %r{^(random|incremental|once_per)$}, filters: :strip
+    form.field :addr_single,   present: false, filters: :strip
+    form.field :addr_preset,   present: false, filters: :strip
+    form.field :addr_list,     present: false, filters: :strip
+    form.field :addr_file,     present: false
+  end
+
   def initialize(kind, strategy, addr_single = nil, addr_preset = nil, addr_list = nil, addr_file = nil)
     raise ArgumentError, 'invalid kind' unless %w[single preset list file].include?(kind)
     raise ArgumentError, 'invalid strategy' unless %w[random incremental once_per].include?(strategy)
@@ -21,7 +30,7 @@ class AddressGenerator
       raise ArgumentError, 'no address provided' if addr_single.nil?
       raise ArgumentError, 'address is not a string' unless addr_single.is_a?(String)
 
-      @addresses = [parse_line(addr_single.split(','))]
+      @addresses = [parse_line_from_list(addr_single.split(','))]
     when 'preset'
       @kind = :preset
       raise ArgumentError, 'no address preset list provided' if addr_single.nil?
@@ -41,32 +50,36 @@ class AddressGenerator
       while data = addr_file[:tempfile].read(65_536)
         @addresses = []
         CSV.parse(data, headers: true) do |row|
-          @addresses << parse_line(row)
+          @addresses << parse_line_from_hash(row)
         end
       end
     end
     @index = 0
   end
 
-  def self.form_config(form)
-    form.field :addr_kind,     present: true,  regexp: %r{^(single|preset|list|file)$}, filters: :strip
-    form.field :addr_strategy, present: false, regexp: %r{^(random|incremental|once_per)$}, filters: :strip
-    form.field :addr_single,   present: false, filters: :strip
-    form.field :addr_preset,   present: false, filters: :strip
-    form.field :addr_list,     present: false, filters: :strip
-    form.field :addr_file,     present: false
+  def parse_line_from_hash(hash)
+    {
+      'line1' => hash['line1'],
+      'line2' => hash['line2'],
+      'line3' => hash['line3'],
+      'line4' => hash['line4'],
+      'townName' => hash['town'],
+      'postcode' => hash['postcode'],
+      'latitude' => hash['lat'],
+      'longitude' => hash['long']
+    }
   end
 
-  def parse_line(row)
+  def parse_line_from_list(list)
     {
-      'line1' => row['line1'],
-      'line2' => row['line2'],
-      'line3' => row['line3'],
-      'line4' => row['line4'],
-      'townName' => row['town'],
-      'postcode' => row['postcode'],
-      'latitude' => row['lat'],
-      'longitude' => row['long']
+      'line1' => list[0],
+      'line2' => list[1],
+      'line3' => list[2],
+      'line4' => list[3],
+      'townName' => list[4],
+      'postcode' => list[5],
+      'latitude' => list[6],
+      'longitude' => list[7]
     }
   end
 

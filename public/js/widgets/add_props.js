@@ -7,6 +7,7 @@ $(document).ready(function() {
         template = $("#input_additional_prop_template").clone();
         template.find("button").click(delete_additional_property);
         template.removeAttr("id");
+        template.find("input").prop('disabled', false);
         template.appendTo($("#form_additional_props"));
         template.show();
     }

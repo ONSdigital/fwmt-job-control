@@ -3,15 +3,15 @@
 <div id="form_additional_props">
     <p><label>👥 Additional Properties:</label></p>
 
-    <% if form.failed_on?(:additionalProperties) %>
+    <% if form.failed_on?(:additional_properties) %>
         <p class="error">⚠️ Fail!</p>
     <% end %>
 
     <button id="button_add_property" type="button">Add property</button>
 
     <p id="input_additional_prop_template" hidden>
-        <input name="additionalProperties[][key]" maxlength="100" size="15" type="text" placeholder="Key">
-        <input name="additionalProperties[][value]" maxlength="100" size="50" type="text" placeholder="Value">
+        <input name="additional_properties[][key]" maxlength="100" size="15" type="text" placeholder="Key" disabled>
+        <input name="additional_properties[][value]" maxlength="100" size="50" type="text" placeholder="Value" disabled>
         <button type="button">X</button>
     </p>
 </div>

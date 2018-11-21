@@ -1,6 +1,14 @@
 # frozen_string_literal: true
 
 class ResnoGenerator
+  def self.form_config(form)
+    form.field :resno_kind, present: true, regexp: %r{^(single|list)$}, filters: :strip
+    # use one resource number
+    form.field :resno_single, present: false
+    # split jobs between a list of resource numbers
+    form.field :resno_list, present: false
+  end
+
   def initialize(kind, authno_single = nil, authno_list = nil)
     raise ArgumentError, 'invalid kind' unless %w[single list].include?(kind)
 
