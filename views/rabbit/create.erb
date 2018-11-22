@@ -7,9 +7,8 @@
 <% end %>
 
 <% if flash[:jobs] %>
-    <p class="job_id_list">✅ <%= flash[:jobs] %></p>
+    <p class="job_ids">✅ <%= flash[:jobs] %></p>
 <% end %>
-
 
 <form action="/rabbit/create" method="post" enctype="multipart/form-data">
     <% if not settings.fwmt_cf_enabled %>

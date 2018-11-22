@@ -50,6 +50,6 @@ class RabbitHandler
       send_one(request)
       request_ids << request[:jobIdentity]
     end
-    return request_ids
+    return request_ids.join(',')
   end
 end
