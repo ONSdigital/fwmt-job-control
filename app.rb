@@ -134,13 +134,14 @@ end
 post '/tm/delete' do
   form do
     filters :strip
-    field :server,    present: true
-    field :user_name, present: true
-    field :password,  present: true
+    field :server,    present: false
+    field :user_name, present: false
+    field :password,  present: false
     field :job_ids,   present: true
   end
 
   if form.failed?
+    p form
     output = erb :'tm/delete'
     fill_in_form(output)
   else
