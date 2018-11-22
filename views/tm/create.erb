@@ -21,7 +21,7 @@
             </p>
             <p><label for="user_name">🔑 Credentials:</label></p>
             <% if form.failed_on?(:user_name) || form.failed_on?(:password) %>
-                <p class="error">⚠️ Credentials are required</p>
+                <p class="flash error">⚠️ Credentials are required</p>
             <% end %>
             <p>
                 <input id="user_name" name="user_name" maxlength="100" size="25" type="text" placeholder="Username"> <input name="password" maxlength="100" size="25" type="password" placeholder="Password">
@@ -47,7 +47,7 @@
         </p>
         <p><label for="user_names">👥 Totalmobile users (comma separated, leave blank for auto-allocation):</label></p>
         <% if form.failed_on?(:user_names) %>
-            <p class="error">⚠️ Totalmobile users is a required field</p>
+            <p class="flash error">⚠️ Totalmobile users is a required field</p>
         <% end %>
         <p>
             <input id="user_names" name="user_names" maxlength="100" size="50" type="text" placeholder="Totalmobile users">
@@ -58,10 +58,10 @@
         </p>
         <p><label for="job_count">🎚 Jobs per user:</label></p>
         <% if form.failed_on?(:job_count, :present) %>
-            <p class="error">⚠️ Jobs per user is a required field</p>
+            <p class="flash error">⚠️ Jobs per user is a required field</p>
         <% end %>
         <% if form.failed_on?(:job_count, :int) %>
-            <p class="error">⚠️ Jobs per user must be 1-100</p>
+            <p class="flash error">⚠️ Jobs per user must be 1-100</p>
         <% end %>
         <p>
             <input id="job_count" name="job_count" maxlength="3" size="5" type="text" placeholder="1-100">

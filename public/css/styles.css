@@ -153,35 +153,34 @@ legend {
     padding: 1em;
 }
 
-.error {
+.flash.error {
     background-color: #ba160c;
 }
 
-.notice {
+.flash.notice {
     background-color: #4a628f;
 }
 
-.job_ids {
+.flash.job_ids {
     background-color: #4a628f;
 }
 
-.error, .notice, .job_ids {
+.flash {
     border-radius: 6px;
     color: #fff;
     display: inline-block;
     font-weight: 500;
     margin: 0;
-    padding: 5px 8px 5px
+    padding: 5px 8px 5px;
 }
 
-.message-id {
-    margin-left: 20px;
+.flash ~ .flash {
+    margin-top: 10px;
 }
 
 .navbar-entry {
     position: relative;
     display: inline-block;
-    /* border-bottom: 1px solid black; */
 }
 
 .navbar-dropdown {

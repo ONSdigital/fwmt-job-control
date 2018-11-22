@@ -4,10 +4,10 @@
     <p><label for="count">🎚 Job count:</label></p>
 
     <% if form.failed_on?(:job_count, :present) %>
-        <p class="error">⚠️ Jobs count is a required field</p>
+        <p class="flash error">⚠️ Jobs count is a required field</p>
     <% end %>
     <% if form.failed_on?(:job_count, :uint) %>
-        <p class="error">⚠️ Jobs count must be a non-negative number</p>
+        <p class="flash error">⚠️ Jobs count must be a non-negative number</p>
     <% end %>
 
     <p>

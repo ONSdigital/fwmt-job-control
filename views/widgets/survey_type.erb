@@ -4,7 +4,7 @@
     <p><label for="survey_type">📈 Survey:</label></p>
 
     <% if form.failed_on?(:survey_type, :present) %>
-        <p class="error">⚠️ No survey type provided</p>
+        <p class="flash error">⚠️ No survey type provided</p>
     <% end %>
 
     <p><select id="survey_type_select" name="survey_type">

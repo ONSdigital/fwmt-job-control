@@ -4,7 +4,7 @@
     <p><label for="world">🌎 World:</label></p>
 
     <% if form.failed_on?(:tm_world, :present) %>
-        <p class="error">⚠️ Please select a world</p>
+        <p class="flash error">⚠️ Please select a world</p>
     <% end %>
 
     <p class="selector">

@@ -4,7 +4,7 @@
     <p><label for="resno">👥 Resource number:</label></p>
 
     <% if form.failed_on?(:resno_kind, :present) %>
-        <p class="error">⚠️ Please select an option</p>
+        <p class="flash error">⚠️ Please select an option</p>
     <% end %>
 
     <p class="selector" id="resno_radios_kind">

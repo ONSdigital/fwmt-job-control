@@ -7,7 +7,7 @@
 <% end %>
 
 <% if flash[:jobs] %>
-    <p class="job_ids">✅ <%= flash[:jobs] %></p>
+    <p class="flash job_ids">✅ <%= flash[:jobs] %></p>
 <% end %>
 
 <form action="/rabbit/create" method="post" enctype="multipart/form-data">
@@ -49,7 +49,7 @@
                form.failed_on?(:resNoKind) ||
                form.failed_on?(:dueDateKind) ||
                form.failed_on?(:addrKind)) %>
-            <p class="error">⚠️ Error in kind fields</p>
+            <p class="flash error">⚠️ Error in kind fields</p>
         <% end %>
     </fieldset>
 </form>

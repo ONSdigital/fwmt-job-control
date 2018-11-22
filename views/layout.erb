@@ -46,12 +46,16 @@
         </div>
 
         <% if flash[:error] %>
-            <p class="error">⚠️ <%= flash[:error] %></p>
+            <p class="flash error">⚠️ <%= flash[:error] %></p>
         <% end %>
 
+        <br>
+
         <% if flash[:notice] %>
-            <p class="notice">✅ <%= flash[:notice] %></p>
+            <p class="flash notice">✅ <%= flash[:notice] %></p>
         <% end %>
+
+        <br>
 
         <%= yield %>
     </body>

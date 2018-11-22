@@ -245,6 +245,7 @@ post '/rabbit/create' do
     handler.close
     flash[:notice] = 'All jobs sent to Rabbit'
     flash[:jobs] = result
+    logger.info "Submitted jobs with IDs: #{result}"
     redirect '/rabbit/create' if form[:send]
     redirect '/rabbit/show' if form[:view]
   end

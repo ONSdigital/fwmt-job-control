@@ -18,7 +18,7 @@
     </p>
     <p><label for="user_name">🔑 Credentials:</label></p>
   <% if form.failed_on?(:user_name) || form.failed_on?(:password) %>
-    <p class="error">⚠️ Credentials are required</p>
+    <p class="flash error">⚠️ Credentials are required</p>
   <% end %>
     <p>
       <input id="user_name" name="user_name" maxlength="100" size="25" type="text" placeholder="Username"> <input name="password" maxlength="100" size="25" type="password" placeholder="Password">
@@ -28,14 +28,14 @@
     <legend>Jobs</legend>
     <p><label for="job_ids">🆔 Totalmobile job IDs (comma separated):</label></p>
   <% if form.failed_on?(:job_ids) %>
-    <p class="error">⚠️ Totalmobile job IDs is a required field</p>
+    <p class="flash error">⚠️ Totalmobile job IDs is a required field</p>
   <% end %>
     <p>
       <input id="job_ids" name="job_ids" maxlength="100" size="50" type="text" placeholder="Totalmobile job IDs">
     </p>
     <p><label for="allocated_user_name">👤 Reallocate to Totalmobile user:</label></p>
   <% if form.failed_on?(:allocated_user_name) %>
-    <p class="error">⚠️ Totalmobile user is a required field</p>
+    <p class="flash error">⚠️ Totalmobile user is a required field</p>
   <% end %>
     <p>
       <input id="allocated_user_name" name="allocated_user_name" maxlength="100" size="25" type="text" placeholder="Totalmobile user">
