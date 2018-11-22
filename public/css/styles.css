@@ -93,6 +93,11 @@ input[type="submit"][name="send"] {
     background-image: linear-gradient(-180deg, #34d058 0%, #28a745 90%);
 }
 
+input[type="submit"][name="delete"] {
+    background-color: #e03c3c;
+    background-image: linear-gradient(-180deg, #e04e4e 0%, #e03c3c 90%);
+}
+
 label {
   border-top: 1px solid #fff;
   display: block;

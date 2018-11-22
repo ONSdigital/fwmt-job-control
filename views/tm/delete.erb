@@ -1,38 +1,46 @@
 <% content_for :supertitle do %>
     TM
 <% end %>
+
 <% content_for :title do %>
     Delete Job
 <% end %>
-<form action="/delete" method="post">
-  <fieldset>
-    <legend>Totalmobile Server</legend>
-    <p><label for="server">☁️ Environment:</label></p>
-    <p>
-      <select id="server" name="server">
-        <option value="<%= @fwmt_development_url %>">Development</option>
-        <option value="<%= @fwmt_preproduction_url %>">Test</option>
-        <option value="<%= @fwmt_production_url %>">Production</option>
-        <option value="<%= @fwmt_censustest_url %>">Census Test</option>
-      </select>
-    </p>
-    <p><label for="user_name">🔑 Credentials:</label></p>
-  <% if form.failed_on?(:user_name) || form.failed_on?(:password) %>
-    <p class="error">⚠️ Credentials are required</p>
-  <% end %>
-    <p>
-      <input id="user_name" name="user_name" maxlength="100" size="25" type="text" placeholder="Username"> <input name="password" maxlength="100" size="25" type="password" placeholder="Password">
-    </p>
-  </fieldset>
-  <fieldset>
-    <legend>Jobs</legend>
-    <p><label for="job_ids">🆔 Totalmobile job IDs (comma separated):</label></p>
-  <% if form.failed_on?(:job_ids) %>
-    <p class="error">⚠️ Totalmobile job IDs is a required field</p>
-  <% end %>
-    <p>
-      <input id="job_ids" name="job_ids" maxlength="100" size="50" type="text" placeholder="Totalmobile job IDs">
-      <input type="submit" value="Delete jobs">
-    </p>
-  </fieldset>
+
+<form action="/tm/delete" method="post">
+    <% if not settings.fwmt_cf_enabled %>
+        <fieldset>
+            <legend>Totalmobile Server</legend>
+
+            <p><label for="server">☁️ Environment:</label></p>
+            <p>
+                <select id="server" name="server">
+                    <option value="<%= @fwmt_development_url %>">Development</option>
+                    <option value="<%= @fwmt_preproduction_url %>">Test</option>
+                    <option value="<%= @fwmt_production_url %>">Production</option>
+                    <option value="<%= @fwmt_censustest_url %>">Census Test</option>
+                </select>
+            </p>
+
+            <p><label for="user_name">🔑 Credentials:</label></p>
+            <% if form.failed_on?(:user_name) || form.failed_on?(:password) %>
+                <p class="error">⚠️ Credentials are required</p>
+            <% end %>
+            <p>
+                <input id="user_name" name="user_name" maxlength="100" size="25" type="text" placeholder="Username"> <input name="password" maxlength="100" size="25" type="password" placeholder="Password">
+            </p>
+        </fieldset>
+    <% end %>
+
+    <fieldset>
+        <legend>Jobs</legend>
+
+        <p><label for="job_ids">🆔 Totalmobile job IDs (comma separated):</label></p>
+        <% if form.failed_on?(:job_ids) %>
+            <p class="error">⚠️ Totalmobile job IDs is a required field</p>
+        <% end %>
+        <p>
+            <input id="job_ids" name="job_ids" maxlength="100" size="50" type="text" placeholder="Totalmobile job IDs">
+            <input name="delete" type="submit" value="Delete jobs">
+        </p>
+    </fieldset>
 </form>
