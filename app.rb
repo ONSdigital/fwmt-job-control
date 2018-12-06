@@ -15,10 +15,7 @@ require_relative 'lib/cf_env_parser'
 
 require_relative 'lib/address_data'
 
-require_relative 'lib/date_generator'
-require_relative 'lib/address_generator'
-require_relative 'lib/id_generator'
-require_relative 'lib/resno_generator'
+require_relative 'lib/widgets'
 
 require_relative 'lib/rabbit_create_generator'
 
@@ -137,13 +134,14 @@ end
 post '/tm/delete' do
   form do
     filters :strip
-    field :server,    present: true
-    field :user_name, present: true
-    field :password,  present: true
+    field :server,    present: false
+    field :user_name, present: false
+    field :password,  present: false
     field :job_ids,   present: true
   end
 
   if form.failed?
+    p form
     output = erb :'tm/delete'
     fill_in_form(output)
   else
@@ -201,41 +199,23 @@ end
 
 post '/rabbit/create' do
   form do
-    field :server,   present: false, filters: :strip
-    field :username, present: false, filters: :strip
-    field :password, present: false, filters: :strip
-    field :vhost,    present: false, filters: :strip
+    TMServer.form_config self
 
-    field :idKind, present: true, regexp: %r{^(single|list|incr|rand)$}
-    field :id,          present: false, filters: :strip # use one ID (single job only)
-    field :idList,      present: false, filters: :strip # provide a list of IDs
-    field :idIncrStart, present: false, filters: :strip # pick IDs above the start
-    # or, randomly generate IDs
+    TMWorld.form_config self
 
-    field :surveyType, present: true, regexp: %r{^(CCS|HH|GFF|CE|LFS|OHS)$}, filters: :strip
+    ResnoGenerator.form_config self
 
-    field :resNoKind, present: true, regexp: %r{^(single|list)$}, filters: :strip
-    field :resNo,     present: false # use one resource number
-    field :resNoList, present: false # split jobs between a list of resource numbers
+    IDGenerator.form_config self
 
-    field :dueDateKind,  present: true, regexp: %r{^(set|hours|days)$}, filters: :strip
-    field :dueDate,      present: false, filters: :strip
-    field :dueDateHours, present: false, filters: :strip
-    field :dueDateDays,  present: false, filters: :strip
+    SurveyType.form_config self
 
-    field :addrKind, present: true, regexp: %r{^(single|preset|list|file)$}, filters: :strip
-    field :addrStrategy, present: false, regexp: %r{^(random|incremental|once_per)$}, filters: :strip
-    field :addr,         present: false, filters: :strip
-    field :addrPreset,   present: false, filters: :strip
-    field :addrList,     present: false, filters: :strip
-    field :addrFile,     present: false
+    DateGenerator.form_config self
 
-    field :contact_name,         present: false, filters: :strip
-    field :contact_surname,      present: false, filters: :strip
-    field :contact_email,        present: false, filters: :strip
-    field :contact_phone_number, present: false, filters: :strip
+    AddressGenerator.form_config self
 
-    field :additionalProperties, present: false
+    ContactGenerator.form_config self
+
+    AddProps.form_config self
 
     field :count, uint: true
 
@@ -244,8 +224,9 @@ post '/rabbit/create' do
   end
 
   if form.failed?
-    output = erb :'rabbit/create'
     p form
+    flash.now[:error] = 'Error in form'
+    output = erb :'rabbit/create'
     fill_in_form(output)
   else
     if settings.fwmt_cf_enabled
@@ -254,15 +235,18 @@ post '/rabbit/create' do
                                   settings.fwmt_cf_rabbit_password,
                                   settings.fwmt_cf_rabbit_vhost)
     else
-      vhost = form[:vhost]
-      vhost = form[:vhost].length == 0 ? nil : form[:vhost]
-      handler = RabbitHandler.new(form[:server], form[:username], form[:password], vhost)
+      vhost = form[:rabbit_vhost]
+      if not vhost.nil?
+        vhost = vhost.length == 0 ? nil : vhost
+      end
+      handler = RabbitHandler.new(form[:rabbit_server], form[:rabbit_username], form[:rabbit_password], vhost)
     end
     result = handler.run(form)
     handler.close
     flash[:notice] = 'All jobs sent to Rabbit'
-    redirect '/rabbit/create' if form[:send]
     flash[:jobs] = result
+    logger.info "Submitted jobs with IDs: #{result}"
+    redirect '/rabbit/create' if form[:send]
     redirect '/rabbit/show' if form[:view]
   end
 end
@@ -298,7 +282,6 @@ post '/rabbit/update' do
     redirect '/reallocate'
   end
 end
-
 
 error 404 do
   erb :error, locals: { title: 'Error 404', user_agent: parse_user_agent }

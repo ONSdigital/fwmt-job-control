@@ -1,8 +1,10 @@
+<script src="/js/widgets/id_gen.js" type="text/javascript"></script>
+
 <div id="id_form">
     <p><label>👥 Job Identity:</label></p>
 
     <% if form.failed_on?(:id_kind, :present) %>
-        <p class="error">⚠️ Please select an option</p>
+        <p class="flash error">⚠️ Please select an option</p>
     <% end %>
 
     <p class="selector">
@@ -22,11 +24,12 @@
     <p id="id_input_single">
         <input id="id_input" name="id_single" maxlength="100" size="50" type="text" placeholder="Job ID">
     </p>
+
     <p id="id_input_list">
         <input id="id_input" name="id_list" maxlength="100" size="50" type="text" placeholder="Job ID list, comma-seperated">
     </p>
+
     <p id="id_input_incr">
         <input id="id_input" name="id_incr_start" maxlength="100" size="50" type="text" placeholder="Starting ID">
     </p>
-    <p id="id_input_rand"/>
 </div>

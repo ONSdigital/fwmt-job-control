@@ -41,7 +41,8 @@ class JobRequest
   end
 
   def send_delete_message(job_ids)
-    job_ids = job_ids.split(',')
+    job_ids = job_ids.gsub('\n', '').split(',')
+    p job_ids
     job_ids.each do |job_id|
       send_delete_job_request_message(job_id)
     end

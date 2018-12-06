@@ -1,8 +1,10 @@
+<script src="/js/widgets/date_gen.js" type="text/javascript"></script>
+
 <div id="due_date_form">
     <p><label>👥 Due Date:</label></p>
 
     <% if form.failed_on?(:due_date_kind, :present) %>
-        <p class="error">⚠ Please select an option</p>
+        <p class="flash error">⚠ Please select an option</p>
     <% end %>
 
     <p class="selector">

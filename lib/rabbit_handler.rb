@@ -8,7 +8,6 @@ class RabbitHandler
   ROUTING_KEY = 'jobsvc.job.request'
 
   def initialize(url, username, password, vhost)
-    p vhost
     @connection = Bunny.new(hostname: url, username: username, password: password, vhost: vhost)
     @connection.start
     @channel = @connection.create_channel
@@ -27,22 +26,30 @@ class RabbitHandler
   # CCS jobs - postcode only
 
   def run(form)
-    survey_type = form[:surveyType]
-    resno_gen = ResnoGenerator.new(form[:resNoKind], form[:resNo], form[:resNoList])
-    id_gen = IDGenerator.new(form[:idKind], form[:id], form[:idList], form[:idIncrStart])
-    addr_gen = AddressGenerator.new(form[:addrKind], form[:addrStrategy], form[:addr], form[:addrPreset], form[:addrList], form[:addrFile])
+    survey_type = form[:survey_type]
+    resno_gen = ResnoGenerator.new(form[:resno_kind], form[:resno_single], form[:resno_list])
+    id_gen = IDGenerator.new(form[:id_kind], form[:id], form[:id_list], form[:id_incr_start])
+    addr_gen = AddressGenerator.new(form[:addr_kind], form[:addr_strategy], form[:addr_single], form[:addr_preset], form[:addr_list], form[:addr_file])
     count = form[:count].nil? ? addr_gen.length : form[:count].to_i
-    date_gen = DateGenerator.new(form[:dueDateKind], form[:dueDate], form[:dueDateHours], form[:dueDateDays])
+    date_gen = DateGenerator.new(form[:due_date_kind], form[:due_date_set], form[:due_date_hours_ahead], form[:due_date_days_ahead])
     contact_gen = ContactGenerator.new(form[:contact_name], form[:contact_surname], form[:contact_email], form[:contact_phone_number])
-    request_gen = RabbitCreateGenerator.new(survey_type, resno_gen, id_gen, addr_gen, date_gen, count)
-    requests = []
+    additional_properties = AddProps.hash_props(form[:additional_properties])
+    request_gen = RabbitCreateGenerator.new(survey_type = survey_type,
+                                            resno_gen = resno_gen,
+                                            id_gen = id_gen,
+                                            addr_gen = addr_gen,
+                                            date_gen = date_gen,
+                                            contact_gen = contact_gen,
+                                            additional_properties = additional_properties,
+                                            count = count)
+    request_ids = []
     send = form[:send]
     (1..count).each do |i|
       request = request_gen.generate
       p "Sending message: #{request}"
-      send_one(request) if send
-      requests << request unless send
+      send_one(request)
+      request_ids << request[:jobIdentity]
     end
-    return requests unless send
+    return request_ids.join(',')
   end
 end

@@ -1,17 +1,13 @@
 ---
 applications:
-- name: fwmt-job-control
-  host: fwmt-job-control
+- name: fwmt-job-control-censustest
+  host: fwmt-job-control-censustest
   memory: 256M
   instances: 1
   env:
-    FWMT_DEVELOPMENT_URL: ""
-    FWMT_PREPRODUCTION_URL: ""
-    FWMT_PRODUCTION_URL: ""
-    FWMT_CENSUSTEST_URL: ""
-    FWMT_ADMIN_USERNAME: "user"
-    FWMT_ADMIN_PASSWORD: "password"
-    FWMT_CF_ENABLED: true
-    FWMT_CF_ENV_NAME: ""
-    FWMT_CF_ENV_TM_URL: ""
-    FWMT_CF_ENV_RABBIT_URL: ""
+    FWMT_ADMIN_USERNAME: "test"
+    FWMT_ADMIN_PASSWORD: "test"
+    FWMT_CF_ENABLED:  true
+    FWMT_TM_URL:      "https://census-rehearsal-test.totalmobile-cloud.com/Test"
+    FWMT_TM_USERNAME: "onsadmin"
+    FWMT_TM_PASSWORD: "Iu7chiCo!"

@@ -1,11 +1,13 @@
+<script src="/js/widgets/resno_gen.js" type="text/javascript"></script>
+
 <div id="resno_form">
     <p><label for="resno">👥 Resource number:</label></p>
 
     <% if form.failed_on?(:resno_kind, :present) %>
-        <p class="error">⚠️ Please select an option</p>
+        <p class="flash error">⚠️ Please select an option</p>
     <% end %>
 
-    <p class="selector">
+    <p class="selector" id="resno_radios_kind">
         <input type="radio" name="resno_kind" value="single" id="resno_radio_single" checked />
         <label for="resno_radio_single">Single</label>
 
@@ -13,11 +15,10 @@
         <label for="resno_radio_list">List</label>
     </p>
 
-    <p id=resno_input_single">
+    <p id="resno_input_single">
         <input name="resno_single" maxlength="5" size="50" type="text" placeholder="Resource number">
     </p>
-
-    <p id=resno_input_list">
+    <p id="resno_input_list">
         <input name="resno_list" maxlength="5" size="50" type="text" placeholder="Resource numbers, comma seperated">
     </p>
 </div>

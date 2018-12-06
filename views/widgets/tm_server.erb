@@ -3,10 +3,10 @@
 
     <p><label for="tm_input_url">☁️ Environment:</label></p>
     <% if form.failed_on?(:tm_url) %>
-        <p class="error">⚠️ Please select an environment</p>
+        <p class="flash error">⚠️ Please select an environment</p>
     <% end %>
     <% if form.failed_on?(:tm_url_custom) %>
-        <p class="error">⚠️ Please provide a URL</p>
+        <p class="flash error">⚠️ Please provide a URL</p>
     <% end %>
     <p>
         <select id="tm_input_url" name="tm_url">
@@ -21,7 +21,7 @@
 
     <p><label>🔑 Credentials:</label></p>
     <% if form.failed_on?(:tm_username) || form.failed_on?(:tm_password) %>
-        <p class="error">⚠️ Please provide credentials</p>
+        <p class="flash error">⚠️ Please provide credentials</p>
     <% end %>
     <p>
         <input name="tm_username" type="text" placeholder="Username" maxlength="100" size="25">
