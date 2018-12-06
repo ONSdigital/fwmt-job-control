@@ -1,29 +1,34 @@
 <% content_for :supertitle do %>
     TM
 <% end %>
+
 <% content_for :title do %>
     Create Job
 <% end %>
+
 <form action="/tm/create" method="post">
-    <fieldset>
-        <legend>Totalmobile Server</legend>
-        <p><label for="server">☁️ Environment:</label></p>
-        <p>
-            <select id="server" name="server">
-                <option value="<%= @fwmt_development_url %>">Development</option>
-                <option value="<%= @fwmt_preproduction_url %>">Test</option>
-                <option value="<%= @fwmt_production_url %>">Production</option>
-                <option value="<%= @fwmt_censustest_url %>">Census Test</option>
-            </select>
-        </p>
-        <p><label for="user_name">🔑 Credentials:</label></p>
-        <% if form.failed_on?(:user_name) || form.failed_on?(:password) %>
-            <p class="error">⚠️ Credentials are required</p>
-        <% end %>
-        <p>
-            <input id="user_name" name="user_name" maxlength="100" size="25" type="text" placeholder="Username"> <input name="password" maxlength="100" size="25" type="password" placeholder="Password">
-        </p>
-    </fieldset>
+    <% if not settings.fwmt_cf_enabled %>
+        <fieldset>
+            <legend>Totalmobile Server</legend>
+            <p><label for="server">☁️ Environment:</label></p>
+            <p>
+                <select id="server" name="server">
+                    <option value="<%= @fwmt_development_url %>">Development</option>
+                    <option value="<%= @fwmt_preproduction_url %>">Test</option>
+                    <option value="<%= @fwmt_production_url %>">Production</option>
+                    <option value="<%= @fwmt_censustest_url %>">Census Test</option>
+                </select>
+            </p>
+            <p><label for="user_name">🔑 Credentials:</label></p>
+            <% if form.failed_on?(:user_name) || form.failed_on?(:password) %>
+                <p class="error">⚠️ Credentials are required</p>
+            <% end %>
+            <p>
+                <input id="user_name" name="user_name" maxlength="100" size="25" type="text" placeholder="Username"> <input name="password" maxlength="100" size="25" type="password" placeholder="Password">
+            </p>
+        </fieldset>
+    <% end %>
+
     <fieldset>
         <legend>Jobs</legend>
         <p><label for="survey">📈 Survey:</label></p>

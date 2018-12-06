@@ -7,8 +7,9 @@ class RabbitHandler
   CHANNEL_NAME = 'rm-jobsvc-exchange'
   ROUTING_KEY = 'jobsvc.job.request'
 
-  def initialize(url, username, password)
-    @connection = Bunny.new(hostname: url, username: username, password: password)
+  def initialize(url, username, password, vhost)
+    p vhost
+    @connection = Bunny.new(hostname: url, username: username, password: password, vhost: vhost)
     @connection.start
     @channel = @connection.create_channel
     @exchange = @channel.direct(CHANNEL_NAME, durable: true)
@@ -32,6 +33,7 @@ class RabbitHandler
     addr_gen = AddressGenerator.new(form[:addrKind], form[:addrStrategy], form[:addr], form[:addrPreset], form[:addrList], form[:addrFile])
     count = form[:count].nil? ? addr_gen.length : form[:count].to_i
     date_gen = DateGenerator.new(form[:dueDateKind], form[:dueDate], form[:dueDateHours], form[:dueDateDays])
+    contact_gen = ContactGenerator.new(form[:contact_name], form[:contact_surname], form[:contact_email], form[:contact_phone_number])
     request_gen = RabbitCreateGenerator.new(survey_type, resno_gen, id_gen, addr_gen, date_gen, count)
     requests = []
     send = form[:send]

@@ -1,0 +1,29 @@
+<div id="due_date_form">
+    <p><label>👥 Due Date:</label></p>
+
+    <% if form.failed_on?(:due_date_kind, :present) %>
+        <p class="error">⚠ Please select an option</p>
+    <% end %>
+
+    <p class="selector">
+        <span>Input a date in the form: </span>
+        <input type="radio" name="due_date_kind" value="set" id="due_date_radio_set" checked />
+        <label for="due_date_radio_set">Exact date</label>
+
+        <input type="radio" name="due_date_kind" value="hours" id="due_date_radio_hours" />
+        <label for="due_date_radio_hours">Hours into the future</label>
+
+        <input type="radio" name="due_date_kind" value="days" id="due_date_radio_days" />
+        <label for="due_date_radio_days">Days into the future</label>
+    </p>
+
+    <p id="due_date_input_set">
+        <input name="due_date_set" maxlength="100" size="50" type="datetime-local" placeholder="Due date">
+    </p>
+    <p id="due_date_input_hours">
+        <input name="due_date_hours_ahead" maxlength="100" size="50" type="number" placeholder="Number of hours">
+    </p>
+    <p id="due_date_input_days">
+        <input name="due_date_days_ahead" maxlength="100" size="50" type="number" placeholder="Number of days">
+    </p>
+</div>

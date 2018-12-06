@@ -1,0 +1,18 @@
+<div id="rabbit_form">
+    <p><label for="rabbit_input_url">☁️ Queue URL:</label></p>
+    <% if form.failed_on?(:rabbit_url, :required) %>
+        <p class="error">⚠️ A URL is required</p>
+    <% end %>
+    <p><input id="rabbit_input_url" name="rabbit_url" maxlength="200" size="90" type="text" placeholder="URL"></p>
+
+    <p><label>🔑 Credentials:</label></p>
+    <% if form.failed_on?(:rabbit_username, :required) || form.failed_on?(:rabbit_password, :required) %>
+        <p class="error">⚠️ Credentials are required</p>
+    <% end %>
+    <p>
+        <input name="rabbit_username" type="text" placeholder="Username" maxlength="100" size="25">
+        <input name="rabbit_password" type="password" placeholder="Password" maxlength="100" size="25">
+        <input name="rabbit_vhost" type="text" placeholder="Virtual Host" maxlength="100" size="25">
+    </p>
+
+</div>

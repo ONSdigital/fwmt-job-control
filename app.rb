@@ -8,6 +8,10 @@ require 'sinatra/content_for'
 require 'securerandom'
 require 'user_agent_parser'
 require 'csv'
+require 'time'
+require 'json'
+
+require_relative 'lib/cf_env_parser'
 
 require_relative 'lib/address_data'
 
@@ -21,12 +25,42 @@ require_relative 'lib/rabbit_create_generator'
 require_relative 'lib/job_request'
 require_relative 'lib/rabbit_handler'
 
+# TM Endpoints
 set :fwmt_development_url,   ENV['FWMT_DEVELOPMENT_URL']
 set :fwmt_preproduction_url, ENV['FWMT_PREPRODUCTION_URL']
 set :fwmt_production_url,    ENV['FWMT_PRODUCTION_URL']
 set :fwmt_censustest_url,    ENV['FWMT_CENSUSTEST_URL']
 
+# Admin Login
+set :fwmt_admin_username,    ENV['FWMT_ADMIN_USERNAME']
+set :fwmt_admin_password,    ENV['FWMT_ADMIN_PASSWORD']
+
+# CloudFoundry Settings
+cf_application = CfEnvParser.parse_application
+if cf_application != nil
+  set :fwmt_cf_enabled, true
+  set :fwmt_cf_env_name, cf_application[:space]
+
+  set :fwmt_cf_tm_url,      ENV['FWMT_TM_URL']
+  set :fwmt_cf_tm_username, ENV['FWMT_TM_USERNAME']
+  set :fwmt_cf_tm_password, ENV['FWMT_TM_PASSWORD']
+
+  cf_services = CfEnvParser.parse_services
+  set :fwmt_cf_rabbit_url,      cf_services[:rabbit_url]
+  set :fwmt_cf_rabbit_username, cf_services[:rabbit_username]
+  set :fwmt_cf_rabbit_password, cf_services[:rabbit_password]
+  set :fwmt_cf_rabbit_vhost,    cf_services[:rabbit_vhost]
+else
+  set :fwmt_cf_enabled, false
+end
+
 enable :sessions
+
+if settings.fwmt_admin_username != nil and settings.fwmt_admin_password != nil
+  use Rack::Auth::Basic, "Requires Authentication" do |username, password|
+    [username, password] == [settings.fwmt_admin_username, settings.fwmt_admin_password]
+  end
+end
 
 helpers do
   def preset_address_lists
@@ -68,9 +102,9 @@ end
 post '/tm/create' do
   form do
     filters :strip
-    field :server,     present: true
-    field :user_name,  present: true
-    field :password,   present: true
+    field :server,     present: false
+    field :user_name,  present: false
+    field :password,   present: false
     field :survey,     present: true
     field :world,      present: true
     field :user_names, present: false
@@ -83,7 +117,13 @@ post '/tm/create' do
     output = erb :'tm/create'
     fill_in_form(output)
   else
-    job_request = JobRequest.new(form[:server], form[:user_name], form[:password])
+    if settings.fwmt_cf_enabled
+      job_request = JobRequest.new(settings.fwmt_cf_tm_url,
+                                   settings.fwmt_cf_tm_username,
+                                   settings.fwmt_cf_tm_password)
+    else
+      job_request = JobRequest.new(form[:server], form[:user_name], form[:password])
+    end
     job_request.send_create_message(form)
     flash[:notice] = 'Submitted jobs to Totalmobile. Check the logs for returned message IDs or failure status.'
     redirect '/tm/create'
@@ -107,7 +147,13 @@ post '/tm/delete' do
     output = erb :'tm/delete'
     fill_in_form(output)
   else
-    job_request = JobRequest.new(form[:server], form[:user_name], form[:password])
+    if settings.fwmt_cf_enabled
+      job_request = JobRequest.new(settings.fwmt_cf_tm_url,
+                                   settings.fwmt_cf_tm_username,
+                                   settings.fwmt_cf_tm_password)
+    else
+      job_request = JobRequest.new(form[:server], form[:user_name], form[:password])
+    end
     job_request.send_delete_message(form[:job_ids])
     flash[:notice] = 'Submitted delete requests to Totalmobile. Check the logs for returned message IDs or failure status.'
     redirect '/delete'
@@ -132,7 +178,13 @@ post '/tm/reallocate' do
     output = erb :'tm/reallocate'
     fill_in_form(output)
   else
-    job_request = JobRequest.new(form[:server], form[:user_name], form[:password])
+    if settings.fwmt_cf_enabled
+      job_request = JobRequest.new(settings.fwmt_cf_tm_url,
+                                   settings.fwmt_cf_tm_username,
+                                   settings.fwmt_cf_tm_password)
+    else
+      job_request = JobRequest.new(form[:server], form[:user_name], form[:password])
+    end
     job_request.send_reallocate_message(form[:job_ids], form[:allocated_user_name])
     flash[:notice] = 'Submitted reallocate requests to Totalmobile. Check the logs for returned message IDs or failure status.'
     redirect '/reallocate'
@@ -149,9 +201,10 @@ end
 
 post '/rabbit/create' do
   form do
-    field :server, present: true, filters: :strip
-    field :username, present: true, filters: :strip
-    field :password, present: true, filters: :strip
+    field :server,   present: false, filters: :strip
+    field :username, present: false, filters: :strip
+    field :password, present: false, filters: :strip
+    field :vhost,    present: false, filters: :strip
 
     field :idKind, present: true, regexp: %r{^(single|list|incr|rand)$}
     field :id,          present: false, filters: :strip # use one ID (single job only)
@@ -159,7 +212,7 @@ post '/rabbit/create' do
     field :idIncrStart, present: false, filters: :strip # pick IDs above the start
     # or, randomly generate IDs
 
-    field :surveyType, present: true, regexp: %r{^(CCS|HH|GFF|LFS|OHS)$}, filters: :strip
+    field :surveyType, present: true, regexp: %r{^(CCS|HH|GFF|CE|LFS|OHS)$}, filters: :strip
 
     field :resNoKind, present: true, regexp: %r{^(single|list)$}, filters: :strip
     field :resNo,     present: false # use one resource number
@@ -177,6 +230,11 @@ post '/rabbit/create' do
     field :addrList,     present: false, filters: :strip
     field :addrFile,     present: false
 
+    field :contact_name,         present: false, filters: :strip
+    field :contact_surname,      present: false, filters: :strip
+    field :contact_email,        present: false, filters: :strip
+    field :contact_phone_number, present: false, filters: :strip
+
     field :additionalProperties, present: false
 
     field :count, uint: true
@@ -186,11 +244,20 @@ post '/rabbit/create' do
   end
 
   if form.failed?
-    p form
     output = erb :'rabbit/create'
+    p form
     fill_in_form(output)
   else
-    handler = RabbitHandler.new(form[:server], form[:username], form[:password])
+    if settings.fwmt_cf_enabled
+      handler = RabbitHandler.new(settings.fwmt_cf_rabbit_url,
+                                  settings.fwmt_cf_rabbit_username,
+                                  settings.fwmt_cf_rabbit_password,
+                                  settings.fwmt_cf_rabbit_vhost)
+    else
+      vhost = form[:vhost]
+      vhost = form[:vhost].length == 0 ? nil : form[:vhost]
+      handler = RabbitHandler.new(form[:server], form[:username], form[:password], vhost)
+    end
     result = handler.run(form)
     handler.close
     flash[:notice] = 'All jobs sent to Rabbit'

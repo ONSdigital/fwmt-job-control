@@ -1,0 +1,30 @@
+<fieldset>
+    <legend>Totalmobile Server</legend>
+
+    <p><label for="tm_input_url">☁️ Environment:</label></p>
+    <% if form.failed_on?(:tm_url) %>
+        <p class="error">⚠️ Please select an environment</p>
+    <% end %>
+    <% if form.failed_on?(:tm_url_custom) %>
+        <p class="error">⚠️ Please provide a URL</p>
+    <% end %>
+    <p>
+        <select id="tm_input_url" name="tm_url">
+            <option value="<%= @fwmt_development_url %>">Development</option>
+            <option value="<%= @fwmt_preproduction_url %>">Test</option>
+            <option value="<%= @fwmt_production_url %>">Production</option>
+            <option value="<%= @fwmt_censustest_url %>">Census Test</option>
+            <option value="custom">Custom</option>
+        </select>
+        <input id="tm_input_url_custom" name="tm_url_custom" maxlength="200" size="90" type="text" placeholder="TM URL">
+    </p>
+
+    <p><label>🔑 Credentials:</label></p>
+    <% if form.failed_on?(:tm_username) || form.failed_on?(:tm_password) %>
+        <p class="error">⚠️ Please provide credentials</p>
+    <% end %>
+    <p>
+        <input name="tm_username" type="text" placeholder="Username" maxlength="100" size="25">
+        <input name="tm_password" type="password" placeholder="Password" maxlength="100" size="25">
+    </p>
+</fieldset>

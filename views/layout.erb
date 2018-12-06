@@ -12,6 +12,9 @@
                 <span>FWMT</span>
                 <span>Job</span>
                 <span>Control</span>
+                <% if settings.fwmt_cf_enabled %>
+                    <span>(<%= settings.fwmt_cf_env_name %>)</span>
+                <% end %>
             </a>
             <span> ➤ </span>
             <div class="navbar-entry">

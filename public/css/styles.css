@@ -137,6 +137,10 @@ legend {
     color: #4a628f;
 }
 
+.logo span:nth-child(4) {
+    color: #5e7fbd;
+}
+
 #system-info {
   background-color: #eeeeef;
   border-radius: 8px;
