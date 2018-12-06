@@ -66,7 +66,8 @@ class AddressGenerator
       'townName' => hash['town'],
       'postcode' => hash['postcode'],
       'latitude' => hash['lat'],
-      'longitude' => hash['long']
+      'longitude' => hash['long'],
+      'organisationName' => hash['orgname']
     }
   end
 
@@ -79,7 +80,9 @@ class AddressGenerator
       'townName' => list[4],
       'postcode' => list[5],
       'latitude' => list[6],
-      'longitude' => list[7]
+      'longitude' => list[7],
+      'orgname' => list[8]
+
     }
   end
 
@@ -105,7 +108,8 @@ class AddressGenerator
       townName: addr['townName'],
       postCode: addr['postcode'],
       latitude: addr['latitude'],
-      longitude: addr['longitude']
+      longitude: addr['longitude'],
+      organisationName: addr['organisationName']
     }
   end
 end
