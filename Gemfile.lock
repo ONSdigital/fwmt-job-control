@@ -86,7 +86,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.5)
-    user_agent_parser (2.5.0)
+    user_agent_parser (2.6.0)
 
 PLATFORMS
   ruby
